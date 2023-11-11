@@ -1,5 +1,7 @@
 # Progetto basi di dati
 
+---
+
 ## Analisi requisiti
 
 Ci assicuriamo di gestire i voli di un aereoporto dal punto di vista dei gates, delegando al controllore di volo tutti gli aspetti relativi alla concorrenza di eventuali decolli contemporanei.
@@ -61,6 +63,8 @@ Capacità passeggeri si ottiene con persone_max meno numero di persone nell'equi
 ### RV1 **Equipaggio non eccede persone_max**
 In ogni il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aereomobile.
 
+---
+
 ## RELAZIONALE
 
 
@@ -68,16 +72,30 @@ In ogni il numero di persone che compone l'equipaggio deve essere minore o ugual
 
 1. **VOLO**
 
-| **Ora**            | **Gate**       | Destinazione |
-|--------------------|----------------|--------------|
+|        Ora         |      Gate      | Destinazione |
+|:------------------:|:--------------:|:------------:|
 | [0, 60 $\cdot$ 24] | [1, max_gates] |              |
 
 2. **MODELLO**
 
-| **Nome_modello** | **azienda_costruttrice** | Destinazione |
-|------------------|--------------------------|--------------|
-|                  |                          |              |
+|  Nome_modello  | Azienda_costruttrice | Persone_max | Carico_max | Peso  | Lunghezza | Apertura_alare |
+|:--------------:|:--------------------:|:-----------:|:----------:|:-----:|:---------:|:--------------:|
+|                |                      |   x >= 3    |   x > 0    | x > 0 |   x > 0   |     x > 0      |
 
 
 
+---
+
+## Dizionario dei dati
+
+|   Entità   | Descrizione                                            |                                        Attributi                                        |      Identificatore       |
+|:----------:|:-------------------------------------------------------|:---------------------------------------------------------------------------------------:|:-------------------------:|
+|    Volo    | Volo che parte ogni giorno alla stessa ora             |                     ora, destinazione, gate, _capacità\_passeggeri_                     |         gate, ora         |
+| Aeromobile | Aeromobile coinvolto nel volo                          |                                      id_assistente                                      |       id_assistente       |
+|  Modello   | Modello specifico dell'aeromobile                      | name, azienda, carico_max, persone_max, spec_tecniche (peso, lunghezza, apertura_alare) |nome, azienda_costruttrice |
+| Equipaggio | Equipaggio che imbarca l'aeromobile                    |                                      id_equipaggio                                      |       id_equipaggio       |
+|   Pilota   | Piloti che pilotano l'aeromobile                       |                                        id_pilota                                        |         id_pilota         |
+| Assistente | Assistente (steward e/o hostess) che assistono il volo |                                      id_assistente                                      |       id_assistente       |
+|  Steward   | Assistente maschile                                    |                                            ~                                            |             ~             |
+|  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~             |
 
