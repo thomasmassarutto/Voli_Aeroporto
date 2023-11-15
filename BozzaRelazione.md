@@ -47,7 +47,7 @@ specifiche_tecniche: (peso, lunghezza, apertura_alare)
 img schema 1
 perche non ha funzionato
 
-img schema 2
+![Schema ER finale](schemi/SchemaERFinale.png)
 
 ## Regole di derivazione
 
