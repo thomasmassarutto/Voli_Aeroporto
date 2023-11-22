@@ -23,6 +23,7 @@ Ci assicuriamo di gestire i voli di un aereoporto dal punto di vista dei gates, 
 - Modello
 (**Nome_modello**, **Azienda_costruttrice**, carico_max, persone_max)
 
+### Attributi composti
 specifiche_tecniche: (peso, lunghezza, apertura_alare)
 
 ### Relazioni
@@ -64,6 +65,22 @@ Capacità passeggeri si ottiene con persone_max meno numero di persone nell'equi
 In ogni il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aereomobile.
 
 ---
+
+### Tabella dei volumi
+
+|  Concetto   |   Tipo    | Volume |
+|:-----------:|:---------:|:------:|
+| Aereomobile |  Entità   |   20   |
+| Assistente  |  Entità   |   80   |
+| Equipaggio  |  Entità   |   20   |
+|   Modello   |  Entità   |   20   |
+|   Pilota    |  Entità   |   40   |
+|    Volo     |  Entità   |   20   |
+|   Comanda   | Relazione |   20   |
+|   Compone   | Relazione |   20   |
+|     Di      | Relazione |   20   |
+|   Imbarca   | Relazione |   20   |
+|   Tratta    | Relazione |   20   |
 
 ## RELAZIONALE
 
