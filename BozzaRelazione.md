@@ -82,8 +82,14 @@ In ogni il numero di persone che compone l'equipaggio deve essere minore o ugual
 |   Imbarca   | Relazione |   20   |
 |   Tratta    | Relazione |   20   |
 
-## RELAZIONALE
+## Schema logico
 
+Aereomobile(**id_aereo**, _Modello_, )
+Assistente(**id_assistente**)
+Equipaggio(**id_equipaggio**, _Equipaggio_)
+Modello(**nome_modello**, **azienda_costruttrice**, carico_max, persone_max)
+Pilota(**id_pilota**)
+Volo(**gate**, **ora**, destinazione, capacità_passeggeri)
 
 ## Vincoli di dominio
 
