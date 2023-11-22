@@ -23,6 +23,7 @@ Ci assicuriamo di gestire i voli di un aereoporto dal punto di vista dei gates, 
 - Modello
 (**Nome_modello**, **Azienda_costruttrice**, carico_max, persone_max)
 
+### Attributi composti
 specifiche_tecniche: (peso, lunghezza, apertura_alare)
 
 ### Relazioni
@@ -47,7 +48,7 @@ specifiche_tecniche: (peso, lunghezza, apertura_alare)
 img schema 1
 perche non ha funzionato
 
-![Schema ER finale](schemi/SchemaERFinale.png)
+![Schema ER finale](schemi/SchemaER-Schema_iniziale.png)
 
 ## Regole di derivazione
 
@@ -65,8 +66,30 @@ In ogni il numero di persone che compone l'equipaggio deve essere minore o ugual
 
 ---
 
-## RELAZIONALE
+### Tabella dei volumi
 
+|  Concetto   |   Tipo    | Volume |
+|:-----------:|:---------:|:------:|
+| Aereomobile |  Entità   |   20   |
+| Assistente  |  Entità   |   80   |
+| Equipaggio  |  Entità   |   20   |
+|   Modello   |  Entità   |   20   |
+|   Pilota    |  Entità   |   40   |
+|    Volo     |  Entità   |   20   |
+|   Comanda   | Relazione |   20   |
+|   Compone   | Relazione |   20   |
+|     Di      | Relazione |   20   |
+|   Imbarca   | Relazione |   20   |
+|   Tratta    | Relazione |   20   |
+
+## Schema logico
+
+Aereomobile(**id_aereo**, _Modello_, )
+Assistente(**id_assistente**)
+Equipaggio(**id_equipaggio**, _Equipaggio_)
+Modello(**nome_modello**, **azienda_costruttrice**, carico_max, persone_max)
+Pilota(**id_pilota**)
+Volo(**gate**, **ora**, destinazione, capacità_passeggeri)
 
 ## Vincoli di dominio
 
@@ -74,13 +97,13 @@ In ogni il numero di persone che compone l'equipaggio deve essere minore o ugual
 
 |        Ora         |      Gate      | Destinazione |
 |:------------------:|:--------------:|:------------:|
-| [0, 60 $\cdot$ 24] | [1, max_gates] |              |
+| [0, 60 $\cdot$ 24] | [1, max_gates] |      ~       |
 
 2. **MODELLO**
 
-|  Nome_modello  | Azienda_costruttrice | Persone_max | Carico_max | Peso  | Lunghezza | Apertura_alare |
-|:--------------:|:--------------------:|:-----------:|:----------:|:-----:|:---------:|:--------------:|
-|                |                      |   x >= 3    |   x > 0    | x > 0 |   x > 0   |     x > 0      |
+| Nome_modello | Azienda_costruttrice | Persone_max | Carico_max | Peso  | Lunghezza | Apertura_alare |
+|:------------:|:--------------------:|:-----------:|:----------:|:-----:|:---------:|:--------------:|
+|      ~       |          ~           |   x >= 3    |   x > 0    | x > 0 |   x > 0   |     x > 0      |
 
 
 
