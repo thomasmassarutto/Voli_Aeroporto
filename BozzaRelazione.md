@@ -48,7 +48,7 @@ specifiche_tecniche: (peso, lunghezza, apertura_alare)
 img schema 1
 perche non ha funzionato
 
-![Schema ER finale](schemi/SchemaERFinale.png)
+![Schema ER finale](schemi/SchemaER-Schema_iniziale.png)
 
 ## Regole di derivazione
 
@@ -97,13 +97,13 @@ Volo(**gate**, **ora**, destinazione, capacità_passeggeri)
 
 |        Ora         |      Gate      | Destinazione |
 |:------------------:|:--------------:|:------------:|
-| [0, 60 $\cdot$ 24] | [1, max_gates] |              |
+| [0, 60 $\cdot$ 24] | [1, max_gates] |      ~       |
 
 2. **MODELLO**
 
-|  Nome_modello  | Azienda_costruttrice | Persone_max | Carico_max | Peso  | Lunghezza | Apertura_alare |
-|:--------------:|:--------------------:|:-----------:|:----------:|:-----:|:---------:|:--------------:|
-|                |                      |   x >= 3    |   x > 0    | x > 0 |   x > 0   |     x > 0      |
+| Nome_modello | Azienda_costruttrice | Persone_max | Carico_max | Peso  | Lunghezza | Apertura_alare |
+|:------------:|:--------------------:|:-----------:|:----------:|:-----:|:---------:|:--------------:|
+|      ~       |          ~           |   x >= 3    |   x > 0    | x > 0 |   x > 0   |     x > 0      |
 
 
 
