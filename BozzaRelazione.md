@@ -48,7 +48,7 @@ specifiche_tecniche: (peso, lunghezza, apertura_alare)
 img schema 1
 perche non ha funzionato
 
-![Schema ER finale](schemi/SchemaER-Schema_iniziale.png)
+![Schema ER finale](schemi/SchemaER-schema_iniziale.png)
 
 ## Regole di derivazione
 
@@ -81,6 +81,7 @@ In ogni il numero di persone che compone l'equipaggio deve essere minore o ugual
 |     Di      | Relazione |   20   |
 |   Imbarca   | Relazione |   20   |
 |   Tratta    | Relazione |   20   |
+
 
 ## Schema logico
 
