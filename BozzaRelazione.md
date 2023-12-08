@@ -52,7 +52,7 @@ specifiche_tecniche: (peso, lunghezza, apertura_alare)
     - Dato un gate restituisce l'elenco dei voli programmati in giornata
 
 4. **ricerca_voli_destinazione**
-    - Data una destinazione restituisce l'elenco dei dei voli che partono in giornata e la raggiungono
+    - Data una destinazione restituisce l'elenco dei voli che partono in giornata e la raggiungono
 
 5. **ricerca_voli_odierni**
     - Restituisce l'elenco dei voli in partenza in giornata
@@ -63,7 +63,7 @@ specifiche_tecniche: (peso, lunghezza, apertura_alare)
 7. **Inserisci_volo**
     - Inserisce un volo nel database
 
-**operazioni complesse**
+**Operazioni complesse**
 
 8. **Steward_Aerei_Pesanti**
     - Il numero di steward che lavorano su voli che fanno tratte con aerei con peso almeno X e al massimo Y
@@ -76,10 +76,16 @@ specifiche_tecniche: (peso, lunghezza, apertura_alare)
 
 ## Schema Entità-Relazioni
 
-### Prototipo
-![Schema ER prototipo](schemi/SchemaER-Prototipo.png)
+### Prima proposta
 
-perche non ha funzionato
+![Schema ER prototipo](schemi/SchemaER-aereo_proposta.png)
+
+
+La proposta iniziale del nostro schema Entity-Relationship (ER) prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità. Tuttavia, abbiamo rapidamente constatato che questa approccio comportava un'eccessiva complessità dello schema, spingendoci a riconsiderare la progettazione.
+
+Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivisione delle caratteristiche dell'aeromobile in entità distinte. Invece, abbiamo scelto di collegare direttamente le entità "Azienda Costruttrice" e "Carico" all'entità "Aeromobile" come attributi. Questa decisione è stata presa al fine di razionalizzare la struttura complessiva dello schema, riducendo la complessità e facilitando la comprensione del modello dati.
+
+
 
 ### Schema finale
 ![Schema ER finale](schemi/SchemaER-Schema_iniziale.png)
@@ -95,7 +101,7 @@ Dato un volo, ritorna il numero massimo di passeggeri imbarcabili.
 
 Capacità passeggeri si ottiene con persone_max meno numero di persone nell'equipaggio.
 
-## Vincoli di integrità
+## Vincoli d'integrità
 
 ### RV1 **Equipaggio non eccede persone_max**
 In ogni il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aereomobile.
@@ -121,6 +127,7 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 |   Imbarca   | Relazione |   20   |
 |   Tratta    | Relazione |   20   |
 
+
 #### Note
 - Il numero dei piloti deve essere il doppio rispetto al numero degli equipaggi per via della cardinalità (2,2) della relazione
 
@@ -143,6 +150,32 @@ Capacità_passeggeri è un attributo interessante da analizzare perché richiede
 
 (definire il punto di rottura delle frequenze: quando conviene mantenere ridondanza o eliminarla)
 
+## Reificazione schema ER
+
+In questa fase della relazione discuteremo di come abbiamo modificato lo schema concettuale proposto, reiterando le parti di schema che non possono essere tradotte direttamente nello schema relazionale.
+
+### Assistente dell'equipaggio
+
+![Schema ER finale](schemi/SchemaER-reiterazione_assistente.png)
+
+
+Nel contesto dello schema Entity-Relationship (ER), è emersa la necessità di trattare una specializzazione di "assistente" attraverso le entità HOSTESS e STEWARD. Tuttavia, la trasposizione diretta di questa specializzazione in uno schema relazionale non è praticabile. Pertanto, si è optato per una connessione diretta delle entità HOSTESS e STEWARD all'entità EQUIPAGGIO.
+
+Tuttavia, questa scelta di modellazione comporta la perdita del vincolo precedentemente espresso dalla generalizzazione, il quale garantiva che ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD. Al fine di preservare tale vincolo nell'ambito dello schema relazionale, si è reso necessario introdurre un vincolo d'integrità esterno.
+
+--- 
+
+### Modello di aeromobile
+
+![Schema ER finale](schemi/SchemaER-reiterazione_modello.png)
+
+Qui si e' risolto il problema di un attributo composto che raggruppava gli attributi "peso", "lunghezza" ed "apertura_alare" in "specifiche tecniche". A questo punto si e' deciso di creare un'entita' specifiche tecniche identificata dai propri attributi e collegata a modello in relazione one-to-many. 
+
+In questa fase di reificazione bisognava risolvere l'attributo composto denominato "specifiche tecniche", il quale raggruppava gli attributi "peso", "lunghezza" ed "apertura alare". Per risolvere questa problematica, si è deciso d'introdurre un'entità dedicata denominata "Specifiche Tecniche".
+
+L'entità "Specifiche Tecniche" è stata progettata con l'intento di rappresentare in modo esplicito le caratteristiche tecniche precedentemente racchiuse nell'attributo composto. La creazione di tale entità permette di gestire in modo più flessibile e strutturato le informazioni relative alle specifiche tecniche.
+
+Le due entita' MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
 
 ## Schema logico
 
