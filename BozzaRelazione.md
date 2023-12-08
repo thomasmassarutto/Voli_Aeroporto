@@ -76,10 +76,15 @@ specifiche_tecniche: (peso, lunghezza, apertura_alare)
 
 ## Schema Entità-Relazioni
 
-### Prototipo
-![Schema ER prototipo](schemi/SchemaER-Prototipo.png)
+### Prima proposta
 
-Perche' non ha funzionato
+![Schema ER prototipo](schemi/SchemaER-aereo_proposta.png)
+
+
+La proposta iniziale del nostro schema Entity-Relationship (ER) prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità. Tuttavia, abbiamo rapidamente constatato che questa approccio comportava un'eccessiva complessità dello schema, spingendoci a riconsiderare la progettazione.
+
+Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivisione delle caratteristiche dell'aeromobile in entità distinte. Invece, abbiamo scelto di collegare direttamente le entità "Azienda Costruttrice" e "Carico" all'entità "Aeromobile" come attributi. Questa decisione è stata presa al fine di razionalizzare la struttura complessiva dello schema, riducendo la complessità e facilitando la comprensione del modello dati.
+
 
 
 ### Schema finale
