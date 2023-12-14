@@ -127,6 +127,21 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 |   Imbarca   | Relazione |   20   |
 |   Tratta    | Relazione |   20   |
 
+### Tabella delle frequenze
+
+|  Operazione                    | Frequenza (giornaliera)|
+|:------------------------------:|:---------:|
+| Cambio Gate                    |   2       |
+| Cambio Aereo                   |   2       |
+| Ricerca Voli(gate)             |   1000    |
+| Ricerca Voli(Destinazione)     |   5000    | 
+| Ricerca Voli Odierni           |   5000    | 
+| Elimina Volo                   |   2       |
+| Inserisci Volo                 |   2       | 
+| N° Steward Aerei Pesanti       |   10      |
+| Aerei di Linea                 |   10      |
+| Piloti Cargo                   |   10      |
+
 
 #### Note
 - Il numero dei piloti deve essere il doppio rispetto al numero degli equipaggi per via della cardinalità (2,2) della relazione
