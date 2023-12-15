@@ -2,6 +2,17 @@
 
 ---
 
+### Schema Concettuale: 
+Rappresenta la progettazione dei dati in modo indipendente dal sistema di gestione di database (DBMS). Si concentra su entità, relazioni e vincoli.
+
+### Schema Logico: 
+Definisce come i dati sono organizzati e come le relazioni sono implementate in un determinato DBMS. Si tratta di una rappresentazione più dettagliata rispetto a quella concettuale e coinvolge solitamente tabelle, colonne, vincoli di integrità e chiavi. (nel nostro caso DBMS relazionale)
+
+### Schema Fisico: 
+Si occupa dell'implementazione effettiva dello schema logico in termini di strutture di archiviazione, indicizzazione e altri dettagli legati alle prestazioni.
+
+---
+
 1. **Comprensione del Requisito:**
    - Analizza il testo dello scenario fornito per capire completamente i requisiti del sistema.
    - Identifica gli oggetti principali (entità) e le relazioni tra di essi.
