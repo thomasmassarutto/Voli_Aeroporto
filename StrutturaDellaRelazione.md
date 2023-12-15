@@ -2,14 +2,14 @@
 
 1. Analisi dei requisti
    1. [x] 1.1 Sintesi del testo
-   2. [ ] 1.2 Glossario
-   3. [ ] 1.3 Scopo
-   4. [ ] 1.4 Specifiche per entita' (file Progettazione Concettuale, slide 18)
+   2. [x] 1.2 Glossario
+   3. [x] 1.3 Scopo
+   4. [x] 1.4 Specifiche per entita' (file Progettazione Concettuale, slide 18)
 2. Progettazione concettuale
-   1. [ ] 2.1 Schema ER
+   1. [x] 2.1 Schema ER
       - [x] png schema iniziale
       - [x] png schema finale
-      - [ ] vincoli di integrita'
+      - [x] vincoli di integrita'
       - [x] dizionario dei dati
       - [x] tabella di cardinalita' delle relazioni
       - [x] regole di derivazione
