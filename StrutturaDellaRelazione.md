@@ -1,7 +1,7 @@
 # RELAZIONE BASE DI DATI - AEROPORTO 
 
 1. Analisi dei requisti
-   1. [ ] 1.1 Sintesi del testo
+   1. [x] 1.1 Sintesi del testo
    2. [ ] 1.2 Glossario
    3. [ ] 1.3 Scopo
    4. [ ] 1.4 Specifiche per entita' (file Progettazione Concettuale, slide 18)
