@@ -38,7 +38,7 @@ Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo
 Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi
 ai voli, all’equipaggio e agli aeromobili che effettuano i voli.
 
-### 1.4 Specifiche per entita'
+### 1.4 Specifiche per entità
 
 #### FRASI RELATIVE AI VOLI:
 
@@ -69,7 +69,7 @@ Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo
 
 ![Schema ER prototipo](schemi/SchemaER-aereo_proposta.png)
 
-La proposta iniziale del nostro schema Entita' Relazione (ER) prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità. Tuttavia, abbiamo rapidamente constatato che questa approccio comportava un'eccessiva complessità dello schema, spingendoci a riconsiderare la progettazione.
+La proposta iniziale del nostro schema Entità Relazione (ER) prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità. Tuttavia, abbiamo rapidamente constatato che questa approccio comportava un'eccessiva complessità dello schema, spingendoci a riconsiderare la progettazione.
 
 Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivisione delle caratteristiche dell'aeromobile in entità distinte. Invece, abbiamo scelto di collegare direttamente le entità "Azienda Costruttrice" e "Carico" all'entità "Aeromobile" come attributi. Questa decisione è stata presa al fine di razionalizzare la struttura complessiva dello schema, riducendo la complessità e facilitando la comprensione del modello dati.
 
@@ -77,7 +77,7 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 ![Schema ER finale](schemi/SchemaER-Schema_iniziale.png)
 
 
-#### Vincoli d'integrita'
+#### Vincoli d'integrità
 
 ##### RV1 **Equipaggio non eccede persone_max**
 In ogni il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aereomobile.
@@ -100,7 +100,7 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 |  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~             |
 
 
-#### Tabella di cardinalita' delle relazioni 
+#### Tabella di cardinalità delle relazioni 
 
 |     E1     | Cardinalità |  Relazione  | Cardinalità |     E2     |
 |:----------:|:-----------:|:-----------:|:-----------:|:----------:|
@@ -224,7 +224,7 @@ Per risolvere l'attributo composto denominato "specifiche tecniche", il quale ra
 
 La creazione di tale entità permette di gestire in modo più flessibile e strutturato le informazioni relative alle specifiche tecniche.
 
-Le due entita' MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
+Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
 
 [//]: # (TODO:  Inserire schema ER dopo reiterazione per confrontare meglio i modelli)
 
