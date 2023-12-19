@@ -15,21 +15,10 @@
 [//]: # (Al fine di visualizzare chiaramente questa complessa rete di informazioni, intendiamo sviluppare uno schema Entità-Relazioni completo. Tale schema sarà arricchito con attributi significativi per ciascuna entità, evidenziando le chiavi di identificazione, e definirà relazioni interconnesse con precisi vincoli di cardinalità e partecipazione. Inoltre, prevederemo regole aziendali, inclusi vincoli di integrità e regole di derivazione, per garantire la coerenza e la correttezza delle informazioni gestite nel sistema.)
 
 
-Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi
-ai voli, all’equipaggio e agli aeromobili che effettuano i voli. Di ogni volo specifichiamo la destinazione e
-l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre
-nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile
-utilizzato. Ogni volo ha orario di partenza e gate unici (cioè, che nessun altro volo può partire allo stesso
-orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico. Ogni equipaggio è
-formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o
-uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici
-identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale. Di
-ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il
-modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima
-di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile
-effettua un unico volo al giorno.
-
-[//]: # (TODO: Ci assicuriamo di gestire i voli di un aereoporto dal punto di vista dei gates, delegando al controllore di volo tutti gli aspetti relativi alla concorrenza di eventuali decolli contemporanei.)
+Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi ai voli, all’equipaggio e agli aeromobili che effettuano i voli. 
+Di ogni volo specifichiamo la destinazione e l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile utilizzato. Ogni volo ha orario di partenza e gate unici (cioè, che nessun altro volo può partire allo stesso orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico. 
+Ogni equipaggio è formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale. 
+Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile effettua un unico volo al giorno.
 
 ### 1.2 Glossario
 | Termine             | Descrizione                                             | Sinonimi |          Collegamenti           |
@@ -125,14 +114,11 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 #### Regole di derivazione
 
 ##### RD1 **capacità passeggeri**
-Dato un volo, ricercare l'aeromobile, ottenere modello, derivare numero massimo di persone come
+L'attributo descrive la capacità massima di passeggeri imbarcabili da un aeromobile.
 
-[//]: # (TODO: da riscrivere)
-Dato un volo, ritorna il numero massimo di passeggeri imbarcabili.
+Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ viene derivato in base all'attributo _persone_max_ di MODELLO meno numero di persone nell'equipaggio.
 
-Capacità passeggeri si ottiene con persone_max meno numero di persone nell'equipaggio.
-
-
+**capacità_passeggeri** = **MODELLO**(_persone_max_)- |nr. assistenti|
 
 ### 2.2 Operazioni
 
@@ -207,7 +193,10 @@ Capacità passeggeri si ottiene con persone_max meno numero di persone nell'equi
 
 ### 3.1 Analisi di ridondanza
 
-Capacità_passeggeri è un attributo interessante da analizzare perché richiede la visita di gran parte dello schema(**schema ?**)
+Capacità_passeggeri è un attributo interessante da analizzare perché richiede la visita di gran parte dello schema
+
+[//]: # (TODO: da aggiungere calcoli)
+(**schema ?**)
 
 [file docs](https://users.dimi.uniud.it/~luca.geatti/data/courses/2023/bdd-lab2023/atzeni_6e_slide_cap7.pptx)
 
@@ -224,19 +213,20 @@ Nel contesto dello schema Entity-Relationship (ER), è emersa la necessità di t
 
 Tuttavia, questa scelta di modellazione comporta la perdita del vincolo precedentemente espresso dalla generalizzazione, il quale garantiva che ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD. Al fine di preservare tale vincolo nell'ambito dello schema relazionale, si è reso necessario introdurre un vincolo d'integrità esterno.
 
+**Vincolo d'integrità esterno**: ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD
+
 
 #### Modello di aeromobile
 
 ![Schema ER finale](schemi/SchemaER-reiterazione_modello.png)
 
-Qui si e' risolto il problema di un attributo composto che raggruppava gli attributi "peso", "lunghezza" ed "apertura_alare" in "specifiche tecniche". A questo punto si e' deciso di creare un'entita' specifiche tecniche identificata dai propri attributi e collegata a modello in relazione one-to-many.
+Per risolvere l'attributo composto denominato "specifiche tecniche", il quale raggruppava gli attributi "peso", "lunghezza" ed "apertura alare", si è deciso d'introdurre un'entità dedicata denominata "SPECIFICHE TECNICHE".
 
-In questa fase di reificazione bisognava risolvere l'attributo composto denominato "specifiche tecniche", il quale raggruppava gli attributi "peso", "lunghezza" ed "apertura alare". Per risolvere questa problematica, si è deciso d'introdurre un'entità dedicata denominata "Specifiche Tecniche".
-
-L'entità "Specifiche Tecniche" è stata progettata con l'intento di rappresentare in modo esplicito le caratteristiche tecniche precedentemente racchiuse nell'attributo composto. La creazione di tale entità permette di gestire in modo più flessibile e strutturato le informazioni relative alle specifiche tecniche.
+La creazione di tale entità permette di gestire in modo più flessibile e strutturato le informazioni relative alle specifiche tecniche.
 
 Le due entita' MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
 
+[//]: # (TODO:  Inserire schema ER dopo reiterazione per confrontare meglio i modelli)
 
 ### 3.3 Schema relazionale   
 
@@ -263,10 +253,6 @@ Volo(**gate**, **ora**, destinazione, capacità_passeggeri)
 | Nome_modello | Azienda_costruttrice | Persone_max | Carico_max | Peso  | Lunghezza | Apertura_alare |
 |:------------:|:--------------------:|:-----------:|:----------:|:-----:|:---------:|:--------------:|
 |      ~       |          ~           |   x >= 3    |   x > 0    | x > 0 |   x > 0   |     x > 0      |
-
-
-
-[//]: # (TODO:  Schema ER "finale" non e' effettivamente quello finale (generalizzazione e attributo composto)
 
 
 # Domande
