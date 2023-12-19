@@ -272,6 +272,5 @@ Volo(**gate**, **ora**, destinazione, capacità_passeggeri)
 # Domande
 - Le operazioni che usiamo per l'analisi della ridondanza, vanno implementate o no? (file lezione1, slide 15)
 - Come fare lo schema relazionale? (tabelle?)
-- A ogni entita' va associata una tabella? (come dice Stan)
 - Nell'analisi di ridondanza le operazioni sono corrette
 - Sinonimi nel glossario possono essere tolti?
