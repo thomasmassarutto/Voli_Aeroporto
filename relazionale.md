@@ -1,5 +1,5 @@
 ### Notazione: *chiavi* in corsivo, attributi in font normale
-### Notazione: ENTITA' in maiuscolo, Relazioni in minuscol.
+### Notazione: ENTITA' in maiuscolo, Relazioni in minuscolo.
 HOSTESS (*CF*)
 ###
 r1 (*HOSTESS*, *EQUIPAGGIO*)
