@@ -20,7 +20,7 @@ PILOTA (<U>CF</U>, età)
 
 COMANDA (id_equipaggio, CF)
 - id_equipaggio: FK $\rightarrow$ EQUIPAGGIO.id_equipaggio
-- CF: FK $\rightarrow$ PILOTA.CF)
+- CF: FK $\rightarrow$ PILOTA.CF
 
 VOLO (<U>gate</U>, <U>ora</U>, destinazione, capacità_passeggeri)
 
