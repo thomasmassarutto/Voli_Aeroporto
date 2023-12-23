@@ -19,8 +19,8 @@
 3. Progettazione Logica
    1. [ ] Analisi di ridondanza
    2. [ ] Reificazione dello schema ER
-   3. [ ] Schema relazionale (tabelle di Stan)
-   4. [x] Vincoli di dominio
+   3. [X] Schema relazionale
+   4. [ ] Vincoli di dominio (NOT NULL, UNIQUE)
 4. Progettazione Fisica
    1. [ ] 4.1 ?
 5. Implementazione

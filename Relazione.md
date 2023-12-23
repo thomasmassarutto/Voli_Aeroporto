@@ -21,17 +21,20 @@ Ogni equipaggio è formato da due piloti, zero, una o più hostess, zero, uno o 
 Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile effettua un unico volo al giorno.
 
 ### 1.2 Glossario
-| Termine             | Descrizione                                             | Sinonimi |          Collegamenti           |
-|:--------------------|:--------------------------------------------------------|:--------:|:-------------------------------:|
-| Volo                | Volo in partenza dall'aeroporto                         |    ~     |     Aeromobile, Equipaggio      |
-| Aeromobile          | Aereo che effettua un volo                              |   Aero   |          Volo, Modello          |
-| Modello             | Modello di un aeromobile                                |    ~     | Aeromobile, Specifiche tecniche |
-| Specifiche tecniche | Peso, apertura alare e lunghezza relative ad un modello |    ~     |             Modello             |
-| Equipaggio          | Insieme di persone che gestiscono un volo               |    ~     |    Volo, Pilota, Assistente     |
-| Pilota              | Persona che pilota un aereo e fa parte di un equipaggio |    ~     |           Equipaggio            |
-| Assistente          | Persona che assiste i passeggeri di un volo             |    ~     |  Equipaggio, Hostess, Steward   |
-| Hostess             | Assistente di sesso femminile                           |    ~     |           Assistente            |
-| Steward             | Assistente di sesso maschile                            |    ~     |           Assistente            |
+| Termine              | Descrizione                                             | Sinonimi |          Collegamenti           |
+|:---------------------|:--------------------------------------------------------|:--------:|:-------------------------------:|
+| Volo                 | Volo in partenza dall'aeroporto                         |    ~     |     Aeromobile, Equipaggio      |
+| Aeromobile           | Aereo che effettua un volo                              |  Aereo   |          Volo, Modello          |
+| Modello              | Modello di un aeromobile                                |    ~     | Aeromobile, Specifiche tecniche |
+| Specifiche tecniche  | Peso, apertura alare e lunghezza relative ad un modello |    ~     |             Modello             |
+| Equipaggio           | Insieme di persone che gestiscono un volo               |    ~     |    Volo, Pilota, Assistente     |
+| Pilota               | Persona che pilota un aereo e fa parte di un equipaggio |    ~     |           Equipaggio            |
+| Assistente           | Persona che assiste i passeggeri di un volo             |    ~     |  Equipaggio, Hostess, Steward   |
+| Hostess              | Assistente di sesso femminile                           |    ~     |           Assistente            |
+| Steward              | Assistente di sesso maschile                            |    ~     |           Assistente            |
+| Gate                 | Cancello d'imbarco                                      |    ~     |              Volo               |
+| Azienda_costruttrice | Azienda che costruisce modelli di aeromobili            |    ~     |             Modello             |
+
 
 ### 1.3 Scopo
 
@@ -88,16 +91,16 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 
 #### Dizionario dei dati
 
-|   Entità   | Descrizione                                            |                                        Attributi                                        |      Identificatore       |
-|:----------:|:-------------------------------------------------------|:---------------------------------------------------------------------------------------:|:-------------------------:|
-|    Volo    | Volo che parte ogni giorno alla stessa ora             |                     ora, destinazione, gate, _capacità\_passeggeri_                     |         gate, ora         |
-| Aeromobile | Aeromobile coinvolto nel volo                          |                                      id_assistente                                      |       id_assistente       |
-|  Modello   | Modello specifico dell'aeromobile                      | name, azienda, carico_max, persone_max, spec_tecniche (peso, lunghezza, apertura_alare) |nome, azienda_costruttrice |
-| Equipaggio | Equipaggio che imbarca l'aeromobile                    |                                      id_equipaggio                                      |       id_equipaggio       |
-|   Pilota   | Piloti che pilotano l'aeromobile                       |                                        id_pilota                                        |         id_pilota         |
-| Assistente | Assistente (steward e/o hostess) che assistono il volo |                                      id_assistente                                      |       id_assistente       |
-|  Steward   | Assistente maschile                                    |                                            ~                                            |             ~             |
-|  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~             |
+|   Entità   | Descrizione                                            |                                        Attributi                                        |       Identificatore       |
+|:----------:|:-------------------------------------------------------|:---------------------------------------------------------------------------------------:|:--------------------------:|
+|    Volo    | Volo che parte ogni giorno alla stessa ora             |                     ora, destinazione, gate, _capacità\_passeggeri_                     |         gate, ora          |
+| Aeromobile | Aeromobile coinvolto nel volo                          |                                      id_assistente                                      |       id_assistente        |
+|  Modello   | Modello specifico dell'aeromobile                      | name, azienda, carico_max, persone_max, spec_tecniche (peso, lunghezza, apertura_alare) | nome, azienda_costruttrice |
+| Equipaggio | Equipaggio che imbarca l'aeromobile                    |                                      id_equipaggio                                      |       id_equipaggio        |
+|   Pilota   | Piloti che pilotano l'aeromobile                       |                                        id_pilota                                        |         id_pilota          |
+| Assistente | Assistente (steward e/o hostess) che assistono il volo |                                      id_assistente                                      |       id_assistente        |
+|  Steward   | Assistente maschile                                    |                                            ~                                            |             ~              |
+|  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~              |
 
 
 #### Tabella di cardinalità delle relazioni 
@@ -157,35 +160,35 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 
 ### 2.3 Tabella dei volumi
 
-|  Concetto   |   Tipo    | Volume |
-|:-----------:|:---------:|:------:|
-| Aeromobile  |  Entità   |   20   |
-| Assistente  |  Entità   |   80   |
-| Equipaggio  |  Entità   |   20   |
-|   Modello   |  Entità   |   10   |
-|   Pilota    |  Entità   |   40   |
-|    Volo     |  Entità   |   20   |
-|   Comanda   | Relazione |   40   |
-|   Compone   | Relazione |   80   |
-|     Di      | Relazione |   20   |
-|   Imbarca   | Relazione |   20   |
-|   Tratta    | Relazione |   20   |
+|  Concetto  |   Tipo    | Volume |
+|:----------:|:---------:|:------:|
+| Aeromobile |  Entità   |   20   |
+| Assistente |  Entità   |   80   |
+| Equipaggio |  Entità   |   20   |
+|  Modello   |  Entità   |   10   |
+|   Pilota   |  Entità   |   40   |
+|    Volo    |  Entità   |   20   |
+|  Comanda   | Relazione |   40   |
+|  Compone   | Relazione |   80   |
+|     Di     | Relazione |   20   |
+|  Imbarca   | Relazione |   20   |
+|   Tratta   | Relazione |   20   |
 
 
 ### 2.4 Tabella delle frequenze
 
-| Operazione                    | Frequenza (giornaliera) |
-|:------------------------------|:-----------------------:|
-| Cambio Gate                   |            2            |
-| Cambio Aereo                  |            2            |
-| Ricerca Voli(gate)            |          1000           |
-| Ricerca Voli(Destinazione)    |          5000           | 
-| Ricerca Voli Odierni          |          5000           | 
-| Elimina Volo                  |            2            |
-| Inserisci Volo                |            2            | 
-| N° Steward Aerei Pesanti      |           10            |
-| Aerei di Linea                |           10            |
-| Piloti Cargo                  |           10            |
+| Operazione                 | Frequenza (giornaliera) |
+|:---------------------------|:-----------------------:|
+| Cambio Gate                |            2            |
+| Cambio Aereo               |            2            |
+| Ricerca Voli(gate)         |          1000           |
+| Ricerca Voli(Destinazione) |          5000           |
+| Ricerca Voli Odierni       |          5000           |
+| Elimina Volo               |            2            |
+| Inserisci Volo             |            2            |
+| N° Steward Aerei Pesanti   |           10            |
+| Aerei di Linea             |           10            |
+| Piloti Cargo               |           10            |
 
 
 
@@ -226,6 +229,8 @@ La creazione di tale entità permette di gestire in modo più flessibile e strut
 
 Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
 
+#### Lo schema dopo la revisione
+
 [//]: # (TODO:  Inserire schema ER dopo reiterazione per confrontare meglio i modelli)
 
 ### 3.3 Schema relazionale   
@@ -246,7 +251,7 @@ PILOTA (<U>CF</U>, età)
 
 COMANDA (id_equipaggio, CF)
 - id_equipaggio: FK $\rightarrow$ EQUIPAGGIO.id_equipaggio
-- CF: FK $\rightarrow$ PILOTA.CF)
+- CF: FK $\rightarrow$ PILOTA.CF
 
 VOLO (<U>gate</U>, <U>ora</U>, destinazione, capacità_passeggeri)
 
