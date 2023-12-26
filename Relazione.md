@@ -196,12 +196,110 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 
 ### 3.1 Analisi di ridondanza
 
-Capacità_passeggeri è un attributo interessante da analizzare perché richiede la visita di gran parte dello schema
+Osservando lo schema della base di dati si nota come l'attributo "capacità_passeggeri" associato all'entità "VOLO", possa essere derivabile. Per valutare se convenga mantenere la ridondanza del dato, è stata condotta un'analisi di ridondanza.
 
-[//]: # (TODO: da aggiungere calcoli)
-(**schema ?**)
+#### Scenari
 
-[file docs](https://users.dimi.uniud.it/~luca.geatti/data/courses/2023/bdd-lab2023/atzeni_6e_slide_cap7.pptx)
+**Attributo derivato mantenuto**: il calcolo della capacità passeggeri avviene ogni volta che viene inserito un nuovo volo nella base di dati. Tuttavia, ogni successiva richiesta di capacità passeggeri verrà’ eseguita in tempo costante con una singola lettura.
+
+**Senza attributo derivato**: l'inserimento dei voli è rapido e avviene in tempo costante. Tuttavia, la richiesta di capacità passeggeri comporta il suo ricalcolo ogni volta, incidendo sulla velocità di risposta.
+
+#### Operazioni
+Le due operazioni prese in esame:
+
+**Operazione 1 (OP1)**: Inserimento di un nuovo volo nella base di dati.
+**Operazione 2 (OP2)**: Richiesta del numero di passeggeri che possono imbarcarsi su un dato volo.
+
+#### Volumi
+Durante il calcolo, è essenziale considerare anche il numero medio di assistenti per ogni volo. Consultando la tabella dei volumi, si nota che vengono svolti 20 voli in una giornata e gli assistenti che vengono imbarcati sono 80, ciò implica una media di 4 assistenti per volo.
+
+$n= \frac{assistenti}{voli}= \frac{80}{20}=4$
+
+Ulteriori dati relativi ai volumi utilizzati nei calcoli sono registrati nella tabella apposita.
+
+#### Frequenze
+Il numero delle frequenze giornaliere con le quali vengono svolte le operazioni deve essere anch'esso ragionevole. In questo caso si è ipotizzato l'inserimento di 5 voli al giorno e la richiesta dell'attributo 50 volte al giorno.
+
+- $freq(OP1)=5$ (vengono inseriti 5 voli al giorno)
+- $freq(OP2)=50$  (vengono fatte 50 richieste al giorno)
+
+#### Costi di lettura e scrittura
+Supponendo che la lettura del nostro database implichi una spesa pari alla metà di quella necessaria per una scrittura, i costi relativi sono:
+
+- $(read) 1R=1\mu$ 
+- $(write) 1W =2\mu$ 
+
+
+#### Analisi dei costi
+
+##### Costo operazioni con ridondanza
+
+Nel contesto dello scenario che prevede l'utilizzo dell'attributo derivato, il costo per le due operazioni è così definito:
+
+$
+\begin{cases} 
+cost(OP1CR)&=1W+2R+1R+2R+nR \\
+cost(OP2CR)&=1R
+\end{cases}
+$
+
+L'operazione $OP1_{CR}$ ha un costo iniziale di 1W, derivante dalla scrittura di un nuovo volo nella tabella "volo". 
+Successivamente, l'operazione effettua due letture per ottenere la capacità massima di persone del modello di aeromobile associato a quel volo. Queste letture coinvolgono la tabella "aeromobile" e successivamente la tabella "modello". 
+Infine, l'operazione conta il numero del personale che compone l'equipaggio, leggendo la tabella “equipaggio”, dove conta 2 piloti e $n$ assistenti.
+
+L'operazione $OP2_{CR}$ ha un costo molto basso poiché legge direttamente l'attributo derivato presente nella tabella "voli".
+
+Il costo totale nel caso in cui è mantenuta la ridondanza risulta quindi: 
+
+$
+\begin{equation}
+\begin{aligned}
+TOT_1 &=freq(OP1)cost(OP1_{CR})+freq(OP2)cost(OP2_{CR}) \\
+&=5(1W+5R+nR)+50(1R) \\
+&=5(2+5+4)+50(1) \\
+&=10+25+20 +50 \\
+&=105\mu \\
+\end{aligned}
+\end{equation}
+$
+
+##### Costo operazioni senza ridondanza
+
+Nel contesto dello scenario in cui non si fa uso dell'attributo derivato, il costo per le due operazioni è il seguente:
+
+$
+\begin{cases}
+cost(OP1SR)=1W \\
+cost(OP2SR)=2R+1R+2R+nR
+\end{cases}
+$
+
+
+In questo caso, si nota che $OP1_{SR}$  ha un costo di 1W, dovuto alla scrittura del volo nella tabella "volo".
+
+L'operazione $OP2_{SR}$, al contrario, deve contare il numero del personale che compone l'equipaggio, seguendo lo stesso processo descritto nel caso con ridondanza.
+
+Il costo totale nel caso in cui viene eliminata la ridondanza risulta quindi:
+$
+\begin{equation}
+\begin{aligned}
+TOT_2&=freq(OP1)cost(OP1SR)+freq(OP2)cost(OP2SR)\\ 
+&=5(1W)+50(2R+1R+2R+nR) \\
+&=5(2)+50(5+4)=10+250+200\\
+&=460\mu\\
+\end{aligned}
+\end{equation}
+$
+
+#### Conclusione analisi ridondanza
+
+Dai calcoli effettuati, possiamo dedurre che in una giornata in cui vengono rispettate le frequenze assegnate, ovvero $freq(OP1)=5$ e $freq(OP2)=50$, risulta vantaggioso utilizzare l'approccio con ridondanza, in quanto abbatte il costo a circa un quarto del tempo utilizzato altrimenti.
+Mantenere il dato comporta un costo finale di $105 \mu$ (vedi $EQ.1$),mentre ricavarlo ogni volta costa $460 \mu$ (vedi $EQ.2$).
+
+#### Predizioni
+[//]: # (NOTE: aggiungi i grafici)
+
+[//]: # (NOTE: https://users.dimi.uniud.it/~luca.geatti/data/courses/2023/bdd-lab2023/atzeni_6e_slide_cap7.pptx)
 
 
 ### 3.2 Reificazione dello schema ER
