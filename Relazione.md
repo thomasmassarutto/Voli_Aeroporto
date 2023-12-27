@@ -15,19 +15,7 @@
 [//]: # (Al fine di visualizzare chiaramente questa complessa rete di informazioni, intendiamo sviluppare uno schema Entità-Relazioni completo. Tale schema sarà arricchito con attributi significativi per ciascuna entità, evidenziando le chiavi di identificazione, e definirà relazioni interconnesse con precisi vincoli di cardinalità e partecipazione. Inoltre, prevederemo regole aziendali, inclusi vincoli di integrità e regole di derivazione, per garantire la coerenza e la correttezza delle informazioni gestite nel sistema.)
 
 
-Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi
-ai voli, all’equipaggio e agli aeromobili che effettuano i voli. Di ogni volo specifichiamo la destinazione e
-l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre
-nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile
-utilizzato. Ogni volo ha orario di partenza e gate unici (cioè, che nessun altro volo può partire allo stesso
-orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico. Ogni equipaggio è
-formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o
-uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici
-identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale. Di
-ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il
-modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima
-di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile
-effettua un unico volo al giorno.
+Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi ai voli, all’equipaggio e agli aeromobili che effettuano i voli. Di ogni volo specifichiamo la destinazione e l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile utilizzato. Ogni volo ha orario di partenza e gate unici (cioè, che nessun altro volo può partire allo stesso orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico. Ogni equipaggio è formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale. Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile effettua un unico volo al giorno.
 
 [//]: # (TODO: Ci assicuriamo di gestire i voli di un aereoporto dal punto di vista dei gates, delegando al controllore di volo tutti gli aspetti relativi alla concorrenza di eventuali decolli contemporanei.)
 
@@ -209,7 +197,7 @@ Capacità passeggeri si ottiene con persone_max meno numero di persone nell'equi
 
 Capacità_passeggeri è un attributo interessante da analizzare perché richiede la visita di gran parte dello schema(**schema ?**)
 
-[file docs](https://users.dimi.uniud.it/~luca.geatti/data/courses/2023/bdd-lab2023/atzeni_6e_slide_cap7.pptx)
+[Analisi di ridondanza docs](https://docs.google.com/document/d/1nhvOKPnkAEypN998Kzv5q8iw8WVj2o3czqGw2cCtgTw/edit?usp=sharing)
 
 
 ### 3.2 Reificazione dello schema ER
