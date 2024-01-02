@@ -3,18 +3,6 @@
 ## 1 Analisi dei requisiti
 
 ### 1.1 Sintesi del testo
-
-[//]: # (Nel contesto della gestione delle informazioni relative ai voli in partenza da un piccolo aeroporto, il nostro obiettivo è modellare in modo completo e accurato le varie dinamiche connesse a questa attività. Ogni volo, programmato quotidianamente, presenta un insieme di caratteristiche cruciali, tra cui la destinazione desiderata e l'orario programmato di partenza.)
-
-[//]: # (Immaginiamo una situazione in cui, pur mantenendo la regolarità dell'orario di volo giornaliero, alcune variabili possono variare da un giorno all'altro. Ad esempio, il cancello d'uscita &#40;gate&#41; e l'aeromobile possono essere soggetti a cambiamenti. Inoltre, ogni volo comporta la presenza di un equipaggio, composto da due piloti e almeno una hostess o uno steward, tutti obbligatoriamente presenti per garantire il corretto svolgimento dell'operazione.)
-
-[//]: # (Una caratteristica importante del nostro sistema è la fissità di un singolo volo per ciascun aeroplano in ogni giornata. Ogni giorno, desideriamo acquisire informazioni dettagliate sull'orario di partenza e sulla destinazione di ogni singolo aeromobile in servizio. Abbiamo assunto che, considerando giorno, ora e gate come parametri fissi, si possa identificare univocamente ciascun volo, associandolo in modo inequivocabile all'aeromobile coinvolto e alla sua destinazione.)
-
-[//]: # (Per garantire una gestione efficiente delle informazioni, ogni aeromobile, identificato da un codice specifico, sarà caratterizzato da dettagli riguardanti l'azienda costruttrice e il modello. Questi dettagli includono elementi chiave come la capacità massima di passeggeri, la quantità massima di materiale trasportabile e specifiche tecniche quali peso, lunghezza e apertura alare.)
-
-[//]: # (Al fine di visualizzare chiaramente questa complessa rete di informazioni, intendiamo sviluppare uno schema Entità-Relazioni completo. Tale schema sarà arricchito con attributi significativi per ciascuna entità, evidenziando le chiavi di identificazione, e definirà relazioni interconnesse con precisi vincoli di cardinalità e partecipazione. Inoltre, prevederemo regole aziendali, inclusi vincoli di integrità e regole di derivazione, per garantire la coerenza e la correttezza delle informazioni gestite nel sistema.)
-
-
 Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi ai voli, all’equipaggio e agli aeromobili che effettuano i voli. 
 Di ogni volo specifichiamo la destinazione e l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile utilizzato. Ogni volo ha orario di partenza e gate unici (cioè, che nessun altro volo può partire allo stesso orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico. 
 Ogni equipaggio è formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale. 
@@ -37,30 +25,20 @@ Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo
 
 
 ### 1.3 Scopo
-
 Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi
 ai voli, all’equipaggio e agli aeromobili che effettuano i voli.
 
 ### 1.4 Specifiche per entità
 
 #### FRASI RELATIVE AI VOLI:
-
-Di ogni volo specifichiamo la destinazione e l’orario di partenza. Assumiamo inoltre, che ogni volo venga
-svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano
-cambiare il cancello d’uscita (gate) e l’aeromobile utilizzato. Ogni volo ha orario di partenza e gate unici
-(cioè, che nessun altro volo può partire allo stesso orario sullo stesso gate e viceversa) e viene effettuato da
-un equipaggio specifico.
-
+Di ogni volo specifichiamo la destinazione e l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile utilizzato. Ogni volo ha orario di partenza e gate unici(cioè, che nessun altro volo può partire allo stesso orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico.
 
 #### FRASI RELATIVE AGLI EQUIPAGGI:
-
 Ogni equipaggio è formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale.
 
 
 #### FRASI RELATIVE AGLI AEROMOBILI:
-
 Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile effettua un unico volo al giorno.
-
 
 
 
@@ -69,28 +47,26 @@ Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo
 ### 2.1 Schema Entità-Relazioni
 
 #### Prima proposta
-
-![Schema ER prototipo](schemi/SchemaER-aereo_proposta.png)
+![Schema ER prototipo](schemi/SchemaER_proposta_aereo.png)
 
 La proposta iniziale del nostro schema Entità Relazione (ER) prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità. Tuttavia, abbiamo rapidamente constatato che questa approccio comportava un'eccessiva complessità dello schema, spingendoci a riconsiderare la progettazione.
 
 Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivisione delle caratteristiche dell'aeromobile in entità distinte. Invece, abbiamo scelto di collegare direttamente le entità "Azienda Costruttrice" e "Carico" all'entità "Aeromobile" come attributi. Questa decisione è stata presa al fine di razionalizzare la struttura complessiva dello schema, riducendo la complessità e facilitando la comprensione del modello dati.
 
 #### Schema concettuale finale
-![Schema ER finale](schemi/SchemaER-Schema_iniziale.png)
-
+![Schema ER finale](schemi/SchemaER_schema_finale.png)
 
 #### Vincoli d'integrità
 
 ##### RV1 **Equipaggio non eccede persone_max**
-In ogni il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aereomobile.
+In ogni il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aeromobile.
 
 ##### RV2 **Cardinalità hostess-steward**
 L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 
+[//]: # (TODO: bisogna verificare se ci sono altri vincoli di integrita')
 
 #### Dizionario dei dati
-
 |   Entità   | Descrizione                                            |                                        Attributi                                        |       Identificatore       |
 |:----------:|:-------------------------------------------------------|:---------------------------------------------------------------------------------------:|:--------------------------:|
 |    Volo    | Volo che parte ogni giorno alla stessa ora             |                     ora, destinazione, gate, _capacità\_passeggeri_                     |         gate, ora          |
@@ -102,9 +78,7 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 |  Steward   | Assistente maschile                                    |                                            ~                                            |             ~              |
 |  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~              |
 
-
-#### Tabella di cardinalità delle relazioni 
-
+#### Tabella di cardinalità delle relazioni
 |     E1     | Cardinalità |  Relazione  | Cardinalità |     E2     |
 |:----------:|:-----------:|:-----------:|:-----------:|:----------:|
 |    Volo    |    (1,1)    | **Imbarca** |    (1,1)    | Equipaggio |
@@ -113,18 +87,17 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 |   Pilota   |    (1,1)    | **Comanda** |    (2,2)    | Equipaggio |
 | Assistente |    (1,1)    | **Compone** |    (1,n)    | Equipaggio |
 
-
 #### Regole di derivazione
 
 ##### RD1 **capacità passeggeri**
 L'attributo descrive la capacità massima di passeggeri imbarcabili da un aeromobile.
-
 Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ viene derivato in base all'attributo _persone_max_ di MODELLO meno numero di persone nell'equipaggio.
-
 **capacità_passeggeri** = **MODELLO**(_persone_max_)- |nr. assistenti|
+
 
 ### 2.2 Operazioni
 
+#### Operazioni base
 1. **cambio_gate**
     - Dato un volo sostituisce il numero del gate corrente con uno aggiornato
 
@@ -146,8 +119,7 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 7. **Inserisci_volo**
     - Inserisce un volo nel database
 
-**Operazioni complesse**
-
+#### Operazioni complesse
 8. **Steward_Aerei_Pesanti**
     - Il numero di steward che lavorano su voli che fanno tratte con aerei con peso almeno X e al massimo Y
 
@@ -159,7 +131,6 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 
 
 ### 2.3 Tabella dei volumi
-
 |  Concetto  |   Tipo    | Volume |
 |:----------:|:---------:|:------:|
 | Aeromobile |  Entità   |   20   |
@@ -176,7 +147,6 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 
 
 ### 2.4 Tabella delle frequenze
-
 | Operazione                 | Frequenza (giornaliera) |
 |:---------------------------|:-----------------------:|
 | Cambio Gate                |            2            |
@@ -195,6 +165,9 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 ## 3 Progettazione logica
 
 ### 3.1 Analisi di ridondanza
+
+[//]: # (TODO: discutere sul modo migliore per rappresentare le formule e altro dell'analisi di ridondanza)
+[Analisi di ridondanza docs](https://docs.google.com/document/d/1nhvOKPnkAEypN998Kzv5q8iw8WVj2o3czqGw2cCtgTw/edit?usp=sharing)
 
 Osservando lo schema della base di dati si nota come l'attributo "capacità_passeggeri" associato all'entità "VOLO", possa essere derivabile. Per valutare se convenga mantenere la ridondanza del dato, è stata condotta un'analisi di ridondanza.
 
@@ -234,7 +207,7 @@ Supponendo che la lettura del nostro database implichi una spesa pari alla metà
 
 ##### Costo operazioni con ridondanza
 
-[Analisi di ridondanza docs](https://docs.google.com/document/d/1nhvOKPnkAEypN998Kzv5q8iw8WVj2o3czqGw2cCtgTw/edit?usp=sharing)
+
 
 Nel contesto dello scenario che prevede l'utilizzo dell'attributo derivato, il costo per le due operazioni è così definito:
 
@@ -294,7 +267,6 @@ TOT_2&=freq(OP1)cost(OP1SR)+freq(OP2)cost(OP2SR)\\
 $
 
 #### Conclusione analisi ridondanza
-
 Dai calcoli effettuati, possiamo dedurre che in una giornata in cui vengono rispettate le frequenze assegnate, ovvero $freq(OP1)=5$ e $freq(OP2)=50$, risulta vantaggioso utilizzare l'approccio con ridondanza, in quanto abbatte il costo a circa un quarto del tempo utilizzato altrimenti.
 Mantenere il dato comporta un costo finale di $105 \mu$ (vedi $EQ.1$),mentre ricavarlo ogni volta costa $460 \mu$ (vedi $EQ.2$).
 
@@ -305,12 +277,10 @@ Mantenere il dato comporta un costo finale di $105 \mu$ (vedi $EQ.1$),mentre ric
 
 
 ### 3.2 Reificazione dello schema ER
-
 In questa fase della relazione discuteremo di come abbiamo modificato lo schema concettuale proposto, reiterando le parti di schema che non possono essere tradotte direttamente nello schema relazionale.
 
 #### Assistente dell'equipaggio
-
-![Schema ER finale](schemi/SchemaER-reiterazione_assistente.png)
+![Schema ER finale](schemi/SchemaER_reificazione_assistente.png)
 
 Nel contesto dello schema Entity-Relationship (ER), è emersa la necessità di trattare una specializzazione di "assistente" attraverso le entità HOSTESS e STEWARD. Tuttavia, la trasposizione diretta di questa specializzazione in uno schema relazionale non è praticabile. Pertanto, si è optato per una connessione diretta delle entità HOSTESS e STEWARD all'entità EQUIPAGGIO.
 
@@ -320,8 +290,7 @@ Tuttavia, questa scelta di modellazione comporta la perdita del vincolo preceden
 
 
 #### Modello di aeromobile
-
-![Schema ER finale](schemi/SchemaER-reiterazione_modello.png)
+![Schema ER finale](schemi/SchemaER_reificazione_modello.png)
 
 Per risolvere l'attributo composto denominato "specifiche tecniche", il quale raggruppava gli attributi "peso", "lunghezza" ed "apertura alare", si è deciso d'introdurre un'entità dedicata denominata "SPECIFICHE TECNICHE".
 
@@ -330,8 +299,7 @@ La creazione di tale entità permette di gestire in modo più flessibile e strut
 Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
 
 #### Lo schema dopo la revisione
-
-[//]: # (TODO:  Inserire schema ER dopo reiterazione per confrontare meglio i modelli)
+![Schema ER finale reificato](schemi/SchemaER_reificazione_finale.png)
 
 ### 3.3 Schema relazionale   
 
@@ -401,7 +369,6 @@ CON (<U>*nome_modello*</U>, <U>*azienda_costruttrice*</U>, <U>*peso*</U>, <U>*ap
 
 
 # Domande
-- Le operazioni che usiamo per l'analisi della ridondanza, vanno implementate o no? (file lezione1, slide 15)
 - Come fare lo schema relazionale? (tabelle?)
-- Nell'analisi di ridondanza le operazioni sono corrette
 - Sinonimi nel glossario possono essere tolti?
+- Come decidiamo di scrivere la relazione? Word? md?
