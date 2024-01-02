@@ -1,4 +1,4 @@
-# TITOLO RELAZIONE
+# Gruppo 29
 
 ## 1 Analisi dei requisiti
 
@@ -15,29 +15,33 @@
 [//]: # (Al fine di visualizzare chiaramente questa complessa rete di informazioni, intendiamo sviluppare uno schema Entità-Relazioni completo. Tale schema sarà arricchito con attributi significativi per ciascuna entità, evidenziando le chiavi di identificazione, e definirà relazioni interconnesse con precisi vincoli di cardinalità e partecipazione. Inoltre, prevederemo regole aziendali, inclusi vincoli di integrità e regole di derivazione, per garantire la coerenza e la correttezza delle informazioni gestite nel sistema.)
 
 
-Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi ai voli, all’equipaggio e agli aeromobili che effettuano i voli. Di ogni volo specifichiamo la destinazione e l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile utilizzato. Ogni volo ha orario di partenza e gate unici (cioè, che nessun altro volo può partire allo stesso orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico. Ogni equipaggio è formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale. Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile effettua un unico volo al giorno.
-
-[//]: # (TODO: Ci assicuriamo di gestire i voli di un aereoporto dal punto di vista dei gates, delegando al controllore di volo tutti gli aspetti relativi alla concorrenza di eventuali decolli contemporanei.)
+Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi ai voli, all’equipaggio e agli aeromobili che effettuano i voli. 
+Di ogni volo specifichiamo la destinazione e l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile utilizzato. Ogni volo ha orario di partenza e gate unici (cioè, che nessun altro volo può partire allo stesso orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico. 
+Ogni equipaggio è formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale. 
+Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile effettua un unico volo al giorno.
 
 ### 1.2 Glossario
-| Termine             | Descrizione                                             | Sinonimi |          Collegamenti           |
-|:--------------------|:--------------------------------------------------------|:--------:|:-------------------------------:|
-| Volo                | Volo in partenza dall'aeroporto                         |    ~     |     Aeromobile, Equipaggio      |
-| Aeromobile          | Aereo che effettua un volo                              |   Aero   |          Volo, Modello          |
-| Modello             | Modello di un aeromobile                                |    ~     | Aeromobile, Specifiche tecniche |
-| Specifiche tecniche | Peso, apertura alare e lunghezza relative ad un modello |    ~     |             Modello             |
-| Equipaggio          | Insieme di persone che gestiscono un volo               |    ~     |    Volo, Pilota, Assistente     |
-| Pilota              | Persona che pilota un aereo e fa parte di un equipaggio |    ~     |           Equipaggio            |
-| Assistente          | Persona che assiste i passeggeri di un volo             |    ~     |  Equipaggio, Hostess, Steward   |
-| Hostess             | Assistente di sesso femminile                           |    ~     |           Assistente            |
-| Steward             | Assistente di sesso maschile                            |    ~     |           Assistente            |
+| Termine              | Descrizione                                             | Sinonimi |          Collegamenti           |
+|:---------------------|:--------------------------------------------------------|:--------:|:-------------------------------:|
+| Volo                 | Volo in partenza dall'aeroporto                         |    ~     |     Aeromobile, Equipaggio      |
+| Aeromobile           | Aereo che effettua un volo                              |  Aereo   |          Volo, Modello          |
+| Modello              | Modello di un aeromobile                                |    ~     | Aeromobile, Specifiche tecniche |
+| Specifiche tecniche  | Peso, apertura alare e lunghezza relative ad un modello |    ~     |             Modello             |
+| Equipaggio           | Insieme di persone che gestiscono un volo               |    ~     |    Volo, Pilota, Assistente     |
+| Pilota               | Persona che pilota un aereo e fa parte di un equipaggio |    ~     |           Equipaggio            |
+| Assistente           | Persona che assiste i passeggeri di un volo             |    ~     |  Equipaggio, Hostess, Steward   |
+| Hostess              | Assistente di sesso femminile                           |    ~     |           Assistente            |
+| Steward              | Assistente di sesso maschile                            |    ~     |           Assistente            |
+| Gate                 | Cancello d'imbarco                                      |    ~     |              Volo               |
+| Azienda_costruttrice | Azienda che costruisce modelli di aeromobili            |    ~     |             Modello             |
+
 
 ### 1.3 Scopo
 
 Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi
 ai voli, all’equipaggio e agli aeromobili che effettuano i voli.
 
-### 1.4 Specifiche per entita'
+### 1.4 Specifiche per entità
 
 #### FRASI RELATIVE AI VOLI:
 
@@ -68,7 +72,7 @@ Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo
 
 ![Schema ER prototipo](schemi/SchemaER-aereo_proposta.png)
 
-La proposta iniziale del nostro schema Entita' Relazione (ER) prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità. Tuttavia, abbiamo rapidamente constatato che questa approccio comportava un'eccessiva complessità dello schema, spingendoci a riconsiderare la progettazione.
+La proposta iniziale del nostro schema Entità Relazione (ER) prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità. Tuttavia, abbiamo rapidamente constatato che questa approccio comportava un'eccessiva complessità dello schema, spingendoci a riconsiderare la progettazione.
 
 Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivisione delle caratteristiche dell'aeromobile in entità distinte. Invece, abbiamo scelto di collegare direttamente le entità "Azienda Costruttrice" e "Carico" all'entità "Aeromobile" come attributi. Questa decisione è stata presa al fine di razionalizzare la struttura complessiva dello schema, riducendo la complessità e facilitando la comprensione del modello dati.
 
@@ -76,7 +80,7 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 ![Schema ER finale](schemi/SchemaER-Schema_iniziale.png)
 
 
-#### Vincoli d'integrita'
+#### Vincoli d'integrità
 
 ##### RV1 **Equipaggio non eccede persone_max**
 In ogni il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aereomobile.
@@ -87,19 +91,19 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 
 #### Dizionario dei dati
 
-|   Entità   | Descrizione                                            |                                        Attributi                                        |      Identificatore       |
-|:----------:|:-------------------------------------------------------|:---------------------------------------------------------------------------------------:|:-------------------------:|
-|    Volo    | Volo che parte ogni giorno alla stessa ora             |                     ora, destinazione, gate, _capacità\_passeggeri_                     |         gate, ora         |
-| Aeromobile | Aeromobile coinvolto nel volo                          |                                      id_assistente                                      |       id_assistente       |
-|  Modello   | Modello specifico dell'aeromobile                      | name, azienda, carico_max, persone_max, spec_tecniche (peso, lunghezza, apertura_alare) |nome, azienda_costruttrice |
-| Equipaggio | Equipaggio che imbarca l'aeromobile                    |                                      id_equipaggio                                      |       id_equipaggio       |
-|   Pilota   | Piloti che pilotano l'aeromobile                       |                                        id_pilota                                        |         id_pilota         |
-| Assistente | Assistente (steward e/o hostess) che assistono il volo |                                      id_assistente                                      |       id_assistente       |
-|  Steward   | Assistente maschile                                    |                                            ~                                            |             ~             |
-|  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~             |
+|   Entità   | Descrizione                                            |                                        Attributi                                        |       Identificatore       |
+|:----------:|:-------------------------------------------------------|:---------------------------------------------------------------------------------------:|:--------------------------:|
+|    Volo    | Volo che parte ogni giorno alla stessa ora             |                     ora, destinazione, gate, _capacità\_passeggeri_                     |         gate, ora          |
+| Aeromobile | Aeromobile coinvolto nel volo                          |                                      id_assistente                                      |       id_assistente        |
+|  Modello   | Modello specifico dell'aeromobile                      | name, azienda, carico_max, persone_max, spec_tecniche (peso, lunghezza, apertura_alare) | nome, azienda_costruttrice |
+| Equipaggio | Equipaggio che imbarca l'aeromobile                    |                                      id_equipaggio                                      |       id_equipaggio        |
+|   Pilota   | Piloti che pilotano l'aeromobile                       |                                        id_pilota                                        |         id_pilota          |
+| Assistente | Assistente (steward e/o hostess) che assistono il volo |                                      id_assistente                                      |       id_assistente        |
+|  Steward   | Assistente maschile                                    |                                            ~                                            |             ~              |
+|  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~              |
 
 
-#### Tabella di cardinalita' delle relazioni 
+#### Tabella di cardinalità delle relazioni 
 
 |     E1     | Cardinalità |  Relazione  | Cardinalità |     E2     |
 |:----------:|:-----------:|:-----------:|:-----------:|:----------:|
@@ -113,14 +117,11 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 #### Regole di derivazione
 
 ##### RD1 **capacità passeggeri**
-Dato un volo, ricercare l'aeromobile, ottenere modello, derivare numero massimo di persone come
+L'attributo descrive la capacità massima di passeggeri imbarcabili da un aeromobile.
 
-[//]: # (TODO: da riscrivere)
-Dato un volo, ritorna il numero massimo di passeggeri imbarcabili.
+Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ viene derivato in base all'attributo _persone_max_ di MODELLO meno numero di persone nell'equipaggio.
 
-Capacità passeggeri si ottiene con persone_max meno numero di persone nell'equipaggio.
-
-
+**capacità_passeggeri** = **MODELLO**(_persone_max_)- |nr. assistenti|
 
 ### 2.2 Operazioni
 
@@ -159,35 +160,35 @@ Capacità passeggeri si ottiene con persone_max meno numero di persone nell'equi
 
 ### 2.3 Tabella dei volumi
 
-|  Concetto   |   Tipo    | Volume |
-|:-----------:|:---------:|:------:|
-| Aeromobile  |  Entità   |   20   |
-| Assistente  |  Entità   |   80   |
-| Equipaggio  |  Entità   |   20   |
-|   Modello   |  Entità   |   10   |
-|   Pilota    |  Entità   |   40   |
-|    Volo     |  Entità   |   20   |
-|   Comanda   | Relazione |   40   |
-|   Compone   | Relazione |   80   |
-|     Di      | Relazione |   20   |
-|   Imbarca   | Relazione |   20   |
-|   Tratta    | Relazione |   20   |
+|  Concetto  |   Tipo    | Volume |
+|:----------:|:---------:|:------:|
+| Aeromobile |  Entità   |   20   |
+| Assistente |  Entità   |   80   |
+| Equipaggio |  Entità   |   20   |
+|  Modello   |  Entità   |   10   |
+|   Pilota   |  Entità   |   40   |
+|    Volo    |  Entità   |   20   |
+|  Comanda   | Relazione |   40   |
+|  Compone   | Relazione |   80   |
+|     Di     | Relazione |   20   |
+|  Imbarca   | Relazione |   20   |
+|   Tratta   | Relazione |   20   |
 
 
 ### 2.4 Tabella delle frequenze
 
-| Operazione                    | Frequenza (giornaliera) |
-|:------------------------------|:-----------------------:|
-| Cambio Gate                   |            2            |
-| Cambio Aereo                  |            2            |
-| Ricerca Voli(gate)            |          1000           |
-| Ricerca Voli(Destinazione)    |          5000           | 
-| Ricerca Voli Odierni          |          5000           | 
-| Elimina Volo                  |            2            |
-| Inserisci Volo                |            2            | 
-| N° Steward Aerei Pesanti      |           10            |
-| Aerei di Linea                |           10            |
-| Piloti Cargo                  |           10            |
+| Operazione                 | Frequenza (giornaliera) |
+|:---------------------------|:-----------------------:|
+| Cambio Gate                |            2            |
+| Cambio Aereo               |            2            |
+| Ricerca Voli(gate)         |          1000           |
+| Ricerca Voli(Destinazione) |          5000           |
+| Ricerca Voli Odierni       |          5000           |
+| Elimina Volo               |            2            |
+| Inserisci Volo             |            2            |
+| N° Steward Aerei Pesanti   |           10            |
+| Aerei di Linea             |           10            |
+| Piloti Cargo               |           10            |
 
 
 
@@ -195,9 +196,112 @@ Capacità passeggeri si ottiene con persone_max meno numero di persone nell'equi
 
 ### 3.1 Analisi di ridondanza
 
-Capacità_passeggeri è un attributo interessante da analizzare perché richiede la visita di gran parte dello schema(**schema ?**)
+Osservando lo schema della base di dati si nota come l'attributo "capacità_passeggeri" associato all'entità "VOLO", possa essere derivabile. Per valutare se convenga mantenere la ridondanza del dato, è stata condotta un'analisi di ridondanza.
+
+#### Scenari
+
+**Attributo derivato mantenuto**: il calcolo della capacità passeggeri avviene ogni volta che viene inserito un nuovo volo nella base di dati. Tuttavia, ogni successiva richiesta di capacità passeggeri verrà’ eseguita in tempo costante con una singola lettura.
+
+**Senza attributo derivato**: l'inserimento dei voli è rapido e avviene in tempo costante. Tuttavia, la richiesta di capacità passeggeri comporta il suo ricalcolo ogni volta, incidendo sulla velocità di risposta.
+
+#### Operazioni
+Le due operazioni prese in esame:
+
+**Operazione 1 (OP1)**: Inserimento di un nuovo volo nella base di dati.
+**Operazione 2 (OP2)**: Richiesta del numero di passeggeri che possono imbarcarsi su un dato volo.
+
+#### Volumi
+Durante il calcolo, è essenziale considerare anche il numero medio di assistenti per ogni volo. Consultando la tabella dei volumi, si nota che vengono svolti 20 voli in una giornata e gli assistenti che vengono imbarcati sono 80, ciò implica una media di 4 assistenti per volo.
+
+$n= \frac{assistenti}{voli}= \frac{80}{20}=4$
+
+Ulteriori dati relativi ai volumi utilizzati nei calcoli sono registrati nella tabella apposita.
+
+#### Frequenze
+Il numero delle frequenze giornaliere con le quali vengono svolte le operazioni deve essere anch'esso ragionevole. In questo caso si è ipotizzato l'inserimento di 5 voli al giorno e la richiesta dell'attributo 50 volte al giorno.
+
+- $freq(OP1)=5$ (vengono inseriti 5 voli al giorno)
+- $freq(OP2)=50$  (vengono fatte 50 richieste al giorno)
+
+#### Costi di lettura e scrittura
+Supponendo che la lettura del nostro database implichi una spesa pari alla metà di quella necessaria per una scrittura, i costi relativi sono:
+
+- $(read) 1R=1\mu$ 
+- $(write) 1W =2\mu$ 
+
+
+#### Analisi dei costi
+
+##### Costo operazioni con ridondanza
 
 [Analisi di ridondanza docs](https://docs.google.com/document/d/1nhvOKPnkAEypN998Kzv5q8iw8WVj2o3czqGw2cCtgTw/edit?usp=sharing)
+
+Nel contesto dello scenario che prevede l'utilizzo dell'attributo derivato, il costo per le due operazioni è così definito:
+
+$
+\begin{cases} 
+cost(OP1CR)&=1W+2R+1R+2R+nR \\
+cost(OP2CR)&=1R
+\end{cases}
+$
+
+L'operazione $OP1_{CR}$ ha un costo iniziale di 1W, derivante dalla scrittura di un nuovo volo nella tabella "volo". 
+Successivamente, l'operazione effettua due letture per ottenere la capacità massima di persone del modello di aeromobile associato a quel volo. Queste letture coinvolgono la tabella "aeromobile" e successivamente la tabella "modello". 
+Infine, l'operazione conta il numero del personale che compone l'equipaggio, leggendo la tabella “equipaggio”, dove conta 2 piloti e $n$ assistenti.
+
+L'operazione $OP2_{CR}$ ha un costo molto basso poiché legge direttamente l'attributo derivato presente nella tabella "voli".
+
+Il costo totale nel caso in cui è mantenuta la ridondanza risulta quindi: 
+
+$
+\begin{equation}
+\begin{aligned}
+TOT_1 &=freq(OP1)cost(OP1_{CR})+freq(OP2)cost(OP2_{CR}) \\
+&=5(1W+5R+nR)+50(1R) \\
+&=5(2+5+4)+50(1) \\
+&=10+25+20 +50 \\
+&=105\mu \\
+\end{aligned}
+\end{equation}
+$
+
+##### Costo operazioni senza ridondanza
+
+Nel contesto dello scenario in cui non si fa uso dell'attributo derivato, il costo per le due operazioni è il seguente:
+
+$
+\begin{cases}
+cost(OP1SR)=1W \\
+cost(OP2SR)=2R+1R+2R+nR
+\end{cases}
+$
+
+
+In questo caso, si nota che $OP1_{SR}$  ha un costo di 1W, dovuto alla scrittura del volo nella tabella "volo".
+
+L'operazione $OP2_{SR}$, al contrario, deve contare il numero del personale che compone l'equipaggio, seguendo lo stesso processo descritto nel caso con ridondanza.
+
+Il costo totale nel caso in cui viene eliminata la ridondanza risulta quindi:
+$
+\begin{equation}
+\begin{aligned}
+TOT_2&=freq(OP1)cost(OP1SR)+freq(OP2)cost(OP2SR)\\ 
+&=5(1W)+50(2R+1R+2R+nR) \\
+&=5(2)+50(5+4)=10+250+200\\
+&=460\mu\\
+\end{aligned}
+\end{equation}
+$
+
+#### Conclusione analisi ridondanza
+
+Dai calcoli effettuati, possiamo dedurre che in una giornata in cui vengono rispettate le frequenze assegnate, ovvero $freq(OP1)=5$ e $freq(OP2)=50$, risulta vantaggioso utilizzare l'approccio con ridondanza, in quanto abbatte il costo a circa un quarto del tempo utilizzato altrimenti.
+Mantenere il dato comporta un costo finale di $105 \mu$ (vedi $EQ.1$),mentre ricavarlo ogni volta costa $460 \mu$ (vedi $EQ.2$).
+
+#### Predizioni
+[//]: # (NOTE: aggiungi i grafici)
+
+[//]: # (NOTE: https://users.dimi.uniud.it/~luca.geatti/data/courses/2023/bdd-lab2023/atzeni_6e_slide_cap7.pptx)
 
 
 ### 3.2 Reificazione dello schema ER
@@ -212,30 +316,73 @@ Nel contesto dello schema Entity-Relationship (ER), è emersa la necessità di t
 
 Tuttavia, questa scelta di modellazione comporta la perdita del vincolo precedentemente espresso dalla generalizzazione, il quale garantiva che ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD. Al fine di preservare tale vincolo nell'ambito dello schema relazionale, si è reso necessario introdurre un vincolo d'integrità esterno.
 
+**Vincolo d'integrità esterno**: ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD
+
 
 #### Modello di aeromobile
 
 ![Schema ER finale](schemi/SchemaER-reiterazione_modello.png)
 
-Qui si e' risolto il problema di un attributo composto che raggruppava gli attributi "peso", "lunghezza" ed "apertura_alare" in "specifiche tecniche". A questo punto si e' deciso di creare un'entita' specifiche tecniche identificata dai propri attributi e collegata a modello in relazione one-to-many.
+Per risolvere l'attributo composto denominato "specifiche tecniche", il quale raggruppava gli attributi "peso", "lunghezza" ed "apertura alare", si è deciso d'introdurre un'entità dedicata denominata "SPECIFICHE TECNICHE".
 
-In questa fase di reificazione bisognava risolvere l'attributo composto denominato "specifiche tecniche", il quale raggruppava gli attributi "peso", "lunghezza" ed "apertura alare". Per risolvere questa problematica, si è deciso d'introdurre un'entità dedicata denominata "Specifiche Tecniche".
+La creazione di tale entità permette di gestire in modo più flessibile e strutturato le informazioni relative alle specifiche tecniche.
 
-L'entità "Specifiche Tecniche" è stata progettata con l'intento di rappresentare in modo esplicito le caratteristiche tecniche precedentemente racchiuse nell'attributo composto. La creazione di tale entità permette di gestire in modo più flessibile e strutturato le informazioni relative alle specifiche tecniche.
+Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
 
-Le due entita' MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
+#### Lo schema dopo la revisione
 
+[//]: # (TODO:  Inserire schema ER dopo reiterazione per confrontare meglio i modelli)
 
 ### 3.3 Schema relazionale   
 
-[//]: # (TODO: da rivedere e inserire parte Stan)
+HOSTESS (<U>CF</U>)
 
-Aeromobile(**id_aereo**, _Modello_, )
-Assistente(**id_assistente**)
-Equipaggio(**id_equipaggio**, _Equipaggio_)
-Modello(**nome_modello**, **azienda_costruttrice**, carico_max, persone_max)
-Pilota(**id_pilota**)
-Volo(**gate**, **ora**, destinazione, capacità_passeggeri)
+STEWARD (<U>CF</U>)
+
+R1 (<U>*CF*</U>, <U>*id_equipaggio*</U>)
+- CF: FK $\rightarrow$ HOSTESS.CF
+
+R2 (<U>*CF*</U>, <U>*id_equipaggio*</U>)
+- CF: FK $\rightarrow$ STEWARD.CF
+
+EQUIPAGGIO (<U>id_equipaggio</U>)
+
+PILOTA (<U>CF</U>, età)
+
+COMANDA (id_equipaggio, CF)
+- id_equipaggio: FK $\rightarrow$ EQUIPAGGIO.id_equipaggio
+- CF: FK $\rightarrow$ PILOTA.CF
+
+VOLO (<U>gate</U>, <U>ora</U>, destinazione, capacità_passeggeri)
+
+IMBARCA (<U>*id_equipaggio*</U>, <U>*gate*</U>, <U>*ora*</U>)
+- id_equipaggio: FK $\rightarrow$ EQUIPAGGIO.id_equipaggio
+- gate: FK $\rightarrow$ VOLO.gate
+- ora: FK $\rightarrow$ VOLO.ora
+
+AEROMOBILE (<U>id_aereo</U>)
+
+TRATTA (<U>*gate*</U>, <U>*ora*</U>, <U>*id_aereo*</U>)
+- gate: FK $\rightarrow$ VOLO.gate
+- ora: FK $\rightarrow$ VOLO.ora
+- id_aereo: FK $\rightarrow$ AEROMOBILE.id_aereo
+
+MODELLO (<U>nome_modello</U>, <U>azienda_costruttrice</U>, carico_max, persone_max)
+
+DI (<U>*id_aereo*</U>, <U>*nome_modello*</U>, <U>*azienda_costruttrice*</U>)
+- id_aereo: FK $\rightarrow$ AEROMOBILE.id_aereo
+- nome_modello: FK $\rightarrow$ MODELLO.nome_modello
+- azienda_costruttrice: FK $\rightarrow$ MODELLO.azienda_costruttrice
+
+SPECIFICHE_TECNICHE (<U>peso</U>, <U>apertura_alare</U>, <U>lunghezza</U>)
+
+CON (<U>*nome_modello*</U>, <U>*azienda_costruttrice*</U>, <U>*peso*</U>, <U>*apertura_alare*</U>, <U>*lunghezza*</U>)
+- nome_modello: FK $\rightarrow$ MODELLO.nome_modello
+- azienda_costruttrice: FK $\rightarrow$ MODELLO.azienda_costruttrice
+- peso: FK $\rightarrow$ SPECIFICHE_TECNICHE.peso
+- apertura_alare: FK $\rightarrow$ SPECIFICHE_TECNICHE.apertura_alare
+- lunghezza: FK $\rightarrow$ SPECIFICHE_TECNICHE.lunghezza
+
 
 
 ### 3.4 Vincoli di dominio 
@@ -253,13 +400,8 @@ Volo(**gate**, **ora**, destinazione, capacità_passeggeri)
 |      ~       |          ~           |   x >= 3    |   x > 0    | x > 0 |   x > 0   |     x > 0      |
 
 
-
-[//]: # (TODO:  Schema ER "finale" non e' effettivamente quello finale (generalizzazione e attributo composto)
-
-
 # Domande
 - Le operazioni che usiamo per l'analisi della ridondanza, vanno implementate o no? (file lezione1, slide 15)
 - Come fare lo schema relazionale? (tabelle?)
-- A ogni entita' va associata una tabella? (come dice Stan)
 - Nell'analisi di ridondanza le operazioni sono corrette
 - Sinonimi nel glossario possono essere tolti?
