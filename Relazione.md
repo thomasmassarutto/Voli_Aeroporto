@@ -24,25 +24,68 @@ Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo
 | Azienda_costruttrice | Azienda che costruisce modelli di aeromobili            |    ~     |             Modello             |
 
 
-### 1.3 Scopo
-Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi
-ai voli, all’equipaggio e agli aeromobili che effettuano i voli.
+### 1.3 Specifiche sui dati
+|                                                                            Frasi di carattere generale                                                                            |
+|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Si vuole realizzare una basi di dati per un piccolo aeroporto, del quale vogliamo rappresentare i dati relativi ai voli, all’equipaggio e agli aeromobili che effettuano i voli.  |
 
-### 1.4 Specifiche per entità
+|                                                                                                                                                                                                                        Frasi relative ai voli                                                                                                                                                                                                                         |
+|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Di ogni volo specifichiamo la destinazione e l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile utilizzato. Ogni volo ha orario di partenza e gate unici(cioè, che nessun altro volo può partire allo stesso orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico. |
 
-#### FRASI RELATIVE AI VOLI:
-Di ogni volo specifichiamo la destinazione e l’orario di partenza. Assumiamo inoltre, che ogni volo venga svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile utilizzato. Ogni volo ha orario di partenza e gate unici(cioè, che nessun altro volo può partire allo stesso orario sullo stesso gate e viceversa) e viene effettuato da un equipaggio specifico.
+|                                                                                                                                                          Frasi relative agli equipaggi                                                                                                                                                           |
+|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Ogni equipaggio è formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale. |
 
-#### FRASI RELATIVE AGLI EQUIPAGGI:
-Ogni equipaggio è formato da due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o uno steward devono essere sempre presenti. Identifichiamo gli equipaggi mediante idonei codici identificativi. Per hostess e steward rappresentiamo il codice fiscale, e per i piloti, l’età e il codice fiscale.
+|                                                                                                                                                                     Frasi relative agli aeromobili                                                                                                                                                                      |
+|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile effettua un unico volo al giorno. |
 
 
-#### FRASI RELATIVE AGLI AEROMOBILI:
-Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile effettua un unico volo al giorno.
+### 1.4 Specifiche sulle operazioni
 
+<br>
+
+_**Operazioni base**_
+
+1. **cambio_gate**
+    - Dato un volo sostituisce il numero del gate corrente con uno aggiornato (operazione da effettuare in media 2 volte al giorno)
+
+2. **cambio_aeromobile**
+    - Dato un volo sostituisce l'aeromobile assegnata alla tratta con un nuovo aeromobile (2 volte al giorno)
+
+3. **ricerca_voli_gate**
+    - Dato un gate restituisce l'elenco dei voli programmati in giornata (circe 1000 volte al giorno)
+
+4. **ricerca_voli_destinazione**
+    - Data una destinazione restituisce l'elenco dei voli che partono in giornata e la raggiungono (circa 5000 volte al giorno)
+
+5. **ricerca_voli_odierni**
+    - Restituisce l'elenco dei voli in partenza in giornata (5000 volte al giorno) 
+
+6. **elimina_volo**
+    - Dato un volo, lo elimina per sempre (2 volte al giorno)
+
+7. **Inserisci_volo**
+    - Inserisce un volo nel database (2 volte al giorno)
+
+<br>
+
+_**Operazioni complesse**_
+
+8. **Steward_Aerei_Pesanti**
+    - Il numero di steward che lavorano su voli che fanno tratte con aerei con peso almeno X e al massimo Y (operazione svolta 10 volte al giorno)
+
+9. **Aerei_Di_Linea**
+    - Gli aerei con "_persone_max_" minimo comandati da piloti con età compresa fra 30 e 60 inclusi (10 volte al giorno)
+
+10. **Piloti_Cargo**
+    - I piloti che comandano aerei con "carico_max" superiore a X e con un numero di assistenti inferiore a Y (10 volte al giorno)
 
 
 ## 2 Progettazione concettuale
+
+[//]: # (TODO: Forse sarebbe il caso di spendere due parole sulla strategia adoperata [top down, bottom up, inside out, mista])
 
 ### 2.1 Schema Entità-Relazioni
 
@@ -55,6 +98,17 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 
 #### Schema concettuale finale
 ![Schema ER finale](schemi/SchemaER_schema_finale.png)
+
+
+[//]: # (TODO: prima di passare oltre bisogna svolgere l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214])
+
+[//]: # (TODO: Bisogna descrivere le regole aziendali ed eventuali vincoli non espressi direttamente dallo schema)
+
+
+
+## 3 Progettazione logica
+
+[//]: # (TODO: Da rivedere questa prima parte)
 
 #### Vincoli d'integrità
 
@@ -95,41 +149,6 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 **capacità_passeggeri** = **MODELLO**(_persone_max_)- |nr. assistenti|
 
 
-### 2.2 Operazioni
-
-#### Operazioni base
-1. **cambio_gate**
-    - Dato un volo sostituisce il numero del gate corrente con uno aggiornato
-
-2. **cambio_aeromobile**
-    - Dato un volo sostituisce l'aeromobile assegnata alla tratta con un nuovo aeromobile
-
-3. **ricerca_voli_gate**
-    - Dato un gate restituisce l'elenco dei voli programmati in giornata
-
-4. **ricerca_voli_destinazione**
-    - Data una destinazione restituisce l'elenco dei voli che partono in giornata e la raggiungono
-
-5. **ricerca_voli_odierni**
-    - Restituisce l'elenco dei voli in partenza in giornata
-
-6. **elimina_volo**
-    - Dato un volo, lo elimina per sempre
-
-7. **Inserisci_volo**
-    - Inserisce un volo nel database
-
-#### Operazioni complesse
-8. **Steward_Aerei_Pesanti**
-    - Il numero di steward che lavorano su voli che fanno tratte con aerei con peso almeno X e al massimo Y
-
-9. **Aerei_Di_Linea**
-    - Gli aerei con "_persone_max_" minimo comandati da piloti con età compresa fra 30 e 60 inclusi
-
-10. **Piloti_Cargo**
-    - I piloti che comandano aerei con "carico_max" superiore a X e con un numero di assistenti inferiore a Y
-
-
 ### 2.3 Tabella dei volumi
 |  Concetto  |   Tipo    | Volume |
 |:----------:|:---------:|:------:|
@@ -147,22 +166,24 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 
 
 ### 2.4 Tabella delle frequenze
-| Operazione                 | Frequenza (giornaliera) |
-|:---------------------------|:-----------------------:|
-| Cambio Gate                |            2            |
-| Cambio Aereo               |            2            |
-| Ricerca Voli(gate)         |          1000           |
-| Ricerca Voli(Destinazione) |          5000           |
-| Ricerca Voli Odierni       |          5000           |
-| Elimina Volo               |            2            |
-| Inserisci Volo             |            2            |
-| N° Steward Aerei Pesanti   |           10            |
-| Aerei di Linea             |           10            |
-| Piloti Cargo               |           10            |
+| Operazione                 | Tipo        | Frequenza (giornaliera) |
+|:---------------------------|-------------|:-----------------------:|
+| Cambio Gate                | Interattiva |            2            |
+| Cambio Aereo               | Interattiva |            2            |
+| Ricerca Voli(gate)         | Interattiva |          1000           |
+| Ricerca Voli(Destinazione) | Interattiva |          5000           |
+| Ricerca Voli Odierni       | Interattiva |          5000           |
+| Elimina Volo               | Interattiva |            2            |
+| Inserisci Volo             | Interattiva |            2            |
+| N° Steward Aerei Pesanti   | Interattiva |           10            |
+| Aerei di Linea             | Interattiva |           10            |
+| Piloti Cargo               | Interattiva |           10            |
+
+[//]: # (TODO: Sarebbe il caso di trovare una funzione che non sia interattiva ma che sia batch [libro pag.233] )
 
 
 
-## 3 Progettazione logica
+
 
 ### 3.1 Analisi di ridondanza
 
@@ -276,8 +297,11 @@ Mantenere il dato comporta un costo finale di $105 \mu$ (vedi $EQ.1$),mentre ric
 [//]: # (NOTE: https://users.dimi.uniud.it/~luca.geatti/data/courses/2023/bdd-lab2023/atzeni_6e_slide_cap7.pptx)
 
 
-### 3.2 Reificazione dello schema ER
+### 3.2 Ristrutturazione dello schema E-R
 In questa fase della relazione discuteremo di come abbiamo modificato lo schema concettuale proposto, reiterando le parti di schema che non possono essere tradotte direttamente nello schema relazionale.
+
+[//]: # (TODO: L'analisi di ridondanza potrebbe essere inseirta qui)
+
 
 #### Assistente dell'equipaggio
 ![Schema ER finale](schemi/SchemaER_reificazione_assistente.png)
@@ -351,7 +375,7 @@ CON (<U>*nome_modello*</U>, <U>*azienda_costruttrice*</U>, <U>*peso*</U>, <U>*ap
 - apertura_alare: FK $\rightarrow$ SPECIFICHE_TECNICHE.apertura_alare
 - lunghezza: FK $\rightarrow$ SPECIFICHE_TECNICHE.lunghezza
 
-
+[//]: # (TODO: perche' le relazioni hanno come attributi le chiavi delle entita' che collegano? e perche' queste sono definite come foreign key?)
 
 ### 3.4 Vincoli di dominio 
 
@@ -372,3 +396,7 @@ CON (<U>*nome_modello*</U>, <U>*azienda_costruttrice*</U>, <U>*peso*</U>, <U>*ap
 - Come fare lo schema relazionale? (tabelle?)
 - Sinonimi nel glossario possono essere tolti?
 - Come decidiamo di scrivere la relazione? Word? md?
+
+
+
+ 
