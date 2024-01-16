@@ -19,7 +19,7 @@ Progettazione concettuale
 Progettazione Logica
    1. [ ] Analisi di ridondanza
    2. [x] Reificazione dello schema ER
-   3. [x] Schema relazionale
+   3. [ ] Schema relazionale
    4. [ ] Vincoli di dominio (NOT NULL, UNIQUE)
 Progettazione Fisica
    1. [ ] 4.1 ?
