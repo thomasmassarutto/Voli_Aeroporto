@@ -94,6 +94,7 @@ _**Operazioni complesse**_
 
 
 <br>
+<br>
 
 # 2 Progettazione concettuale
 
@@ -135,7 +136,7 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 
 
 
-
+<br>
 <br>
 
 # 3 Progettazione logica
@@ -169,9 +170,54 @@ _**Operazioni complesse**_
 3. **piloti_cargo**: I piloti che comandano aerei con "carico_max" superiore a X e con un numero di assistenti inferiore a Y
 
 
+<br>
+
+
 ## 3.2 Fase di ristrutturazione
 
-### 3.2.1 Analisi di ridondanza
+### 3.2.1 Tabella dei volumi
+
+|  Concetto  |   Tipo    | Volume |
+|:----------:|:---------:|:------:|
+| Aeromobile |  Entità   |   20   |
+| Assistente |  Entità   |   80   |
+| Equipaggio |  Entità   |   20   |
+|  Modello   |  Entità   |   10   |
+|   Pilota   |  Entità   |   40   |
+|    Volo    |  Entità   |   20   |
+|  Comanda   | Relazione |   40   |
+|  Compone   | Relazione |   80   |
+|     Di     | Relazione |   20   |
+|  Imbarca   | Relazione |   20   |
+|   Tratta   | Relazione |   20   |
+
+
+
+<br>
+
+
+
+### 3.2.2 Tabella delle frequenze
+| Operazione                 | Tipo        | Frequenza (giornaliera) |
+|:---------------------------|-------------|:-----------------------:|
+| Cambio Gate                | Interattiva |            2            |
+| Cambio Aereo               | Interattiva |            2            |
+| Ricerca Voli(gate)         | Interattiva |          1000           |
+| Ricerca Voli(Destinazione) | Interattiva |          5000           |
+| Ricerca Voli Odierni       | Interattiva |          5000           |
+| Elimina Volo               | Interattiva |            2            |
+| Inserisci Volo             | Interattiva |            2            |
+| N° Steward Aerei Pesanti   | Interattiva |           10            |
+| Aerei di Linea             | Interattiva |           10            |
+| Piloti Cargo               | Interattiva |           10            |
+
+[//]: # (TODO: Sarebbe il caso di trovare una funzione che non sia interattiva ma che sia batch [libro pag.233] )
+
+
+<br>
+
+
+### 3.2.3 Analisi di ridondanza
 
 [Analisi di ridondanza docs](https://docs.google.com/document/d/1nhvOKPnkAEypN998Kzv5q8iw8WVj2o3czqGw2cCtgTw/edit?usp=sharing)
 
@@ -222,16 +268,72 @@ Supponendo che la lettura del nostro database implichi una spesa pari alla metà
 
 #### Analisi dei costi
 
-##### Costo operazioni con ridondanza
+##### Tavola degli accessi in presenza di ridondanza
 
+<table>
+   <tr>
+        <th colspan="4">OP1</th>
+    </tr>
+   <tr>
+      <td><b>Concetto</b></td>
+      <td><b>Costrutto</b></td>
+      <td><b>Accessi</b></td>
+      <td><b>Tipo</b></td>
+   </tr>
+   <tr>
+      <td>Volo</td>
+      <td>E</td>
+      <td>1</td>
+      <td>S</td>
+   </tr>
+   <tr>
+      <td>Imbarca</td>
+      <td>R</td>
+      <td>1</td>
+      <td>L</td>
+   </tr>
+   <tr>
+      <td>Equipaggio</td>
+      <td>E</td>
+      <td>1</td>
+      <td>L</td>
+   </tr>
+   <tr>
+   </tr>
+</table>
+
+
+
+##### Tavola degli accessi in assenza di ridondanza
+<table>
+   <tr>
+      <th colspan="4">OP2</th>
+   </tr>
+   <tr>
+      <td><b>Concetto</b></td>
+      <td><b>Costrutto</b></td>
+      <td><b>Accessi</b></td>
+      <td><b>Tipo</b></td>
+   </tr>   
+   <tr></tr>
+   <tr></tr>
+   <tr></tr>
+   <tr></tr>
+</table>
+
+
+[//]: # (TODO: Finalizzare la tavola degli accessi e rifare l'analisi di ridondanza)
+
+
+##### Costo operazioni con ridondanza
 Nel contesto dello scenario che prevede l'utilizzo dell'attributo derivato, il costo per le due operazioni è così definito:
 
-$
+$$
 \begin{cases}
 cost(OP1CR)&=1W+2R+1R+2R+nR \\
 cost(OP2CR)&=1R
 \end{cases}
-$
+$$
 
 L'operazione $OP1_{CR}$ ha un costo iniziale di 1W, derivante dalla scrittura di un nuovo volo nella tabella "volo".
 Successivamente, l'operazione effettua due letture per ottenere la capacità massima di persone del modello di aeromobile associato a quel volo. Queste letture coinvolgono la tabella "aeromobile" e successivamente la tabella "modello".
@@ -241,7 +343,7 @@ L'operazione $OP2_{CR}$ ha un costo molto basso poiché legge direttamente l'att
 
 Il costo totale nel caso in cui è mantenuta la ridondanza risulta quindi:
 
-$
+$$
 \begin{equation}
 \begin{aligned}
 TOT_1 &=freq(OP1)cost(OP1_{CR})+freq(OP2)cost(OP2_{CR}) \\
@@ -251,26 +353,24 @@ TOT_1 &=freq(OP1)cost(OP1_{CR})+freq(OP2)cost(OP2_{CR}) \\
 &=105\mu \\
 \end{aligned}
 \end{equation}
-$
+$$
 
 ##### Costo operazioni senza ridondanza
-
 Nel contesto dello scenario in cui non si fa uso dell'attributo derivato, il costo per le due operazioni è il seguente:
 
-$
+$$
 \begin{cases}
 cost(OP1SR)=1W \\
 cost(OP2SR)=2R+1R+2R+nR
 \end{cases}
-$
-
+$$
 
 In questo caso, si nota che $OP1_{SR}$  ha un costo di 1W, dovuto alla scrittura del volo nella tabella "volo".
 
 L'operazione $OP2_{SR}$, al contrario, deve contare il numero del personale che compone l'equipaggio, seguendo lo stesso processo descritto nel caso con ridondanza.
 
 Il costo totale nel caso in cui viene eliminata la ridondanza risulta quindi:
-$
+$$
 \begin{equation}
 \begin{aligned}
 TOT_2&=freq(OP1)cost(OP1SR)+freq(OP2)cost(OP2SR)\\
@@ -279,64 +379,102 @@ TOT_2&=freq(OP1)cost(OP1SR)+freq(OP2)cost(OP2SR)\\
 &=460\mu\\
 \end{aligned}
 \end{equation}
-$
+$$
 
 <br>
 
-#### Conclusione analisi ridondanza
+#### Conclusione dell'analisi di ridondanza
 Dai calcoli effettuati, possiamo dedurre che in una giornata in cui vengono rispettate le frequenze assegnate, ovvero $freq(OP1)=5$ e $freq(OP2)=50$, risulta vantaggioso utilizzare l'approccio con ridondanza, in quanto abbatte il costo a circa un quarto del tempo utilizzato altrimenti.
 Mantenere il dato comporta un costo finale di $105 \mu$ (vedi $EQ.1$),mentre ricavarlo ogni volta costa $460 \mu$ (vedi $EQ.2$).
 
 <br>
 
+#### Ulteriori riflessioni
+
+Ora, mediante l'inclusione di un grafico, esamineremo quando conviene adottare un approccio rispetto all'altro. Considerando che la funzione che determina il costo complessivo delle operazioni dipende da due parametri, $freq(OP1)$ e $freq(OP2)$, abbiamo optato per fissare il valore della frequenza per la prima operazione, variando invece la frequenza della seconda. Questa scelta è motivata dal fatto che riteniamo la frequenza della seconda operazione più variabile rispetto alla prima.
+
+![Grafico di ridondanza f5](grafici/ridondanza_chart5.png)
+
+Dal grafico, è evidente che eliminare la ridondanza è conveniente solo quando la frequenza dell'operazione $OP2$ (richieste sulla capacità passeggeri di un volo) non supera le cinque occorrenze. Al di là di questo punto, diventa chiaro che il costo aumenta notevolmente, con un'incidenza molto maggiore rispetto all'approccio con ridondanza. Quest'ultimo mostra una tendenza quasi costante o, comunque, con un coefficiente angolare molto basso.
+
+Abbiamo osservato, inoltre, che il punto di intersezione delle due rette si verifica sempre in prossimità del valore sull'asse delle ascisse che scegliamo di impostare per la frequenza della prima operazione. Da ciò, possiamo generalizzare affermando che l'approccio con ridondanza risulta preferibile ogni volta che la frequenza delle richieste della capacità passeggeri supera quella degli inserimenti.
+
+Nel grafico seguente, è possibile osservare lo spostamento del punto di intersezione quando aumentiamo il valore della frequenza della prima operazione a $freq(OP1)=30$. Si nota che quanto appena affermato rimane valido, poiché il punto di intersezione si sposta approssimativamente a $30$ sull'asse delle ascisse. Facciamo notare inoltre che maggiore è il valore scelto per $freq(OP1)$, minore è il grado di correttezza di questa affermazione. Tuttavia, possiamo affermare che all'interno del nostro dominio di interesse, questa affermazione è veritiera.
+
+![Grafico di ridondanza f30](grafici/ridondanza_chart30.png)
+
+<br>
+
+#### Riflessioni finali
+In base ai calcoli condotti durante l'analisi di ridondanza e considerando la tabella delle frequenze che abbiamo ritenuto appropriata, possiamo affermare che, per questa specifica base di dati, è vantaggioso mantenere la ridondanza attraverso l'utilizzo dell'attributo derivato.
+
+Tuttavia, è fondamentale tenere presente che la soluzione con ridondanza comporta un aumento dello spazio di archiviazione, in quanto si aggiunge una colonna alla tabella dell'entità "volo". In situazioni in cui l'aeroporto gestisce un elevato numero di voli giornalieri, questo aspetto potrebbe non essere trascurabile e richiederebbe un'analisi ulteriore per valutare gli impatti sulla gestione dello spazio di archiviazione.
+
+
+
+<br>
+
+
+
+### 3.2.4 Ristrutturazione dello schema E-R
+In questa fase della relazione discuteremo di come abbiamo modificato lo schema concettuale proposto, reiterando le parti di schema che non possono essere tradotte direttamente nello schema relazionale.
+
+#### Assistente dell'equipaggio - Rimozione della generalizzazione
+![Schema ER finale](schemi/SchemaER_reificazione_assistente.png)
+
+Nel contesto dello schema Entity-Relationship (ER), è emersa la necessità di trattare una specializzazione di "assistente" attraverso le entità HOSTESS e STEWARD. Tuttavia, la trasposizione diretta di questa specializzazione in uno schema relazionale non è praticabile. Pertanto, si è optato per una connessione diretta delle entità HOSTESS e STEWARD all'entità EQUIPAGGIO.
+
+Tuttavia, questa scelta di modellazione comporta la perdita del vincolo precedentemente espresso dalla generalizzazione, il quale garantiva che ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD. Al fine di preservare tale vincolo nell'ambito dello schema relazionale, si è reso necessario introdurre un vincolo d'integrità esterno.
+
+**Vincolo d'integrità esterno**: ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD
+
+
+#### Modello di aeromobile - Rimozione dell'attributo multi valore
+![Schema ER finale](schemi/SchemaER_reificazione_modello.png)
+
+Per risolvere l'attributo composto denominato "specifiche tecniche", il quale raggruppava gli attributi "peso", "lunghezza" ed "apertura alare", si è deciso d'introdurre un'entità dedicata denominata "SPECIFICHE TECNICHE".
+
+La creazione di tale entità permette di gestire in modo più flessibile e strutturato le informazioni relative alle specifiche tecniche.
+
+Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
+
+#### Lo schema dopo la revisione
+![Schema ER finale reificato](schemi/SchemaER_reificazione_finale.png)
+
+
+[//]: # (TODO: Slide Modello Relazionale pag7 - Spiega che i vincoli di integrita' vanno collegati all'insieme di schemi di relazione [vincoli di integrita' = vincoli inter e intra relazionali] )
 
 
 
 
+<br>
 
-### 3.2.1 Tabella dei volumi
-
-|  Concetto  |   Tipo    | Volume |
-|:----------:|:---------:|:------:|
-| Aeromobile |  Entità   |   20   |
-| Assistente |  Entità   |   80   |
-| Equipaggio |  Entità   |   20   |
-|  Modello   |  Entità   |   10   |
-|   Pilota   |  Entità   |   40   |
-|    Volo    |  Entità   |   20   |
-|  Comanda   | Relazione |   40   |
-|  Compone   | Relazione |   80   |
-|     Di     | Relazione |   20   |
-|  Imbarca   | Relazione |   20   |
-|   Tratta   | Relazione |   20   |
-
-
-### 3.2.2 Tabella delle frequenze
-| Operazione                 | Tipo        | Frequenza (giornaliera) |
-|:---------------------------|-------------|:-----------------------:|
-| Cambio Gate                | Interattiva |            2            |
-| Cambio Aereo               | Interattiva |            2            |
-| Ricerca Voli(gate)         | Interattiva |          1000           |
-| Ricerca Voli(Destinazione) | Interattiva |          5000           |
-| Ricerca Voli Odierni       | Interattiva |          5000           |
-| Elimina Volo               | Interattiva |            2            |
-| Inserisci Volo             | Interattiva |            2            |
-| N° Steward Aerei Pesanti   | Interattiva |           10            |
-| Aerei di Linea             | Interattiva |           10            |
-| Piloti Cargo               | Interattiva |           10            |
-
-[//]: # (TODO: Sarebbe il caso di trovare una funzione che non sia interattiva ma che sia batch [libro pag.233] )
-
-
-
-### 3.2.X Eliminazione delle gerarchie
 
 
 
 ### 3.3 Traduzione verso il relazionale
 
 
-[//]: # (TODO: Al relazionale bisogna aggiungere i vincoli d'integrita' referenziale)
+#### 3.3.1 Modello relazionale
+
+| Costrutto           | Attributi                                                                                                                 |
+|---------------------|---------------------------------------------------------------------------------------------------------------------------|
+| HOSTESS             | <u>codice_fiscale</u>, {FK} id_equipaggio                                                                                 |
+| STEWARD             | <u>codice_fiscale</u>, {FK} id_equipaggio                                                                                 |
+| PILOTA              | <u>codice_fiscale</u>, eta', {FK} id_equipaggio                                                                           |
+| EQUIPAGGIO          | <u>id_equipaggio</u>                                                                                                      |
+| VOLO                | <u>gate</u>, <u>ora</u>, destinazione, capacita'_passeggeri, {FK} id_equipaggio, {FK} id_aereo                            |
+| AEROMOBILE          | <u>id_aereo</u>, {FK} nome_modello, {FK} azienda_costruttrice                                                             |
+| MODELLO             | <u>nome_modello</u>, <u>azienda_costruttrice</u>, carico_max, persone_max, {FK} peso, {FK} apertura_alare, {FK} lunghezza |
+| SPECIFICHE_TECNICHE | <u>peso</u>, <u>lunghezza</u>, <u>apertura_alare</u>                                                                      |
+
+<br>
+
+#### 3.3.2 Diagramma dei vincoli d'integrita' relazionale
+
+Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grassetto, le frecce indicano vincoli d'integrita' referenziale e la presenza di asterischi sui nomi di attributo indica la possiblita' di avere valori nulli.
+
+![Diagramma dei vincoli d'integrita' referenziale](schemi/diagramma_vincoli_referenziali.png)
 
 
 
@@ -346,6 +484,46 @@ Mantenere il dato comporta un costo finale di $105 \mu$ (vedi $EQ.1$),mentre ric
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+<br>
+<br>
+
+## 4 Progettazione fisica
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[//]: # (TODO: Bisogna capire cosa fare con questi elementi sotto, dove metterli come modificarli)
 
 #### Vincoli d'integrità
 
@@ -387,160 +565,6 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 
 
 
-
-
-
-
-
-### 3.1 Analisi di ridondanza
-
-
-
-Osservando lo schema della base di dati si nota come l'attributo "capacità_passeggeri" associato all'entità "VOLO", possa essere derivabile. Per valutare se convenga mantenere la ridondanza del dato, è stata condotta un'analisi di ridondanza.
-
-#### Scenari
-
-**Attributo derivato mantenuto**: il calcolo della capacità passeggeri avviene ogni volta che viene inserito un nuovo volo nella base di dati. Tuttavia, ogni successiva richiesta di capacità passeggeri verrà’ eseguita in tempo costante con una singola lettura.
-
-**Senza attributo derivato**: l'inserimento dei voli è rapido e avviene in tempo costante. Tuttavia, la richiesta di capacità passeggeri comporta il suo ricalcolo ogni volta, incidendo sulla velocità di risposta.
-
-#### Operazioni
-Le due operazioni prese in esame:
-
-**Operazione 1 (OP1)**: Inserimento di un nuovo volo nella base di dati.
-**Operazione 2 (OP2)**: Richiesta del numero di passeggeri che possono imbarcarsi su un dato volo.
-
-#### Volumi
-Durante il calcolo, è essenziale considerare anche il numero medio di assistenti per ogni volo. Consultando la tabella dei volumi, si nota che vengono svolti 20 voli in una giornata e gli assistenti che vengono imbarcati sono 80, ciò implica una media di 4 assistenti per volo.
-
-$n= \frac{assistenti}{voli}= \frac{80}{20}=4$
-
-Ulteriori dati relativi ai volumi utilizzati nei calcoli sono registrati nella tabella apposita.
-
-#### Frequenze
-Il numero delle frequenze giornaliere con le quali vengono svolte le operazioni deve essere anch'esso ragionevole. In questo caso si è ipotizzato l'inserimento di 5 voli al giorno e la richiesta dell'attributo 50 volte al giorno.
-
-- $freq(OP1)=5$ (vengono inseriti 5 voli al giorno)
-- $freq(OP2)=50$  (vengono fatte 50 richieste al giorno)
-
-#### Costi di lettura e scrittura
-Supponendo che la lettura del nostro database implichi una spesa pari alla metà di quella necessaria per una scrittura, i costi relativi sono:
-
-- $(read) 1R=1\mu$ 
-- $(write) 1W =2\mu$
-
-#### Analisi dei costi
-
-##### Costo operazioni con ridondanza
-
-
-
-Nel contesto dello scenario che prevede l'utilizzo dell'attributo derivato, il costo per le due operazioni è così definito:
-
-$
-
-\begin{cases} 
-
-cost(OP1CR)&=1W+2R+1R+2R+nR \\
-
-cost(OP2CR)&=1R
-
-\end{cases}
-
-$
-
-L'operazione $OP1_{CR}$ ha un costo iniziale di 1W, derivante dalla scrittura di un nuovo volo nella tabella "volo". 
-Successivamente, l'operazione effettua due letture per ottenere la capacità massima di persone del modello di aeromobile associato a quel volo. Queste letture coinvolgono la tabella "aeromobile" e successivamente la tabella "modello". 
-Infine, l'operazione conta il numero del personale che compone l'equipaggio, leggendo la tabella “equipaggio”, dove conta 2 piloti e $n$ assistenti.
-
-L'operazione $OP2_{CR}$ ha un costo molto basso poiché legge direttamente l'attributo derivato presente nella tabella "voli".
-
-Il costo totale nel caso in cui è mantenuta la ridondanza risulta quindi: 
-
-$
-\begin{equation}
-\begin{aligned}
-TOT_1 &=freq(OP1)cost(OP1_{CR})+freq(OP2)cost(OP2_{CR}) \\
-&=5(1W+5R+nR)+50(1R) \\
-&=5(2+5+4)+50(1) \\
-&=10+25+20 +50 \\
-&=105\mu \\
-\end{aligned}
-\end{equation}
-$
-
-
-##### Costo operazioni senza ridondanza
-
-Nel contesto dello scenario in cui non si fa uso dell'attributo derivato, il costo per le due operazioni è il seguente:
-
-$
-\begin{cases}
-cost(OP1SR)=1W \\
-cost(OP2SR)=2R+1R+2R+nR
-\end{cases}
-$
-
-
-In questo caso, si nota che $OP1_{SR}$  ha un costo di 1W, dovuto alla scrittura del volo nella tabella "volo".
-
-L'operazione $OP2_{SR}$, al contrario, deve contare il numero del personale che compone l'equipaggio, seguendo lo stesso processo descritto nel caso con ridondanza.
-
-Il costo totale nel caso in cui viene eliminata la ridondanza risulta quindi:
-$
-\begin{equation}
-\begin{aligned}
-TOT_2&=freq(OP1)cost(OP1SR)+freq(OP2)cost(OP2SR)\\ 
-&=5(1W)+50(2R+1R+2R+nR) \\
-&=5(2)+50(5+4)=10+250+200\\
-&=460\mu\\
-\end{aligned}
-\end{equation}
-$
-
-#### Conclusione analisi ridondanza
-Dai calcoli effettuati, possiamo dedurre che in una giornata in cui vengono rispettate le frequenze assegnate, ovvero $freq(OP1)=5$ e $freq(OP2)=50$, risulta vantaggioso utilizzare l'approccio con ridondanza, in quanto abbatte il costo a circa un quarto del tempo utilizzato altrimenti.
-Mantenere il dato comporta un costo finale di $105 \mu$ (vedi $EQ.1$),mentre ricavarlo ogni volta costa $460 \mu$ (vedi $EQ.2$).
-
-#### Predizioni
-[//]: # (NOTE: aggiungi i grafici)
-
-[//]: # (NOTE: https://users.dimi.uniud.it/~luca.geatti/data/courses/2023/bdd-lab2023/atzeni_6e_slide_cap7.pptx)
-
-
-### 3.2 Ristrutturazione dello schema E-R
-In questa fase della relazione discuteremo di come abbiamo modificato lo schema concettuale proposto, reiterando le parti di schema che non possono essere tradotte direttamente nello schema relazionale.
-
-[//]: # (TODO: L'analisi di ridondanza potrebbe essere inseirta qui)
-
-
-#### Assistente dell'equipaggio - Rimozione della generalizzazione
-![Schema ER finale](schemi/SchemaER_reificazione_assistente.png)
-
-Nel contesto dello schema Entity-Relationship (ER), è emersa la necessità di trattare una specializzazione di "assistente" attraverso le entità HOSTESS e STEWARD. Tuttavia, la trasposizione diretta di questa specializzazione in uno schema relazionale non è praticabile. Pertanto, si è optato per una connessione diretta delle entità HOSTESS e STEWARD all'entità EQUIPAGGIO.
-
-Tuttavia, questa scelta di modellazione comporta la perdita del vincolo precedentemente espresso dalla generalizzazione, il quale garantiva che ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD. Al fine di preservare tale vincolo nell'ambito dello schema relazionale, si è reso necessario introdurre un vincolo d'integrità esterno.
-
-**Vincolo d'integrità esterno**: ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD
-
-
-#### Modello di aeromobile - Rimozione dell'attributo multi valore
-![Schema ER finale](schemi/SchemaER_reificazione_modello.png)
-
-Per risolvere l'attributo composto denominato "specifiche tecniche", il quale raggruppava gli attributi "peso", "lunghezza" ed "apertura alare", si è deciso d'introdurre un'entità dedicata denominata "SPECIFICHE TECNICHE".
-
-La creazione di tale entità permette di gestire in modo più flessibile e strutturato le informazioni relative alle specifiche tecniche.
-
-Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
-
-#### Lo schema dopo la revisione
-![Schema ER finale reificato](schemi/SchemaER_reificazione_finale.png)
-
-
-[//]: # (TODO: Slide Modello Relazionale pag7 - Spiega che i vincoli di integrita' vanno collegati all'insieme di schemi di relazione [vincoli di integrita' = vincoli inter e intra relazionali] )
-
-
-
 ### 3.4 Vincoli di dominio 
 
 1. **VOLO**
@@ -558,9 +582,16 @@ Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazi
 
 
 
+
+
+
+
+
 # Domande
 - Sinonimi nel glossario possono essere tolti?
-- 
+- Discuti con il prof riguardo l'analisi di ridondanza 
+
+
 - Come decidiamo di scrivere la relazione? Word? md?
 
 
