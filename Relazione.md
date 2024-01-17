@@ -96,6 +96,9 @@ _**Operazioni complesse**_
 <br>
 <br>
 
+
+
+
 # 2 Progettazione concettuale
 
 [//]: # (TODO: Forse sarebbe il caso di spendere due parole sulla strategia adoperata [top down, bottom up, inside out, mista])
@@ -118,19 +121,43 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 [//]: # (TODO: Bisogna descrivere le regole aziendali ed eventuali vincoli non espressi direttamente dallo schema)
 
 
+<br>
 
 
 
+## 2.2 Documentazione schema E-R
 
 
+### 2.2.1 Dizionario dei dati
+|   Entità   | Descrizione                                            |                                        Attributi                                        |       Identificatore       |
+|:----------:|:-------------------------------------------------------|:---------------------------------------------------------------------------------------:|:--------------------------:|
+|    Volo    | Volo che parte ogni giorno alla stessa ora             |                     ora, destinazione, gate, _capacità\_passeggeri_                     |         gate, ora          |
+| Aeromobile | Aeromobile coinvolto nel volo                          |                                      id_assistente                                      |       id_assistente        |
+|  Modello   | Modello specifico dell'aeromobile                      | name, azienda, carico_max, persone_max, spec_tecniche (peso, lunghezza, apertura_alare) | nome, azienda_costruttrice |
+| Equipaggio | Equipaggio che imbarca l'aeromobile                    |                                      id_equipaggio                                      |       id_equipaggio        |
+|   Pilota   | Piloti che pilotano l'aeromobile                       |                                        id_pilota                                        |         id_pilota          |
+| Assistente | Assistente (steward e/o hostess) che assistono il volo |                                      id_assistente                                      |       id_assistente        |
+|  Steward   | Assistente maschile                                    |                                            ~                                            |             ~              |
+|  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~              |
 
 
+### 2.2.2 Regole di vincolo
+
+| Regole di vincolo                                                                                                                                                |     
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **(RV1)** - Il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aeromobile con cui volano. |
+| **(RV2)** - L'entità "EQUIPAGGIO" deve sempre includere almeno un membro fra hostess e steward.                                                                  |
+
+[//]: # (TODO: bisogna verificare se ci sono altri vincoli di integrita')
 
 
+### 2.2.3 Regole di derivazione
 
+| Regole di derivazione                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |     
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **(RD1)** - L'attributo "capacita'_passeggeri" in "VOLO" descrive la capacità massima di passeggeri imbarcabili da un aeromobile. Di un volo, si ricerca il modello dell'aeromobile, da cui si ottiene il numero massimo di persone che quell'aeromobile puo' trasportare usando l'attributo "persone_max". A questo valore viene sottratto il numero di assistenti che quel volo imbarca. In questo modo si puo' derivare l'attributo "capacita'_passeggeri". [ capacità_passeggeri = MODELLO(_persone_max_) - #assistenti |
 
-
-
+[//]: # (TODO: bisogna verificare se ci sono altre regole di derivazione)
 
 
 
@@ -138,6 +165,10 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 
 <br>
 <br>
+
+
+
+
 
 # 3 Progettazione logica
 
@@ -457,6 +488,8 @@ Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazi
 
 #### 3.3.1 Modello relazionale
 
+[//]: # (TODO: Bisogna segnare gli attributi che sono chiave alternativa con la sottolineatura tratteggiata)
+
 HOSTESS(<u>codice_fiscale</u>, id_equipaggio)
 
 |                       | key |  type  | unique |   null   |
@@ -532,7 +565,13 @@ SPECIFICHE_TECNICHE(<u>peso</u>, <u>apertura_alare</u>, <u>lunghezza</u>)
 | <u>apertura_alare</u> | PK  | INT  | UNIQUE | NOT NULL |
 |   <u>lunghezza</u>    | PK  | INT  | UNIQUE | NOT NULL |
 
+
+[//]: # (TODO: Qui vanno aggiunti tutti i vincoli intra relazionali e i vincoli inter relazionali)
+
+
 <br>
+
+
 
 #### 3.3.2 Diagramma dei vincoli d'integrita' relazionale
 
@@ -562,9 +601,11 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 <br>
 <br>
 
-## 4 Progettazione fisica
 
 
+
+
+# 4 Progettazione fisica
 
 
 
@@ -589,27 +630,7 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 [//]: # (TODO: Bisogna capire cosa fare con questi elementi sotto, dove metterli come modificarli)
 
-#### Vincoli d'integrità
 
-##### RV1 **Equipaggio non eccede persone_max**
-In ogni il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aeromobile.
-
-##### RV2 **Cardinalità hostess-steward**
-L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
-
-[//]: # (TODO: bisogna verificare se ci sono altri vincoli di integrita')
-
-#### Dizionario dei dati
-|   Entità   | Descrizione                                            |                                        Attributi                                        |       Identificatore       |
-|:----------:|:-------------------------------------------------------|:---------------------------------------------------------------------------------------:|:--------------------------:|
-|    Volo    | Volo che parte ogni giorno alla stessa ora             |                     ora, destinazione, gate, _capacità\_passeggeri_                     |         gate, ora          |
-| Aeromobile | Aeromobile coinvolto nel volo                          |                                      id_assistente                                      |       id_assistente        |
-|  Modello   | Modello specifico dell'aeromobile                      | name, azienda, carico_max, persone_max, spec_tecniche (peso, lunghezza, apertura_alare) | nome, azienda_costruttrice |
-| Equipaggio | Equipaggio che imbarca l'aeromobile                    |                                      id_equipaggio                                      |       id_equipaggio        |
-|   Pilota   | Piloti che pilotano l'aeromobile                       |                                        id_pilota                                        |         id_pilota          |
-| Assistente | Assistente (steward e/o hostess) che assistono il volo |                                      id_assistente                                      |       id_assistente        |
-|  Steward   | Assistente maschile                                    |                                            ~                                            |             ~              |
-|  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~              |
 
 #### Tabella di cardinalità delle relazioni
 |     E1     | Cardinalità |  Relazione  | Cardinalità |     E2     |
@@ -620,12 +641,6 @@ L'entità "EQUIPAGGIO" deve avere almeno uno fra hostess e steward.
 |   Pilota   |    (1,1)    | **Comanda** |    (2,2)    | Equipaggio |
 | Assistente |    (1,1)    | **Compone** |    (1,n)    | Equipaggio |
 
-#### Regole di derivazione
-
-##### RD1 **capacità passeggeri**
-L'attributo descrive la capacità massima di passeggeri imbarcabili da un aeromobile.
-Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ viene derivato in base all'attributo _persone_max_ di MODELLO meno numero di persone nell'equipaggio.
-**capacità_passeggeri** = **MODELLO**(_persone_max_)- |nr. assistenti|
 
 
 
@@ -655,6 +670,7 @@ Di un volo, si ricerca il modello dell'aeromobile, e _capacità passeggeri_ vien
 - Sinonimi nel glossario possono essere tolti?
 - Discuti con il prof riguardo l'analisi di ridondanza (costi degli accessi e quali accessi vengono fatti)
 - E1 (1,1) R (1,1) E2 , come si traduce in schema relazionale? perche' devo obbligare la partecipazione a entrambe le parti.  
+- cosa sono le chiavi alternative (dotted line)
 
 
 - Come decidiamo di scrivere la relazione? Word? md?
