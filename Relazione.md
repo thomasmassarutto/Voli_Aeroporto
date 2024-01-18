@@ -101,24 +101,36 @@ _**Operazioni complesse**_
 
 # 2 Progettazione concettuale
 
-[//]: # (TODO: Forse sarebbe il caso di spendere due parole sulla strategia adoperata [top down, bottom up, inside out, mista])
 
 ## 2.1 Schema Entità-Relazioni
 
-### Prima proposta
+### 2.1.1 Prima proposta
 ![Schema ER prototipo](schemi/SchemaER_proposta_aereo.png)
 
 La proposta iniziale del nostro schema Entità Relazione (ER) prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità. Tuttavia, abbiamo rapidamente constatato che questa approccio comportava un'eccessiva complessità dello schema, spingendoci a riconsiderare la progettazione.
 
 Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivisione delle caratteristiche dell'aeromobile in entità distinte. Invece, abbiamo scelto di collegare direttamente le entità "Azienda Costruttrice" e "Carico" all'entità "Aeromobile" come attributi. Questa decisione è stata presa al fine di razionalizzare la struttura complessiva dello schema, riducendo la complessità e facilitando la comprensione del modello dati.
 
-### Schema concettuale finale
+### 2.1.2 Schema concettuale finale
 ![Schema ER finale](schemi/SchemaER_schema_finale.png)
 
 
-[//]: # (TODO: prima di passare oltre bisogna svolgere l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214])
 
-[//]: # (TODO: Bisogna descrivere le regole aziendali ed eventuali vincoli non espressi direttamente dallo schema)
+
+
+### 2.1.3 Tabella di cardinalità delle relazioni
+
+|     E1     | Cardinalità |  Relazione  | Cardinalità |     E2     |
+|:----------:|:-----------:|:-----------:|:-----------:|:----------:|
+|    Volo    |    (1,1)    | **Imbarca** |    (1,1)    | Equipaggio |
+| Aeromobile |    (1,1)    | **Tratta**  |    (1,1)    |    Volo    |
+| Aeromobile |    (1,1)    |   **Di**    |    (1,n)    |  Modello   |
+|   Pilota   |    (1,1)    | **Comanda** |    (2,2)    | Equipaggio |
+| Assistente |    (1,1)    | **Compone** |    (1,n)    | Equipaggio |
+
+
+
+
 
 
 <br>
@@ -129,16 +141,17 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 
 
 ### 2.2.1 Dizionario dei dati
-|   Entità   | Descrizione                                            |                                        Attributi                                        |       Identificatore       |
-|:----------:|:-------------------------------------------------------|:---------------------------------------------------------------------------------------:|:--------------------------:|
-|    Volo    | Volo che parte ogni giorno alla stessa ora             |                     ora, destinazione, gate, _capacità\_passeggeri_                     |         gate, ora          |
-| Aeromobile | Aeromobile coinvolto nel volo                          |                                      id_assistente                                      |       id_assistente        |
-|  Modello   | Modello specifico dell'aeromobile                      | name, azienda, carico_max, persone_max, spec_tecniche (peso, lunghezza, apertura_alare) | nome, azienda_costruttrice |
-| Equipaggio | Equipaggio che imbarca l'aeromobile                    |                                      id_equipaggio                                      |       id_equipaggio        |
-|   Pilota   | Piloti che pilotano l'aeromobile                       |                                        id_pilota                                        |         id_pilota          |
-| Assistente | Assistente (steward e/o hostess) che assistono il volo |                                      id_assistente                                      |       id_assistente        |
-|  Steward   | Assistente maschile                                    |                                            ~                                            |             ~              |
-|  Hostess   | Assistente femminile                                   |                                            ~                                            |             ~              |
+|       Entità        | Descrizione                                            |                                                  Attributi                                                  |           Identificatore           |
+|:-------------------:|:-------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------:|:----------------------------------:|
+|        Volo         | Volo che parte ogni giorno alla stessa ora             |                               gate, ora, destinazione, _capacità\_passeggeri_                               |             gate, ora              |
+|     Aeromobile      | Aeromobile coinvolto nel volo                          |                                                  id_aereo                                                   |              id_aereo              |
+|       Modello       | Modello specifico dell'aeromobile                      | nome_modello, azienda_costruttrice, carico_max, persone_max, spec_tecniche(peso, lunghezza, apertura_alare) | nome_modello, azienda_costruttrice |
+|     Equipaggio      | Equipaggio che imbarca l'aeromobile                    |                                                id_equipaggio                                                |           id_equipaggio            |
+|       Pilota        | Piloti che pilotano l'aeromobile                       |                                            codice_fiscale, eta'                                             |           codice_fiscale           |
+|     Assistente      | Assistente (steward e/o hostess) che assistono il volo |                                               codice_fiscale                                                |           codice_fiscale           |
+|       Steward       | Assistente maschile                                    |                                                      ~                                                      |                 ~                  |
+|       Hostess       | Assistente femminile                                   |                                                      ~                                                      |                 ~                  |
+
 
 
 ### 2.2.2 Regole di vincolo
@@ -148,7 +161,6 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 | **(RV1)** - Il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aeromobile con cui volano. |
 | **(RV2)** - L'entità "EQUIPAGGIO" deve sempre includere almeno un membro fra hostess e steward.                                                                  |
 
-[//]: # (TODO: bisogna verificare se ci sono altri vincoli di integrita')
 
 
 ### 2.2.3 Regole di derivazione
@@ -157,7 +169,6 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **(RD1)** - L'attributo "capacita'_passeggeri" in "VOLO" descrive la capacità massima di passeggeri imbarcabili da un aeromobile. Di un volo, si ricerca il modello dell'aeromobile, da cui si ottiene il numero massimo di persone che quell'aeromobile puo' trasportare usando l'attributo "persone_max". A questo valore viene sottratto il numero di assistenti che quel volo imbarca. In questo modo si puo' derivare l'attributo "capacita'_passeggeri". [ capacità_passeggeri = MODELLO(_persone_max_) - #assistenti |
 
-[//]: # (TODO: bisogna verificare se ci sono altre regole di derivazione)
 
 
 
@@ -242,7 +253,6 @@ _**Operazioni complesse**_
 | Aerei di Linea             | Interattiva |           10            |
 | Piloti Cargo               | Interattiva |           10            |
 
-[//]: # (TODO: Sarebbe il caso di trovare una funzione che non sia interattiva ma che sia batch [libro pag.233] )
 
 
 <br>
@@ -488,7 +498,6 @@ Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazi
 
 #### 3.3.1 Modello relazionale
 
-[//]: # (TODO: Bisogna segnare gli attributi che sono chiave alternativa con la sottolineatura tratteggiata)
 
 HOSTESS(<u>codice_fiscale</u>, id_equipaggio)
 
@@ -566,7 +575,9 @@ SPECIFICHE_TECNICHE(<u>peso</u>, <u>apertura_alare</u>, <u>lunghezza</u>)
 |   <u>lunghezza</u>    | PK  | INT  | UNIQUE | NOT NULL |
 
 
-[//]: # (TODO: Qui vanno aggiunti tutti i vincoli intra relazionali e i vincoli inter relazionali)
+<br>
+
+
 
 
 <br>
@@ -632,17 +643,6 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 
 
-#### Tabella di cardinalità delle relazioni
-|     E1     | Cardinalità |  Relazione  | Cardinalità |     E2     |
-|:----------:|:-----------:|:-----------:|:-----------:|:----------:|
-|    Volo    |    (1,1)    | **Imbarca** |    (1,1)    | Equipaggio |
-| Aeromobile |    (1,1)    | **Tratta**  |    (1,1)    |    Volo    |
-| Aeromobile |    (1,1)    |   **Di**    |    (1,n)    |  Modello   |
-|   Pilota   |    (1,1)    | **Comanda** |    (2,2)    | Equipaggio |
-| Assistente |    (1,1)    | **Compone** |    (1,n)    | Equipaggio |
-
-
-
 
 ### 3.4 Vincoli di dominio 
 
@@ -667,13 +667,24 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 
 # Domande
-- Sinonimi nel glossario possono essere tolti?
 - Discuti con il prof riguardo l'analisi di ridondanza (costi degli accessi e quali accessi vengono fatti)
 - E1 (1,1) R (1,1) E2 , come si traduce in schema relazionale? perche' devo obbligare la partecipazione a entrambe le parti.  
 - cosa sono le chiavi alternative (dotted line)
+- discutere della strategia (top down,inside out,...)
+- e' leggibile lo schema relazionale e i vincoli di dominio
+- vincoli intra e inter relazionali?
+- progettazione fisica ?
+- 
 
 
-- Come decidiamo di scrivere la relazione? Word? md?
+
+
+
+
+IF
+- Prima di passare oltre bisogna svolgere l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214]
+
+
 
 
 
