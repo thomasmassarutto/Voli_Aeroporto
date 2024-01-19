@@ -11,17 +11,17 @@
         1. [X] 2.1.1 Prima revisione Schema ER
         2. [X] 2.1.2 Schema ER Finale
         3. [X] 2.1.3 Tabella delle cardinalità
-    2. [ ] 2.2 Documentazione schema ER
+    2. [x] 2.2 Documentazione schema ER
         1. [x] 2.2.1 Dizionario dei dati
-        2. [ ] 2.2.2 Regole di vincolo /
-        3. [ ] 2.2.3 Regole di derivazione /
+        2. [X] 2.2.2 Regole di vincolo
+        3. [x] 2.2.3 Regole di derivazione | MOD. DATE 19/01/2024
 
 3. Progettazione Logica
     1. [x] 3.1 Operazioni
-    2. [ ] 3.2 Ristrutturazione dello schema ER
+    2. [x] 3.2 Ristrutturazione dello schema ER
         1. [X] 3.2.1 Tabelle dei volumi
         2. [X] 3.2.2 Tabelle delle frequenze
-        3. [ ] 3.2.3 Analisi ridondanza /
+        3. [x] 3.2.3 Analisi ridondanza
         4. [x] 3.2.4 Ristrutturazione schema ER
     3. [ ] 3.3 Schema relazionale
         1. [ ] 3.3.1 Modello relazionale /
