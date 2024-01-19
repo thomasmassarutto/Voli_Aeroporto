@@ -8,7 +8,7 @@
 
 2. Progettazione concettuale
     1. [ ] 2.1 Schema ER
-        1. [ ] 2.1.1 Proposta Schema ER /
+        1. [ ] 2.1.1 Prima revisione Schema ER /
         2. [X] 2.1.2 Schema ER Finale
         3. [X] 2.1.3 Tabella delle cardinalità
     2. [ ] 2.2 Documentazione schema ER
