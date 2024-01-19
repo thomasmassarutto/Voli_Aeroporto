@@ -97,8 +97,8 @@ La proposta iniziale del nostro schema _ER_ prevedeva la suddivisione delle cara
 
 Tuttavia questo approccio comportava un'eccessiva complessità dello schema, per cui abbiamo deciso di scartare questa proposta.
 
-### 2.1.2 Schema ER finale
-![Schema ER finale](schemi/SchemaER_finale.png)
+### 2.1.2 Schema ER 
+![Schema ER finale](schemi/SchemaER.png)
 
 La suddivisione delle caratteristiche dell'aeromobile in entità distinte è stata eliminata a favore di un'entità _MODELLO_ con attributi singoli _nome\_modello_,  _casa\_costruttrice_, _carico\_max_ e  _persone\_max_, mentre _peso_, _lunghezza_ e _apertura\_alare_ sono stati inglobati nell'attributo composto _specifiche\_tecniche_
 
@@ -122,6 +122,9 @@ in cui:
 - $persone\_max$: numero massimo di persone trasportabili dal modello (_MODELLO.persone\_max_)
 - $|EQUIPAGGIO|$: cardinalità di persone imbarcate come equipaggio dell'aereo
 - $|PILOTI|$: cardinalità dei piloti, in questo caso sempre 2
+
+
+<br>
 
 ### 2.1.3 Tabella di cardinalità delle relazioni
 
@@ -188,15 +191,6 @@ in cui:
 
 
 # 3 Progettazione logica
-
-[//]: # (TODO: Da rivedere questa prima parte)
-
-
-[//]: # (TODO: Progettazione Logica slide 6
-            - schema di navigazione
-            - tabella degli accessi [vanno aggiunte all'analisi di ridondanza]
-            )
-
 
 ## 3.1 Operazioni
 
@@ -461,7 +455,7 @@ Nel contesto dello schema Entity-Relationship (ER), è emersa la necessità di t
 
 Tuttavia, questa scelta di modellazione comporta la perdita del vincolo precedentemente espresso dalla generalizzazione, il quale garantiva che ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD. Al fine di preservare tale vincolo nell'ambito dello schema relazionale, si è reso necessario introdurre un vincolo d'integrità esterno.
 
-**Vincolo d'integrità esterno**: ogni istanza di EQUIPAGGIO dovesse includere almeno un'istanza tra HOSTESS e STEWARD
+**Vincolo d'integrità esterno**: ogni istanza di EQUIPAGGIO deve includere almeno un'istanza tra HOSTESS e STEWARD
 
 
 #### Modello di aeromobile - Rimozione dell'attributo multi valore
@@ -471,20 +465,17 @@ Per risolvere l'attributo composto denominato "specifiche tecniche", il quale ra
 
 La creazione di tale entità permette di gestire in modo più flessibile e strutturato le informazioni relative alle specifiche tecniche.
 
-Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
+Le due entità MODELLO e SPECIFICHE_TECNICHE sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
 
 #### Lo schema dopo la revisione
 ![Schema ER finale reificato](schemi/SchemaER_reificazione_finale.png)
 
 
-[//]: # (TODO: Slide Modello Relazionale pag7 - Spiega che i vincoli di integrita' vanno collegati all'insieme di schemi di relazione [vincoli di integrita' = vincoli inter e intra relazionali] )
 
 
 
 
 <br>
-
-
 
 
 ### 3.3 Traduzione verso il relazionale
@@ -493,53 +484,49 @@ Le due entità MODELLO e SPEC. TEC. sono in relazione one-to-many. Questa relazi
 #### 3.3.1 Modello relazionale
 
 
-HOSTESS(<u>codice_fiscale</u>, id_equipaggio)
+- HOSTESS(<u>codice_fiscale</u>, id_equipaggio)
 
 |                       | key |  type  | unique |   null   |
 |:---------------------:|:---:|:------:|:------:|:--------:|
 | <u>codice_fiscale</u> | PK  | STRING | UNIQUE | NOT NULL |
 |     id_equipaggio     | FK  | STRING |        | NOT NULL |
 
-STEWARD(<u>codice_fiscale</u>, id_equipaggio)
+- STEWARD(<u>codice_fiscale</u>, id_equipaggio)
 
 |                       | key |  type  | unique |   null   |
 |:---------------------:|:---:|:------:|:------:|:--------:|
 | <u>codice_fiscale</u> | PK  | STRING | UNIQUE | NOT NULL |
 |     id_equipaggio     | FK  | STRING |        | NOT NULL |
 
-EQUIPAGGIO(<u>id_equipaggio</u>, pilota1, pilota2 )
+- EQUIPAGGIO(<u>id_equipaggio</u>)
 
 |                      | key |  type  | unique |   null   |
 |:--------------------:|:---:|:------:|:------:|:--------:|
 | <u>id_equipaggio</u> | PK  | STRING | UNIQUE | NOT NULL |
-|       pilota1        | FK  | STRING | UNIQUE | NOT NULL |
-|       pilota2        | FK  | STRING | UNIQUE | NOT NULL |
-
-Vincolo: pilota1 e pilota2 sono diversi
-
-[//]: # (TODO: Questo vincolo va rivisto)
 
 
-PILOTA(<u>codice_fiscale</u>, età)
+- PILOTA(<u>codice_fiscale</u>, età)
 
 |                       | key |  type  | unique |   null   |
 |:---------------------:|:---:|:------:|:------:|:--------:|
 | <u>codice_fiscale</u> | PK  | STRING | UNIQUE | NOT NULL |
-|          età          | ATT |  INT   |        |          |
+|          età          | ATT |  INT   |        | NOT NULL |
+|     id_equipaggio     | FK  | STRING |        | NOT NULL |
 
 
-VOLO(<u>gate</u>, <u>ora</u>, destinazione, capacità_passeggeri, id_aereo, id_equipaggio)
+
+- VOLO(<u>gate</u>, <u>ora</u>, destinazione, capacità_passeggeri, id_aereo, id_equipaggio)
 
 |                     | key |  type  | unique |   null   |
 |:-------------------:|:---:|:------:|:------:|:--------:|
 |     <u>gate</u>     | PK  |  INT   | UNIQUE | NOT NULL |
 |     <u>ora</u>      | PK  | STRING | UNIQUE | NOT NULL |
-|    destinazione     | ATT | STRING |        | NOT NULL |
+|    destinazione     | ATT | STRING |        | NOT NULL | 
 | capacità_passeggeri | ATT |  INT   |        | NOT NULL |
 |      id_aereo       | FK  | STRING | UNIQUE | NOT NULL |
 |    id_equipaggio    | FK  | STRING | UNIQUE | NOT NULL |
 
-AEROMOBILE(<u>id_aereo</u>, nome_modello, azienda_costruttrice)
+- AEROMOBILE(<u>id_aereo</u>, nome_modello, azienda_costruttrice)
 
 |                 | key |  type  | unique |   null   |
 |:---------------:|:---:|:------:|:------:|:--------:|
@@ -547,7 +534,7 @@ AEROMOBILE(<u>id_aereo</u>, nome_modello, azienda_costruttrice)
 |  nome_modello   | FK  | STRING |        | NOT NULL |
 |     azienda     | FK  | STRING |        | NOT NULL |
 
-MODELLO(<u>nome_modello</u>, <u>azienda_costruttrice</u>, carico_max, persone_max, peso, apertura_alare, lunghezza)
+- MODELLO(<u>nome_modello</u>, <u>azienda_costruttrice</u>, carico_max, persone_max, peso, apertura_alare, lunghezza)
 
 |                             | key |  type  | unique |   null   |
 |:---------------------------:|:---:|:------:|:------:|:--------:|
@@ -560,7 +547,7 @@ MODELLO(<u>nome_modello</u>, <u>azienda_costruttrice</u>, carico_max, persone_ma
 |          lunghezza          | FK  |  INT   |        | NOT NULL |
 
 
-SPECIFICHE_TECNICHE(<u>peso</u>, <u>apertura_alare</u>, <u>lunghezza</u>)
+- SPECIFICHE_TECNICHE(<u>peso</u>, <u>apertura_alare</u>, <u>lunghezza</u>)
 
 |                       | key | type | unique |   null   |
 |:---------------------:|:---:|:----:|:------:|:--------:|
@@ -572,24 +559,50 @@ SPECIFICHE_TECNICHE(<u>peso</u>, <u>apertura_alare</u>, <u>lunghezza</u>)
 <br>
 
 
+#### 3.3.2 Vincoli d'integrita'
+
+PILOTA
+
+$$
+\begin{cases}
+   \forall \space x,y,z \in PILOTA \quad | \quad x \neq y \neq z \space \wedge \space x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \implies x.id\textunderscore equipaggio \neq z.id\textunderscore equipaggio \\
+   \exists \space x,y \in PILOTA \quad | \quad x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
+\end{cases}
+$$
+
+
+EQUIPAGGIO
+
+- Ogni EQUIPAGGIO deve essere collegato ad almeno uno tra HOSTESS e STEWARD
+- Ogni EQUIPAGGIO deve essere collegato a esattamente due PILOTI
+- Ogni EQUIPAGGIO deve essere collegato a un VOLO
+
+
+AEROMOBILE
+
+- Ogni AEROMOBILE deve essere collegata a un VOLO
+
+
+MODELLO
+
+- Ogni MODELLO deve essere collegato a un AEROMOBILE 
+
+
+SPECIFICHE TECNICHE
+
+- Ogni SPECIFICA TECNICA deve essere collegata a un MODELLO
+
 
 
 <br>
 
 
 
-#### 3.3.2 Diagramma dei vincoli d'integrita' relazionale
+#### 3.3.2 Diagramma dei vincoli d'integrita' referenziale
 
 Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grassetto, le frecce indicano vincoli d'integrita' referenziale e la presenza di asterischi sui nomi di attributo indica la possiblita' di avere valori nulli.
 
 ![Diagramma dei vincoli d'integrita' referenziale](schemi/diagramma_vincoli_referenziali.png)
-
-
-
-
-
-
-
 
 
 
@@ -631,23 +644,18 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 
 # TODO
-- Risolvere Pilota -> Equipaggio
-- Aggiungi vincoli per le relazioni con cardilita' (1,1) - (1,1)
+- Togliere tutti i costrutti HTML e sostituirli con Latex
+- Assicurarsi che tutte le immagini rispettino i nomi degli attributi corretti, i nomi delle entita' e la cardinalita' delle relazioni
+- Cerca UNIQUE(2) per PILOTA
 
 
 # Domande
-- E1 (1,1) R (1,1) E2 , come si traduce in schema relazionale? perche' devo obbligare la partecipazione a entrambe le parti.  
-- vincoli intra e inter relazionali?
+- Chiedi se gli attributi che non sono ne PK che FK possono essere NULL o meno
+- Chiedi cosa ne pensa il prof del diagramma dei vincoli d'integrita' referenziale
 
 
-
-- Cerca UNIQUE(2) per PILOTA
-- Scrivete la strategia che avete usato (top down)
-
-
-
-IF
-- Prima di passare oltre bisogna svolgere l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214]
+# Bonus
+- Svolgi l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214]
 
 
 
