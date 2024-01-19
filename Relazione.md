@@ -117,7 +117,6 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 
 
 
-
 ### 2.1.3 Tabella di cardinalità delle relazioni
 
 |     E1     | Cardinalità |  Relazione  | Cardinalità |     E2     |
@@ -165,9 +164,10 @@ Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivis
 
 ### 2.2.3 Regole di derivazione
 
-| Regole di derivazione                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |     
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **(RD1)** - L'attributo "capacita'_passeggeri" in "VOLO" descrive la capacità massima di passeggeri imbarcabili da un aeromobile. Di un volo, si ricerca il modello dell'aeromobile, da cui si ottiene il numero massimo di persone che quell'aeromobile puo' trasportare usando l'attributo "persone_max". A questo valore viene sottratto il numero di assistenti che quel volo imbarca. In questo modo si puo' derivare l'attributo "capacita'_passeggeri". [ capacità_passeggeri = MODELLO(_persone_max_) - #assistenti |
+| Regole di derivazione                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |     
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **(RD1)** - L'attributo "capacita'_passeggeri" in "VOLO" descrive la capacità massima di passeggeri imbarcabili da un aeromobile. Per derivarlo, di un volo, si ricerca il modello dell'aeromobile, da cui si ottiene il numero massimo di persone che quell'aeromobile puo' trasportare usando l'attributo "persone_max". A questo valore viene sottratto il numero di assistenti che quel volo imbarca. In questo modo si puo' derivare l'attributo "capacita'_passeggeri". [ capacità_passeggeri = MODELLO(_persone_max_) - #assistenti |
+| **(RD2)** - L'attributo "eta'" in "PILOTA" indica l'eta' del pilota.                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
 
 
@@ -283,7 +283,7 @@ Le due operazioni prese in esame:
 <br>
 
 #### Volumi
-Durante il calcolo, è essenziale considerare anche il numero medio di assistenti per ogni volo. Consultando la tabella dei volumi, si nota che vengono svolti 20 voli in una giornata e gli assistenti che vengono imbarcati sono 80, ciò implica una media di 4 assistenti per volo.
+Durante il calcolo, è essenziale considerare anche il numero medio di assistenti per ogni volo. Consultando la tabella dei volumi, si nota che vengono svolti 20 voli in una giornata e gli assistenti nella base di dati sono 80, ciò implica una media di 4 assistenti per volo.
 
 $n= \frac{assistenti}{voli}= \frac{80}{20}=4$
 
@@ -292,7 +292,7 @@ Ulteriori dati relativi ai volumi utilizzati nei calcoli sono registrati nella t
 <br>
 
 #### Frequenze
-Il numero delle frequenze giornaliere con le quali vengono svolte le operazioni deve essere anch'esso ragionevole. In questo caso si è ipotizzato l'inserimento di 5 voli al giorno e la richiesta dell'attributo 50 volte al giorno.
+Il numero delle frequenze giornaliere con le quali vengono svolte le operazioni deve anch'esso essere ragionevole. In questo caso, si è ipotizzato l'inserimento di 5 voli al giorno e la richiesta del numero di passeggeri per ogni volo, 50 volte al giorno.
 
 - $freq(OP1)=5$ (vengono inseriti 5 voli al giorno)
 - $freq(OP2)=50$  (vengono fatte 50 richieste al giorno)
@@ -300,7 +300,7 @@ Il numero delle frequenze giornaliere con le quali vengono svolte le operazioni 
 <br>
 
 #### Costi di lettura e scrittura
-Supponendo che la lettura del nostro database implichi una spesa pari alla metà di quella necessaria per una scrittura, i costi relativi sono:
+Supponendo che la lettura della nostra base di dati implichi una spesa pari alla metà di quella necessaria per una scrittura, i costi relativi sono:
 
 - $(read) 1R=1\mu$
 - $(write) 1W =2\mu$
@@ -311,59 +311,46 @@ Supponendo che la lettura del nostro database implichi una spesa pari alla metà
 
 ##### Tavola degli accessi in presenza di ridondanza
 
-<table>
-   <tr>
-        <th colspan="4">OP1</th>
-    </tr>
-   <tr>
-      <td><b>Concetto</b></td>
-      <td><b>Costrutto</b></td>
-      <td><b>Accessi</b></td>
-      <td><b>Tipo</b></td>
-   </tr>
-   <tr>
-      <td>Volo</td>
-      <td>E</td>
-      <td>1</td>
-      <td>S</td>
-   </tr>
-   <tr>
-      <td>Imbarca</td>
-      <td>R</td>
-      <td>1</td>
-      <td>L</td>
-   </tr>
-   <tr>
-      <td>Equipaggio</td>
-      <td>E</td>
-      <td>1</td>
-      <td>L</td>
-   </tr>
-   <tr>
-   </tr>
-</table>
+_OP1_
+
+| Concetto   | Costrutto | Accessi | Tipo |
+|------------|:---------:|:-------:|:----:|
+| Volo       |     E     |    1    |  W   |
+| Aeromobile |     E     |    1    |  R   |
+| Modello    |     E     |    1    |  R   |
+| Equipaggio |     E     |    1    |  R   |
+| Assistente |     E     |    4    |  R   |
 
 
+_OP2_
+
+| Concetto   | Costrutto | Accessi | Tipo |
+|------------|:---------:|:-------:|:----:|
+| Volo       |     E     |    1    |  R   |
+
+<br>
 
 ##### Tavola degli accessi in assenza di ridondanza
-<table>
-   <tr>
-      <th colspan="4">OP2</th>
-   </tr>
-   <tr>
-      <td><b>Concetto</b></td>
-      <td><b>Costrutto</b></td>
-      <td><b>Accessi</b></td>
-      <td><b>Tipo</b></td>
-   </tr>   
-   <tr></tr>
-   <tr></tr>
-   <tr></tr>
-   <tr></tr>
-</table>
+
+_OP1_
+
+| Concetto   | Costrutto | Accessi | Tipo |
+|------------|:---------:|:-------:|:----:|
+| Volo       |     E     |    1    |  W   |
 
 
-[//]: # (TODO: Finalizzare la tavola degli accessi e rifare l'analisi di ridondanza)
+_OP2_
+
+| Concetto   | Costrutto | Accessi | Tipo |
+|------------|:---------:|:-------:|:----:|
+| Volo       |     E     |    1    |  R   |
+| Aeromobile |     E     |    1    |  R   |
+| Modello    |     E     |    1    |  R   |
+| Equipaggio |     E     |    1    |  R   |
+| Assistente |     E     |    4    |  R   |
+
+
+<br>
 
 
 ##### Costo operazioni con ridondanza
@@ -371,27 +358,25 @@ Nel contesto dello scenario che prevede l'utilizzo dell'attributo derivato, il c
 
 $$
 \begin{cases}
-cost(OP1CR)&=1W+2R+1R+2R+nR \\
+cost(OP1CR)&=1W+2R+1R+nR \\
 cost(OP2CR)&=1R
 \end{cases}
 $$
 
-L'operazione $OP1_{CR}$ ha un costo iniziale di 1W, derivante dalla scrittura di un nuovo volo nella tabella "volo".
-Successivamente, l'operazione effettua due letture per ottenere la capacità massima di persone del modello di aeromobile associato a quel volo. Queste letture coinvolgono la tabella "aeromobile" e successivamente la tabella "modello".
-Infine, l'operazione conta il numero del personale che compone l'equipaggio, leggendo la tabella “equipaggio”, dove conta 2 piloti e $n$ assistenti.
+L'operazione $OP1_{CR}$ (con ridondanza) ha un costo iniziale di 1W, derivante dalla scrittura di un nuovo volo nell'entità "VOLO". Successivamente, l'operazione effettua due letture per ottenere la capacità massima di persone del modello di aeromobile associato a quel volo. Queste letture coinvolgono prima l'entità "AEROMOBILE" e successivamente l'entità "MODELLO". Infine, l'operazione determina il numero del personale che compone l'equipaggio, leggendo l'entità "EQUIPAGGIO" e gli $n$ assistenti associati a tale equipaggio. È importante notare che l'equipaggio è sempre composto da esattamente due piloti, evitando quindi ulteriori letture per questa categoria di personale..
 
-L'operazione $OP2_{CR}$ ha un costo molto basso poiché legge direttamente l'attributo derivato presente nella tabella "voli".
+L'operazione $OP2_{CR}$ ha un costo molto basso poiché legge direttamente l'attributo derivato presente nell'entità "VOLI".
 
 Il costo totale nel caso in cui è mantenuta la ridondanza risulta quindi:
 
 $$
 \begin{equation}
 \begin{aligned}
-TOT_1 &=freq(OP1)cost(OP1_{CR})+freq(OP2)cost(OP2_{CR}) \\
-&=5(1W+5R+nR)+50(1R) \\
-&=5(2+5+4)+50(1) \\
-&=10+25+20 +50 \\
-&=105\mu \\
+TOT_1 &=freq(OP1) \cdot cost(OP1_{CR}) + freq(OP2) \cdot cost(OP2_{CR}) \\
+&=5 \cdot (1W+3R+nR) + 50 \cdot (1R) \\
+&=5 \cdot (2\mu + 3\mu + 4\mu) + 50 \cdot (1\mu) \\
+&=10\mu + 15\mu + 20\mu + 50\mu \\
+&=95\mu \\
 \end{aligned}
 \end{equation}
 $$
@@ -402,22 +387,24 @@ Nel contesto dello scenario in cui non si fa uso dell'attributo derivato, il cos
 $$
 \begin{cases}
 cost(OP1SR)=1W \\
-cost(OP2SR)=2R+1R+2R+nR
+cost(OP2SR)=1R+2R+1R+nR
 \end{cases}
 $$
 
-In questo caso, si nota che $OP1_{SR}$  ha un costo di 1W, dovuto alla scrittura del volo nella tabella "volo".
+In questo caso, si nota che $OP1_{SR}$ (senza ridondanza) ha un costo di 1W, dovuto alla scrittura del volo nell'entità "VOLO".
 
 L'operazione $OP2_{SR}$, al contrario, deve contare il numero del personale che compone l'equipaggio, seguendo lo stesso processo descritto nel caso con ridondanza.
 
 Il costo totale nel caso in cui viene eliminata la ridondanza risulta quindi:
+
 $$
 \begin{equation}
 \begin{aligned}
-TOT_2&=freq(OP1)cost(OP1SR)+freq(OP2)cost(OP2SR)\\
-&=5(1W)+50(2R+1R+2R+nR) \\
-&=5(2)+50(5+4)=10+250+200\\
-&=460\mu\\
+TOT_2 &=freq(OP1) \cdot cost(OP1_{SR}) + freq(OP2) \cdot cost(OP2_{SR})\\
+&=5 \cdot (1W) + 50 \cdot (1R+2R+1R+nR) \\
+&=5 \cdot (2\mu) + 50 \cdot (4\mu + 4\mu) \\
+&=10\mu + 200\mu + 200\mu \\
+&=410\mu\\
 \end{aligned}
 \end{equation}
 $$
@@ -426,7 +413,7 @@ $$
 
 #### Conclusione dell'analisi di ridondanza
 Dai calcoli effettuati, possiamo dedurre che in una giornata in cui vengono rispettate le frequenze assegnate, ovvero $freq(OP1)=5$ e $freq(OP2)=50$, risulta vantaggioso utilizzare l'approccio con ridondanza, in quanto abbatte il costo a circa un quarto del tempo utilizzato altrimenti.
-Mantenere il dato comporta un costo finale di $105 \mu$ (vedi $EQ.1$),mentre ricavarlo ogni volta costa $460 \mu$ (vedi $EQ.2$).
+Mantenere il dato comporta un costo finale di $95\mu$ (vedi $EQ.1$), mentre ricavarlo ogni volta costa $410 \mu$ (vedi $EQ.2$).
 
 <br>
 
@@ -438,18 +425,19 @@ Ora, mediante l'inclusione di un grafico, esamineremo quando conviene adottare u
 
 Dal grafico, è evidente che eliminare la ridondanza è conveniente solo quando la frequenza dell'operazione $OP2$ (richieste sulla capacità passeggeri di un volo) non supera le cinque occorrenze. Al di là di questo punto, diventa chiaro che il costo aumenta notevolmente, con un'incidenza molto maggiore rispetto all'approccio con ridondanza. Quest'ultimo mostra una tendenza quasi costante o, comunque, con un coefficiente angolare molto basso.
 
-Abbiamo osservato, inoltre, che il punto di intersezione delle due rette si verifica sempre in prossimità del valore sull'asse delle ascisse che scegliamo di impostare per la frequenza della prima operazione. Da ciò, possiamo generalizzare affermando che l'approccio con ridondanza risulta preferibile ogni volta che la frequenza delle richieste della capacità passeggeri supera quella degli inserimenti.
-
-Nel grafico seguente, è possibile osservare lo spostamento del punto di intersezione quando aumentiamo il valore della frequenza della prima operazione a $freq(OP1)=30$. Si nota che quanto appena affermato rimane valido, poiché il punto di intersezione si sposta approssimativamente a $30$ sull'asse delle ascisse. Facciamo notare inoltre che maggiore è il valore scelto per $freq(OP1)$, minore è il grado di correttezza di questa affermazione. Tuttavia, possiamo affermare che all'interno del nostro dominio di interesse, questa affermazione è veritiera.
+Abbiamo osservato, inoltre, che il punto d'intersezione delle due rette si verifica sempre in prossimità del valore sull'asse delle ascisse che scegliamo d'impostare per la frequenza della prima operazione. Da ciò, possiamo generalizzare affermando che l'approccio con ridondanza risulta preferibile ogni volta che la frequenza delle richieste della capacità passeggeri supera quella degli inserimenti.
 
 ![Grafico di ridondanza f30](grafici/ridondanza_chart30.png)
+
+In questo secondo grafico, è possibile osservare lo spostamento del punto d'intersezione quando aumentiamo il valore della frequenza della prima operazione a $freq(OP1)=30$. Si nota che quanto appena affermato rimane valido, poiché il punto d'intersezione si sposta approssimativamente a $30$ sull'asse delle ascisse. Facciamo notare inoltre che maggiore è il valore scelto per $freq(OP1)$, minore è il grado di correttezza di questa affermazione. Tuttavia, possiamo affermare che all'interno del nostro dominio di interesse, questa affermazione è veritiera.
+
 
 <br>
 
 #### Riflessioni finali
 In base ai calcoli condotti durante l'analisi di ridondanza e considerando la tabella delle frequenze che abbiamo ritenuto appropriata, possiamo affermare che, per questa specifica base di dati, è vantaggioso mantenere la ridondanza attraverso l'utilizzo dell'attributo derivato.
 
-Tuttavia, è fondamentale tenere presente che la soluzione con ridondanza comporta un aumento dello spazio di archiviazione, in quanto si aggiunge una colonna alla tabella dell'entità "volo". In situazioni in cui l'aeroporto gestisce un elevato numero di voli giornalieri, questo aspetto potrebbe non essere trascurabile e richiederebbe un'analisi ulteriore per valutare gli impatti sulla gestione dello spazio di archiviazione.
+Tuttavia, è fondamentale tenere presente che la soluzione con ridondanza comporta un aumento dello spazio di archiviazione, in quanto si aggiunge una colonna alla tabella dell'entità "VOLO". In situazioni in cui l'aeroporto gestisce un elevato numero di voli giornalieri, questo aspetto potrebbe non essere trascurabile e richiederebbe un'analisi ulteriore per valutare gli impatti sulla gestione dello spazio di archiviazione.
 
 
 
@@ -636,48 +624,19 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 
 
-
-
-
-[//]: # (TODO: Bisogna capire cosa fare con questi elementi sotto, dove metterli come modificarli)
-
-
-
-
-### 3.4 Vincoli di dominio 
-
-1. **VOLO**
-
-|        Ora         |      Gate      | Destinazione |
-|:------------------:|:--------------:|:------------:|
-| [0, 60 $\cdot$ 24] | [1, max_gates] |      ~       |
-
-2. **MODELLO**
-
-| Nome_modello | Azienda_costruttrice | Persone_max | Carico_max | Peso  | Lunghezza | Apertura_alare |
-|:------------:|:--------------------:|:-----------:|:----------:|:-----:|:---------:|:--------------:|
-|      ~       |          ~           |   x >= 3    |   x > 0    | x > 0 |   x > 0   |     x > 0      |
-
-
-
-
-
-
-
+# TODO
+- Risolvere Pilota -> Equipaggio
+- Aggiungi vincoli per le relazioni con cardilita' (1,1) - (1,1)
 
 
 # Domande
-- Discuti con il prof riguardo l'analisi di ridondanza (costi degli accessi e quali accessi vengono fatti)
 - E1 (1,1) R (1,1) E2 , come si traduce in schema relazionale? perche' devo obbligare la partecipazione a entrambe le parti.  
-- cosa sono le chiavi alternative (dotted line)
-- discutere della strategia (top down,inside out,...)
-- e' leggibile lo schema relazionale e i vincoli di dominio
 - vincoli intra e inter relazionali?
-- progettazione fisica ?
-- 
 
 
 
+- Cerca UNIQUE(2) per PILOTA
+- Scrivete la strategia che avete usato (top down)
 
 
 
