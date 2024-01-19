@@ -81,41 +81,47 @@ _**Operazioni complesse**_
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-<br>
-<br>
-
-
-
-
 # 2 Progettazione concettuale
 
 
 ## 2.1 Schema Entità-Relazioni
 
-### 2.1.1 Prima proposta
-![Schema ER prototipo](schemi/SchemaER_proposta_aereo.png)
+La creazione dello schema _Entità-relazioni_ ha seguito un approccio _bottom-up_. Per ogni _entità_ si sono prima decisi gli attributi principali e poi i collegamenti alle altre _entità_ tramite _relazioni_ fino ad arrivare ad un prototipo di schema funzionante. 
 
-La proposta iniziale del nostro schema Entità Relazione (ER) prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità. Tuttavia, abbiamo rapidamente constatato che questa approccio comportava un'eccessiva complessità dello schema, spingendoci a riconsiderare la progettazione.
+Questo prototipo è stato rivisto e ottimizzato per migliorare la coerenza logica rispetto al caso d'uso.
 
-Di conseguenza, abbiamo deciso di semplificare lo schema, eliminando la suddivisione delle caratteristiche dell'aeromobile in entità distinte. Invece, abbiamo scelto di collegare direttamente le entità "Azienda Costruttrice" e "Carico" all'entità "Aeromobile" come attributi. Questa decisione è stata presa al fine di razionalizzare la struttura complessiva dello schema, riducendo la complessità e facilitando la comprensione del modello dati.
+### 2.1.1 Prima revisione
+![Schema ER prototipo](schemi/SchemaER_V1.png)
 
-### 2.1.2 Schema concettuale finale
-![Schema ER finale](schemi/SchemaER_schema_finale.png)
+La proposta iniziale del nostro schema _ER_ prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate, con l'obiettivo di conferire al modello una maggiore modularità.
 
+Tuttavia questo approccio comportava un'eccessiva complessità dello schema, per cui abbiamo deciso di scartare questa proposta.
 
+### 2.1.2 Schema ER finale
+![Schema ER finale](schemi/SchemaER_finale.png)
 
+La suddivisione delle caratteristiche dell'aeromobile in entità distinte è stata eliminata a favore di un'entità _MODELLO_ con attributi singoli _nome\_modello_,  _casa\_costruttrice_, _carico\_max_ e  _persone\_max_, mentre _peso_, _lunghezza_ e _apertura\_alare_ sono stati inglobati nell'attributo composto _specifiche\_tecniche_
+
+Nello schema sono presenti gli attributi disgiunti _HOSTESS_ e _STEWARD_ collegati ad _ASSISTENTE_.  Questa separazione permette di distinguere tra assistenti di genere femminile e maschile all'interno del sistema.
+
+Per garantire che ad ogni equipaggio siano assegnati esattamente 2 piloti è presente la cardinalità $(2,2)$ fra:
+$$
+EQUIPAGGIO \xrightarrow{(2,2)}  comanda \xrightarrow{(1,1)} PILOTA
+$$
+
+All'interno di _PILOTA_ è presente un attributo derivato _età_ che è calcolabile in base al codice fiscale contenuto nell'attributo _codice\_fiscale_.
+
+Anche in _VOLO_ è presente un attributo derivato, si tratta di _capacità\_passeggeri_ che è calcolabile tramite la formula:
+
+$$
+capacità\_passeggeri= persone\_max - (|EQUIPAGGIO| + |PILOTI|)
+$$
+
+in cui:
+
+- $persone\_max$: numero massimo di persone trasportabili dal modello (_MODELLO.persone\_max_)
+- $|EQUIPAGGIO|$: cardinalità di persone imbarcate come equipaggio dell'aereo
+- $|PILOTI|$: cardinalità dei piloti, in questo caso sempre 2
 
 ### 2.1.3 Tabella di cardinalità delle relazioni
 
