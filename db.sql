@@ -1,4 +1,9 @@
 -- Creazione delle tabelle
+CREATE TABLE EQUIPAGGIO
+(
+    id_equipaggio VARCHAR(255) PRIMARY KEY
+);
+
 CREATE TABLE HOSTESS
 (
     codice_fiscale CHAR(16) PRIMARY KEY,
@@ -18,45 +23,45 @@ CREATE TABLE PILOTA
     id_equipaggio  VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
 );
 
-CREATE TABLE EQUIPAGGIO
+CREATE TABLE SPECIFICHE_TECNICHE
 (
-    id_equipaggio VARCHAR(255) PRIMARY KEY,
-    -- TODO: resolve id_equipaggio
+    peso           INT,
+    apertura_alare INT,
+    lunghezza      INT,
+    PRIMARY KEY (peso, apertura_alare, lunghezza)
 );
 
-CREATE TABLE VOLO
+CREATE TABLE MODELLO
 (
-    gate                INT PRIMARY KEY,
-    ora                 VARCHAR(255) PRIMARY KEY,  -- potremmo usare TIME
-    destinazione        VARCHAR(255)                                              NOT NULL,
-    capacità_passeggeri INT                                                       NOT NULL,
-    id_equipaggio       VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) UNIQUE NOT NULL,
-    id_aereo            VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE      NOT NULL
+    nome_modello         VARCHAR(255),
+    azienda_costruttrice VARCHAR(255),
+    carico_max           INT NOT NULL,
+    persone_max          INT NOT NULL,
+    peso                 INT NOT NULL,
+    apertura_alare       INT NOT NULL,
+    lunghezza            INT NOT NULL,
+    CONSTRAINT fk_specifiche_tecniche
+        FOREIGN KEY (peso, apertura_alare, lunghezza)
+            REFERENCES SPECIFICHE_TECNICHE (peso, apertura_alare, lunghezza),
+    PRIMARY KEY (nome_modello, azienda_costruttrice)
 );
 
 CREATE TABLE AEROMOBILE
 (
     id_aereo             VARCHAR(255) PRIMARY KEY,
-    nome_modello         VARCHAR(255) REFERENCES MODELLO (nome_modello)         NOT NULL,
-    azienda_costruttrice VARCHAR(255) REFERENCES MODELLO (azienda_costruttrice) NOT NULL
+    nome_modello         VARCHAR(255) NOT NULL,
+    azienda_costruttrice VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_modello FOREIGN KEY (nome_modello, azienda_costruttrice)
+        REFERENCES MODELLO (nome_modello, azienda_costruttrice)
 );
 
-CREATE TABLE MODELLO
+CREATE TABLE VOLO
 (
-    nome_modello         VARCHAR(255) PRIMARY KEY,
-    azienda_costruttrice VARCHAR(255) PRIMARY KEY,
-    carico_max           INT NOT NULL,
-    persone_max          INT NOT NULL,
-    peso                 INT REFERENCES SPECIFICHE_TECNICHE (peso) NOT NULL,
-    apertura_alare       INT REFERENCES SPECIFICHE_TECNICHE (apertura_alare) NOT NULL,
-    lunghezza            INT REFERENCES SPECIFICHE_TECNICHE (lunghezza) NOT NULL
-);
-
--- TODO: E' corretto dividere i reference in piu' righe, oppure bisognerebbe collegarle tutte in una sola riga?
-
-CREATE TABLE SPECIFICHE_TECNICHE
-(
-    peso           INT PRIMARY KEY,
-    apertura_alare INT PRIMARY KEY,
-    lunghezza      INT PRIMARY KEY
+    gate                INT,
+    ora                 VARCHAR(255),  -- potremmo usare TIME
+    destinazione        VARCHAR(255)                                              NOT NULL,
+    capacità_passeggeri INT                                                       NOT NULL,
+    id_equipaggio       VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) UNIQUE NOT NULL,
+    id_aereo            VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE      NOT NULL,
+    PRIMARY KEY (gate, ora)
 );
