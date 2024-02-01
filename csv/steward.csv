@@ -1,41 +1,41 @@
 nome,cognome,sesso,data_nascita,luogo_nascita,cf
-Iacopo,Diacetti,M,12/08/1984,Pereto,DCTCPI84M12G449T
-Pietro,Montevecchi,M,24/07/1974,Ozegna,MNTPTR74L24G202N
-Calogero,Guidi,M,26/12/1989,Olmeneta,GDUCGR89T26G047Z
-Denis,Montevecchi,M,09/01/1970,Mussolente,MNTDNS70A09F829Q
-Edilio,Toso,M,03/01/1970,Potenza Picena,TSODLE70A03F632D
-Benvenuto,Cavaterra,M,26/06/1997,Lesa,CVTBVN97H26E544A
-Alessio,Coluccia,M,30/08/1992,Taleggio,CLCLSS92M30L037J
-Filippo,Boschi,M,01/04/1992,Torricella Peligna,BSCFPP92D01L291X
-Ausonio,Marchesini,M,06/02/1992,Linguaglossa,MRCSNA92B06E602K
-Lorenzo,Naci,M,19/10/1970,Codigoro,NCALNZ70R19C814B
-Davide,Conte,M,21/01/1999,Cugliate-Fabiasco,CNTDVD99A21D199K
-Carlo,Gentile,M,25/03/1981,Faenza,GNTCRL81C25D458J
-Davide,Clesceri,M,02/02/1982,Asso,CLSDVD82B02A476X
-Dante,Pulsoni,M,15/10/1974,Cuvio,PLSDNT74R15D239N
-Dafne,De stefano,M,25/03/1979,Spotorno,DSTDFN79C25I926E
-Stefano,Mercantini,M,19/11/2000,San Biagio di Callalta,MRCSFN00S19H781V
-Fabiano,Angelicchio,M,05/10/1972,Masone,NGLFBN72R05F020T
-Corrado,Mariani,M,11/10/1997,Montecopiolo,MRNCRD97R11F478P
-Abele,Neri,M,15/03/1971,Porto Empedocle,NREBLA71C15F299Y
-Clovis,Catalano,M,01/02/1993,Piobesi d'Alba,CTLCVS93B01G683O
-Igor,Bardi,M,02/08/1993,Galgagnano,BRDGRI93M02D868K
-Eligio,Sasvari,M,14/05/1970,Caresanablot,SSVLGE70E14B768T
-Aroldo,Piani,M,07/08/1972,Baucina,PNIRLD72M07A719W
-Filippo,Focaccia,M,08/06/1978,Coccaglio,FCCFPP78H08C806K
-Biagio,Pracucci,M,17/06/1996,San Casciano in Val di Pesa,PRCBGI96H17H791O
-Clovis,Garofalo,M,31/01/1977,Verzino,GRFCVS77A31L802I
-Ivano,Monaco,M,22/05/1990,San Giuliano Milanese,MNCVNI90E22H930Y
-Amerigo,Olivieri,M,29/12/1993,Parzanica,LVRMRG93T29G350J
-Alceo,Rinaldi,M,08/11/1979,Bema,RNLLCA79S08A777J
-Raffaele,Costa,M,26/07/1985,Petrizzi,CSTRFL85L26G517E
-Attilio,Bentivegna,M,28/08/1982,Lauco,BNTTTL82M28E476K
-Giovanni,Coluccia,M,01/05/1999,Furnari,CLCGNN99E01D825G
-Walter,Coluccia,M,27/05/1991,Boroneddu,CLCWTR91E27B055O
-Andrea,Valente,M,25/12/1986,Avetrana,VLNNDR86T25A514Z
-Daniele,Paduano,M,09/08/1979,Vietri sul Mare,PDNDNL79M09L860G
-Carlo,Ranucci,M,12/03/1975,Pontoglio,RNCCRL75C12G869C
-Evasio,Massa,M,22/12/1995,Cagnano Varano,MSSVSE95T22B357G
-Crescenzo,Zanelli,M,22/01/1977,San Leonardo,ZNLCSC77A22H951R
-Elio,Di maio,M,25/02/1987,Chianciano Terme,DMILEI87B25C608N
-Yari,Popovici,M,22/07/1988,San Pietro di Caridà,PPVYRA88L22I102H
+Angelo,Celotti,M,31/03/1971,Aurano,CLTNGL71C31A497A
+Concetto,Monaco,M,20/02/1995,Pontelandolfo,MNCCCT95B20G848J
+Enrico,Rudel,M,04/11/1980,Notaresco,RDLNRC80S04F942J
+Camillo,Ferrari,M,24/04/1974,Suardi,FRRCLL74D24B014C
+Diego,Sebastiani,M,15/12/1989,Villa di Briano,SBSDGI89T15D801Z
+Ugo,Turci,M,05/07/1970,Zumpano,TRCGUO70L05M202Y
+Cipriano,Sanges,M,11/07/1989,Legnaro,SNGCRN89L11E515X
+Mauro,Bassano,M,04/07/1999,Cesana Torinese,BSSMRA99L04C564T
+Cipriano,Ianne,M,21/04/1993,Castello Tesino,NNICRN93D21C194Y
+Caius,Basile,M,28/01/1974,Gandino,BSLCSA74A28D905M
+Crescenzo,Saccone,M,24/07/1997,Ferrara di Monte Baldo,SCCCSC97L24D549P
+Clovis,Patruno,M,22/05/1991,Monteroni di Lecce,PTRCVS91E22F604X
+Erwin,Bello,M,17/10/1997,Goni,BLLRWN97R17E084N
+Casimiro,Vinciguerra,M,24/05/1992,Meleti,VNCCMR92E24F102O
+Alberto,Tabane,M,31/01/1995,San Martino di Finita,TBNLRT95A31H992P
+Aurelio,Buongrazio,M,07/04/1989,Oggebbio,BNGRLA89D07G007V
+Marco,Sorgentone,M,27/06/1977,Soglio,SRGMRC77H27I781D
+Costante,Cenciarelli,M,06/02/1988,Porto Sant'Elpidio,CNCCTN88B06G921T
+Armando,Di paolo,M,29/05/1990,Torreano,DPLRND90E29L246Y
+Benigno,Colongi,M,16/07/1995,Collepasso,CLNBGN95L16C865V
+Silvio,Pia,M,19/08/1972,Sangano,PIASLV72M19H855C
+Eraldo,Zavalloni,M,06/08/1972,Firmo,ZVLRLD72M06D614W
+Ivano,Gealapu,M,16/11/1997,Cremella,GLPVNI97S16D143S
+Ernico,Pepe,M,17/06/1979,Grumo Appula,PPERNC79H17E223P
+Ivano,Zanella,M,12/04/1995,San Secondo di Pinerolo,ZNLVNI95D12I154U
+Antonio,Costa,M,10/07/1978,Limido Comasco,CSTNTN78L10E593L
+Achille,Piacentini,M,22/05/1971,Tione di Trento,PCNCLL71E22L174Z
+Eusebio,De santis,M,21/03/1974,Santhià,DSNSBE74C21I337A
+Cipriano,Tomassi,M,24/01/1972,Pizzoni,TMSCRN72A24G728G
+Benito,Pulsoni,M,08/06/1999,Montemezzo,PLSBNT99H08F564J
+Armando,Croce,M,11/08/1988,Gallarate,CRCRND88M11D869G
+Pietro,Comini,M,20/05/2000,Lierna,CMNPTR00E20E581R
+Oscar,Kellmann,M,17/10/1999,Cereseto,KLLSCR99R17C503F
+Giovanni,Bassolino,M,16/09/1980,Gubbio,BSSGNN80P16E256G
+Federico,Pulsoni,M,19/08/1970,Capo d'Orlando,PLSFRC70M19B666F
+Edmondo,Wozniak,M,07/01/1976,Dogna,WZNDND76A07D316E
+Tommaso,Rosati,M,01/09/2000,Fusignano,RSTTMS00P01D829O
+Carlo,Sassi,M,30/10/1984,Chianni,SSSCRL84R30C609G
+Aristide,Porta,M,27/10/1978,Varazze,PRTRTD78R27L675K
+Renato,Ruggeri,M,07/08/1977,Pianello Val Tidone,RGGRNT77M07G557D
