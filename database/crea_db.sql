@@ -60,7 +60,7 @@ CREATE TABLE VOLO
     gate                INT,
     ora                 VARCHAR(255),  -- potremmo usare TIME
     destinazione        VARCHAR(255)                                              NOT NULL,
-    capacità_passeggeri INT                                                       NOT NULL,
+    capacita_passeggeri INT                                                       NOT NULL,
     id_equipaggio       VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) UNIQUE NOT NULL,
     id_aereo            VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE      NOT NULL,
     PRIMARY KEY (gate, ora)
