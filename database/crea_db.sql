@@ -19,7 +19,7 @@ CREATE TABLE STEWARD
 CREATE TABLE PILOTA
 (
     codice_fiscale CHAR(16) PRIMARY KEY,
-    età            INT                                                NOT NULL,
+    eta            INT                                                NOT NULL,
     id_equipaggio  VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
 );
 
