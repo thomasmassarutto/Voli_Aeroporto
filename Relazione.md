@@ -576,7 +576,7 @@ EQUIPAGGIO
 - Ogni EQUIPAGGIO deve essere collegato ad almeno un PILOTA
 
 $$
-   \forall \space x \in EQUIPAGGIO \quad \exist y \in PILOTA \quad | x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
+   \forall \space x \in EQUIPAGGIO \quad \exists \space y \in PILOTA \quad | \quad x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
 $$
 
 - Ogni EQUIPAGGIO deve essere collegato a un VOLO
