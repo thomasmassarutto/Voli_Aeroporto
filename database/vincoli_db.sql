@@ -11,7 +11,12 @@ ALTER TABLE PILOTA
 
 
 
-
+-- TODO: chiedi
+--  CHECK
+--  TRANSACTION (stored transaction)
+--  quando usare trigger e quando usare gli assert
+--  ROLLBACK, COMMIT e CONSTRAIN DEFFERED
+--  differenze tra FUNCTION e PROCEDURE
 
 
 

@@ -656,6 +656,10 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 # Domande
 - Chiedi se gli attributi che non sono ne PK che FK possono essere NULL o meno
 - Chiedi cosa ne pensa il prof del diagramma dei vincoli d'integrita' referenziale
+- Come fare l'analisi in R
+- Come popoliamo le tabelle
+- Quali sono gli step successivi?
+- Vincoli di integrita' in linguaggio sql? 
 
 
 # Bonus

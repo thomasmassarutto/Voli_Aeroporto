@@ -1,11 +1,11 @@
 -- Clean up delle tabelle
-DROP TABLE IF EXISTS EQUIPAGGIO;
 DROP TABLE IF EXISTS HOSTESS;
 DROP TABLE IF EXISTS STEWARD;
 DROP TABLE IF EXISTS PILOTA;
-DROP TABLE IF EXISTS SPECIFICHE_TECNICHE;
-DROP TABLE IF EXISTS MODELLO;
+DROP TABLE IF EXISTS EQUIPAGGIO;
 DROP TABLE IF EXISTS AEROMOBILE;
+DROP TABLE IF EXISTS MODELLO;
+DROP TABLE IF EXISTS SPECIFICHE_TECNICHE;
 DROP TABLE IF EXISTS VOLO;
 
 
@@ -27,10 +27,11 @@ CREATE TABLE STEWARD
     id_equipaggio  VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
 );
 
+-- TODO: MODIFICATO
 CREATE TABLE PILOTA
 (
     codice_fiscale CHAR(16) PRIMARY KEY,
-    eta            INT                                                NOT NULL,
+--     eta            INT                                                NOT NULL,
     id_equipaggio  VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
 );
 
@@ -66,12 +67,13 @@ CREATE TABLE AEROMOBILE
         REFERENCES MODELLO (nome_modello, azienda_costruttrice)
 );
 
+-- TODO: MODIFICATA
 CREATE TABLE VOLO
 (
     gate                INT,
     ora                 VARCHAR(255),  -- potremmo usare TIME
     destinazione        VARCHAR(255)                                              NOT NULL,
-    capacità_passeggeri INT                                                       NOT NULL,
+--     capacità_passeggeri INT                                                       NOT NULL,
     id_equipaggio       VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) UNIQUE NOT NULL,
     id_aereo            VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE      NOT NULL,
     PRIMARY KEY (gate, ora)
