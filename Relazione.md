@@ -651,6 +651,7 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 - Togliere tutti i costrutti HTML e sostituirli con Latex
 - Assicurarsi che tutte le immagini rispettino i nomi degli attributi corretti, i nomi delle entita' e la cardinalita' delle relazioni
 - Cerca UNIQUE(2) per PILOTA
+- Cambia tipo all'attributo ora in VOLO
 
 
 # Domande
@@ -660,6 +661,9 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 - Come popoliamo le tabelle
 - Quali sono gli step successivi?
 - Vincoli di integrita' in linguaggio sql? 
+- Quanti vincoli implementare, soltanto quelli delle operazioni oppure tutti? 
+- Serve implementare gli indici?
+- Quali trigger implementare?
 
 
 # Bonus

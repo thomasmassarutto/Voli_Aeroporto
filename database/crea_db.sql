@@ -1,4 +1,5 @@
 -- Clean up delle tabelle
+DROP TABLE IF EXISTS VOLO;
 DROP TABLE IF EXISTS HOSTESS;
 DROP TABLE IF EXISTS STEWARD;
 DROP TABLE IF EXISTS PILOTA;
@@ -6,7 +7,6 @@ DROP TABLE IF EXISTS EQUIPAGGIO;
 DROP TABLE IF EXISTS AEROMOBILE;
 DROP TABLE IF EXISTS MODELLO;
 DROP TABLE IF EXISTS SPECIFICHE_TECNICHE;
-DROP TABLE IF EXISTS VOLO;
 
 
 -- Creazione delle tabelle
@@ -70,11 +70,11 @@ CREATE TABLE AEROMOBILE
 -- TODO: MODIFICATA
 CREATE TABLE VOLO
 (
-    gate                INT,
-    ora                 VARCHAR(255),  -- potremmo usare TIME
-    destinazione        VARCHAR(255)                                              NOT NULL,
+    gate          INT,
+    ora           VARCHAR(255), -- potremmo usare TIME
+    destinazione  VARCHAR(255)                                              NOT NULL,
 --     capacità_passeggeri INT                                                       NOT NULL,
-    id_equipaggio       VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) UNIQUE NOT NULL,
-    id_aereo            VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE      NOT NULL,
+    id_equipaggio VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) UNIQUE NOT NULL,
+    id_aereo      VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE      NOT NULL,
     PRIMARY KEY (gate, ora)
 );
