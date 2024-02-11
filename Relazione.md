@@ -652,6 +652,7 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 - Assicurarsi che tutte le immagini rispettino i nomi degli attributi corretti, i nomi delle entita' e la cardinalita' delle relazioni
 - Cerca UNIQUE(2) per PILOTA
 - Cambia tipo all'attributo ora in VOLO
+- Fare una query "data l'id-equipaggio mostrami il personale che ci lavora"
 
 
 # Domande
