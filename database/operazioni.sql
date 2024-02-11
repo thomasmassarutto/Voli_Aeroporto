@@ -36,38 +36,24 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- TODO: Verificare se funziona e correggeri evenntuali errori
 CREATE OR REPLACE FUNCTION Aerei_Di_Linea()
 RETURNS TABLE (
-    id_aereo INT,
+    id_aereo VARCHAR(255),
     nome_modello VARCHAR(255),
-    azienda_costruttrice VARCHAR(255),
-    persone_max INT,
-    peso INT,
-    lunghezza INT,
-    apertura_alare INT
+    peso_aereo INT,
+    codice_fiscale CHAR(16),
+    eta INT
     ) AS $$
 BEGIN
     RETURN QUERY
-        SELECT *
-        FROM (
-            SELECT
-                a.id_aereo,
-                a.nome_modello,
-                a.azienda_costruttrice,
-    --             a.persone_max,
-    --             a.peso,
-    --             a.lunghezza,
-    --             a.apertura_alare,
-                RANK() OVER (ORDER BY a.persone_max ASC) AS ranking
-            FROM AEROMOBILE a
-                JOIN VOLO v USING (id_equipaggio)
-                JOIN EQUIPAGGIO e USING (id_equipaggio)
-                JOIN PILOTA p USING (id_equipaggio)
-            WHERE p.eta BETWEEN 30 AND 60)
-    --             WHERE p.età BETWEEN 30 AND 60 AND ranking = 1) TODO: opzione 2
-        WHERE ranking = 1;
+        SELECT a.id_aereo, a.nome_modello, m.peso, p.codice_fiscale, p.eta
+        FROM PILOTA p
+             JOIN EQUIPAGGIO e USING (id_equipaggio)
+             JOIN VOLO v USING (id_equipaggio)
+             JOIN AEROMOBILE a USING (id_aereo)
+             JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
+        WHERE (p.eta BETWEEN 30 AND 60)
+            AND (m.peso = (SELECT MIN(peso) FROM MODELLO));
 END;
 $$ LANGUAGE plpgsql;
-
 
