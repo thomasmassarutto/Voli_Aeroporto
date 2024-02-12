@@ -31,7 +31,7 @@ BEGIN
         JOIN VOLO v USING (id_equipaggio)
         JOIN AEROMOBILE a USING (id_aereo)
         JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
-    WHERE m.peso BETWEEN 100000 and 150000;
+    WHERE m.peso BETWEEN x and y;
 
     RETURN num_steward;
 END;
