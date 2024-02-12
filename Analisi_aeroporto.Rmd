@@ -1,0 +1,77 @@
+---
+title: "Analisi_aeroporto"
+author: "Thomas Massarutto"
+date: "2024-02-12"
+output: pdf_document
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(RPostgres)
+library(lubridate)
+```
+
+```{r inizializza_postgresSQL, include=TRUE, echo=FALSE}
+db_name = "Aereoporto"
+db_user = "postgres"
+db_password = "thomas"
+db_host = "localhost"
+db_port = 5432
+db_driver = dbDriver("Postgres")
+
+conn = dbConnect( db_driver,
+                  dbname = db_name,
+                  user = db_user,
+                  password = db_password,
+                  host = db_host,
+                  port = db_port
+)
+```
+
+```{r funzioni_utility, include=TRUE, echo=FALSE}
+## Data una stringa valida come codice fiscale, ritorna l'eta della persona
+eta_codice_fiscale <- function(cf) {
+  
+  eta= NA
+  
+  codice_fiscale = cf
+  anno_corrente =  year(Sys.Date())
+  
+  ## Valore soglia per calcolare l'eta
+  base = 2000
+  threshold = anno_corrente - base
+  
+  ## Sottostringa che contiene data di nascita
+  data_nascita = substr(codice_fiscale, 7, 12)
+  ## Anno di nascita
+  anno_nascita <- as.numeric(substr(data_nascita, 1, 2))
+  
+  if (anno_nascita > threshold){
+    eta = (base - 100) + anno_nascita
+  } else{
+    eta= base + anno_nascita
+  }
+  
+  return(eta)
+}
+```
+
+```{r eta_media_steward_hostess_pilota, echo=FALSE}
+
+
+
+```
+
+
+```{r nr_assistenti_volo, echo=FALSE}
+```
+
+```{r nrpassaggeri_volo, echo=FALSE}
+```
+
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
