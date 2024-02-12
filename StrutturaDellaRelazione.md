@@ -23,10 +23,11 @@
         2. [X] 3.2.2 Tabelle delle frequenze
         3. [x] 3.2.3 Analisi ridondanza 
         4. [x] 3.2.4 Ristrutturazione schema ER
-    3. [ ] 3.3 Schema relazionale
-        1. [ ] 3.3.1 Modello relazionale 
-        2. [x] 3.3.2 Vincoli di derivazione
-        3. [x] 3.3.2 Diagramma dei vincoli di integrità referenziale
+    3. [ ] 3.3 Traduzione verso il relazionale
+        1. [ ] 3.3.1 Modello relazionale    
+        2. [x] 3.3.2 Vincoli di dominio
+        3. [x] 3.3.3 Vincoli d'integrita'
+        4. [x] 3.3.4 Diagramma dei vincoli d'integrità referenziale
 
 4. Progettazione Fisica
     1. [ ] 4.1 ?

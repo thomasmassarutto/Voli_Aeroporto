@@ -109,12 +109,12 @@ $$
 EQUIPAGGIO \xrightarrow{(2,2)}  comanda \xrightarrow{(1,1)} PILOTA
 $$
 
-All'interno di _PILOTA_ è presente un attributo derivato _età_ che è calcolabile in base al codice fiscale contenuto nell'attributo _codice\_fiscale_.
+All'interno di _PILOTA_ è presente un attributo derivato _eta_ che è calcolabile in base al codice fiscale contenuto nell'attributo _codice\_fiscale_.
 
-Anche in _VOLO_ è presente un attributo derivato, si tratta di _capacità\_passeggeri_ che è calcolabile tramite la formula:
+Anche in _VOLO_ è presente un attributo derivato, si tratta di _capacita\_passeggeri_ che è calcolabile tramite la formula:
 
 $$
-capacità\_passeggeri= persone\_max - (|EQUIPAGGIO| + |PILOTI|)
+capacita\_passeggeri= persone\_max - (|EQUIPAGGIO| + |PILOTI|)
 $$
 
 in cui:
@@ -124,6 +124,8 @@ in cui:
 - $|PILOTI|$: cardinalità dei piloti, in questo caso sempre 2
 
 
+[//]: # (TODO: spiegare perche' abbiamo permesso l'esistenza degl'aerei senza volo, dei modelli senza aereo e delle specifiche senza modello)
+
 <br>
 
 ### 2.1.3 Tabella di cardinalità delle relazioni
@@ -131,18 +133,13 @@ in cui:
 |     E1     | Cardinalità |  Relazione  | Cardinalità |     E2     |
 |:----------:|:-----------:|:-----------:|:-----------:|:----------:|
 |    Volo    |    (1,1)    | **Imbarca** |    (1,1)    | Equipaggio |
-| Aeromobile |    (1,1)    | **Tratta**  |    (1,1)    |    Volo    |
-| Aeromobile |    (1,1)    |   **Di**    |    (1,n)    |  Modello   |
+| Aeromobile |    (0,1)    | **Tratta**  |    (1,1)    |    Volo    |
+| Aeromobile |    (1,1)    |   **Di**    |    (0,n)    |  Modello   |
 |   Pilota   |    (1,1)    | **Comanda** |    (2,2)    | Equipaggio |
 | Assistente |    (1,1)    | **Compone** |    (1,n)    | Equipaggio |
 
 
-
-
-
-
 <br>
-
 
 
 ## 2.2 Documentazione schema E-R
@@ -151,11 +148,11 @@ in cui:
 ### 2.2.1 Dizionario dei dati
 |       Entità        | Descrizione                                            |                                                  Attributi                                                  |           Identificatore           |
 |:-------------------:|:-------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------:|:----------------------------------:|
-|        Volo         | Volo che parte ogni giorno alla stessa ora             |                               gate, ora, destinazione, _capacità\_passeggeri_                               |             gate, ora              |
+|        Volo         | Volo che parte ogni giorno alla stessa ora             |                               gate, ora, destinazione, _capacita\_passeggeri_                               |             gate, ora              |
 |     Aeromobile      | Aeromobile coinvolto nel volo                          |                                                  id_aereo                                                   |              id_aereo              |
 |       Modello       | Modello specifico dell'aeromobile                      | nome_modello, azienda_costruttrice, carico_max, persone_max, spec_tecniche(peso, lunghezza, apertura_alare) | nome_modello, azienda_costruttrice |
 |     Equipaggio      | Equipaggio che imbarca l'aeromobile                    |                                                id_equipaggio                                                |           id_equipaggio            |
-|       Pilota        | Piloti che pilotano l'aeromobile                       |                                            codice_fiscale, eta'                                             |           codice_fiscale           |
+|       Pilota        | Piloti che pilotano l'aeromobile                       |                                             codice_fiscale, eta                                             |           codice_fiscale           |
 |     Assistente      | Assistente (steward e/o hostess) che assistono il volo |                                               codice_fiscale                                                |           codice_fiscale           |
 |       Steward       | Assistente maschile                                    |                                                      ~                                                      |                 ~                  |
 |       Hostess       | Assistente femminile                                   |                                                      ~                                                      |                 ~                  |
@@ -166,17 +163,17 @@ in cui:
 
 | Regole di vincolo                                                                                                                                                |     
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **(RV1)** - Il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aeromobile con cui volano. |
-| **(RV2)** - L'entità "EQUIPAGGIO" deve sempre includere almeno un membro fra hostess e steward.                                                                  |
+| **(RV1)** - L'entità "EQUIPAGGIO" deve sempre includere almeno un membro fra hostess e steward.                                                                  |
+| **(RV2)** - Il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aeromobile con cui volano. |
 
 
 
 ### 2.2.3 Regole di derivazione
 
-| Regole di derivazione                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |     
-|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **(RD1)** - L'attributo "capacita'_passeggeri" in "VOLO" descrive la capacità massima di passeggeri imbarcabili da un aeromobile. Per derivarlo, di un volo, si ricerca il modello dell'aeromobile, da cui si ottiene il numero massimo di persone che quell'aeromobile puo' trasportare usando l'attributo "persone_max". A questo valore viene sottratto il numero di assistenti che quel volo imbarca. In questo modo si puo' derivare l'attributo "capacita'_passeggeri". [ capacità_passeggeri = MODELLO(_persone_max_) - #assistenti] |
-| **(RD2)** - L'attributo "eta'" in "PILOTA" indica l'eta' del pilota; si ricava dal codice fiscale del pilota, estrapolando il settimo e ottavo carattere (che rappresentano le ultime due cifre dell'anno di nascita), l'ottavo carattere (che rappresenta il mese) e infine decimo e undicesimo carattere (che rappresentano il giorno di nascita). L'ottavo carattere rappresenta il mese di nascita secondo la tabella di conversione dell'agenzia delle entrate - A, B, C, D, E, H designano i primi 6 mesi dell'anno e L, M, P, R, S, T gli ultimi 6 mesi dell'anno.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Regole di derivazione                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |     
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **(RD1)** - L'attributo "capacita_passeggeri" in "VOLO" descrive la capacità massima di passeggeri imbarcabili da un aeromobile. Per derivarlo, di un volo, si ricerca il modello dell'aeromobile, da cui si ottiene il numero massimo di persone che quell'aeromobile puo' trasportare usando l'attributo "persone_max". A questo valore viene sottratto il numero di assistenti che quel volo imbarca. In questo modo si puo' derivare l'attributo "capacita_passeggeri". [ capacita_passeggeri = MODELLO(_persone_max_) - #assistenti]                                |
+| **(RD2)** - L'attributo "eta" in "PILOTA" indica l'eta' del pilota; si ricava dal codice fiscale del pilota, estrapolando il settimo e ottavo carattere (che rappresentano le ultime due cifre dell'anno di nascita), l'ottavo carattere (che rappresenta il mese) e infine decimo e undicesimo carattere (che rappresentano il giorno di nascita). L'ottavo carattere rappresenta il mese di nascita secondo la tabella di conversione dell'agenzia delle entrate - A, B, C, D, E, H designano i primi 6 mesi dell'anno e L, M, P, R, S, T gli ultimi 6 mesi dell'anno. |
 
 
 
@@ -261,7 +258,7 @@ _**Operazioni complesse**_
 
 [Analisi di ridondanza docs](https://docs.google.com/document/d/1nhvOKPnkAEypN998Kzv5q8iw8WVj2o3czqGw2cCtgTw/edit?usp=sharing)
 
-Osservando lo schema della base di dati si nota come l'attributo "capacità_passeggeri" associato all'entità "VOLO", possa essere derivabile. Per valutare se convenga mantenere la ridondanza del dato, è stata condotta un'analisi di ridondanza.
+Osservando lo schema della base di dati si nota come l'attributo "capacita_passeggeri" associato all'entità "VOLO", possa essere derivabile. Per valutare se convenga mantenere la ridondanza del dato, è stata condotta un'analisi di ridondanza.
 
 <br>
 
@@ -504,24 +501,24 @@ Le due entità MODELLO e SPECIFICHE_TECNICHE sono in relazione one-to-many. Ques
 | <u>id_equipaggio</u> | PK  | STRING | UNIQUE | NOT NULL |
 
 
-- PILOTA(<u>codice_fiscale</u>, età)
+- PILOTA(<u>codice_fiscale</u>, eta)
 
 |                       | key |  type  | unique |   null   |
 |:---------------------:|:---:|:------:|:------:|:--------:|
 | <u>codice_fiscale</u> | PK  | STRING | UNIQUE | NOT NULL |
-|          età          | ATT |  INT   |        | NOT NULL |
+|          eta          | ATT |  INT   |        | NOT NULL |
 |     id_equipaggio     | FK  | STRING |        | NOT NULL |
 
 
 
-- VOLO(<u>gate</u>, <u>ora</u>, destinazione, capacità_passeggeri, id_aereo, id_equipaggio)
+- VOLO(<u>gate</u>, <u>ora</u>, destinazione, capacita_passeggeri, id_aereo, id_equipaggio)
 
 |                     | key |  type  | unique |   null   |
 |:-------------------:|:---:|:------:|:------:|:--------:|
 |     <u>gate</u>     | PK  |  INT   | UNIQUE | NOT NULL |
-|     <u>ora</u>      | PK  | STRING | UNIQUE | NOT NULL |
+|     <u>ora</u>      | PK  |  TIME  | UNIQUE | NOT NULL |
 |    destinazione     | ATT | STRING |        | NOT NULL | 
-| capacità_passeggeri | ATT |  INT   |        | NOT NULL |
+| capacita_passeggeri | ATT |  INT   |        | NOT NULL |
 |      id_aereo       | FK  | STRING | UNIQUE | NOT NULL |
 |    id_equipaggio    | FK  | STRING | UNIQUE | NOT NULL |
 
@@ -557,8 +554,27 @@ Le due entità MODELLO e SPECIFICHE_TECNICHE sono in relazione one-to-many. Ques
 
 <br>
 
+#### 3.3.2 Vincoli di dominio
 
-#### 3.3.2 Vincoli d'integrita'
+PILOTA
+- PILOTA.eta: deve essere un valore positivo compreso tra 18 e 100
+
+VOLO
+- VOLO.gate: deve essere un valore numerico positivo
+- VOLO.ora: deve essere un valore di tempo valido ('HH:MM:SS')
+
+MODELLO
+- MODELLO.persone_max: devono essere un valore positivo
+- MODELLO.carico_max: devono essere un valore positivo
+
+SPECIFICHE_TECNICHE
+- SPECIFICHE_TECNICHE.peso: deve essere un valore numerico positivo
+- SPECIFICHE_TECNICHE.apertura_alare: deve essere un valore numerico positivo
+- SPECIFICHE_TECNICHE.lunghezza: deve essere un valore numerico positivo
+
+
+
+#### 3.3.3 Vincoli d'integrita'
 
 PILOTA
 
@@ -581,20 +597,6 @@ $$
 
 - Ogni EQUIPAGGIO deve essere collegato a un VOLO
 
-
-AEROMOBILE
-
-- Ogni AEROMOBILE deve essere collegata a un VOLO
-
-
-MODELLO
-
-- Ogni MODELLO deve essere collegato a un AEROMOBILE 
-
-
-SPECIFICHE TECNICHE
-
-- Ogni SPECIFICA TECNICA deve essere collegata a un MODELLO
 
 
 
@@ -650,8 +652,6 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 # TODO
 - Togliere tutti i costrutti HTML e sostituirli con Latex
 - Assicurarsi che tutte le immagini rispettino i nomi degli attributi corretti, i nomi delle entita' e la cardinalita' delle relazioni
-- Cerca UNIQUE(2) per PILOTA
-- Cambia tipo all'attributo ora in VOLO
 - Fare una query "data l'id-equipaggio mostrami il personale che ci lavora"
 
 
@@ -665,7 +665,11 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 - Quanti vincoli implementare, soltanto quelli delle operazioni oppure tutti? 
 - Serve implementare gli indici?
 - Quali trigger implementare?
-
+- 
+- 
+- 
+- Dobbiamo usare Transaction
+- Quando usare CHECK
 
 # Bonus
 - Svolgi l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214]
