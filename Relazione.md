@@ -664,12 +664,10 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 - Vincoli di integrita' in linguaggio sql? 
 - Quanti vincoli implementare, soltanto quelli delle operazioni oppure tutti? 
 - Serve implementare gli indici?
-- Quali trigger implementare?
-- 
+- Quanti e quali trigger implementare?
 - 
 - 
 - Dobbiamo usare Transaction
-- Quando usare CHECK
 
 # Bonus
 - Svolgi l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214]
