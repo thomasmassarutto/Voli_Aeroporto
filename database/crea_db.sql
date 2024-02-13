@@ -33,7 +33,7 @@ CREATE TABLE PILOTA
     codice_fiscale CHAR(16) PRIMARY KEY,
     -- TODO: va bene hardcoddare 2024 all'interno cosi'
     eta INT GENERATED ALWAYS AS
-        ( 2024 - (1900 + CAST(SUBSTRING(codice_fiscale FROM 7 FOR 2) AS INT)) ) STORED,
+        ((2024 - (1900 + (SUBSTRING(codice_fiscale FROM 7 FOR 2))::integer)) % 100) STORED,
     id_equipaggio VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
 );
 

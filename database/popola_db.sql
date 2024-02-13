@@ -25,4 +25,4 @@ DO $$
         EXECUTE 'COPY MODELLO (nome_modello, azienda_costruttrice, carico_max, persone_max, peso, lunghezza, apertura_alare) FROM ' || quote_literal(common_path || 'MODELLO.csv') || ' DELIMITER '','' CSV HEADER;';
         EXECUTE 'COPY AEROMOBILE (id_aereo, nome_modello, azienda_costruttrice) FROM ' || quote_literal(common_path || 'AEROMOBILE.csv') || ' DELIMITER '','' CSV HEADER;';
         EXECUTE 'COPY VOLO (gate, ora, destinazione, id_equipaggio, id_aereo) FROM ' || quote_literal(common_path || 'VOLO.csv') || ' DELIMITER '','' CSV HEADER;';
-    END $$;
+END $$;
