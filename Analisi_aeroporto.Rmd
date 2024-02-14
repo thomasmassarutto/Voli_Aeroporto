@@ -9,7 +9,8 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(RPostgres)
-library(lubridate)
+library(ggplot2)
+library(tidyverse)
 ```
 
 ```{r inizializza_postgresSQL, include=TRUE, echo=FALSE}
@@ -29,7 +30,7 @@ con = dbConnect( db_driver,
 )
 ```
 
-```{r funzioni_utility, include=TRUE, echo=FALSE}
+```{r funzioni_utility, include=FALSE, echo=FALSE}
 ## Data una stringa valida come codice fiscale, ritorna l'eta della persona
 ## Le poersone devono avere meno di 100 anni
 eta_codice_fiscale <- function(cf) {
@@ -79,13 +80,53 @@ df_hostess = create_df("hostess")
 df_steward = create_df("steward")
 df_pilota = create_df("pilota")
 
-## Creazione colonan eta
+## Creazione colonna eta
 df_hostess$eta= sapply(df_hostess$codice_fiscale, eta_codice_fiscale)
 df_steward$eta= sapply(df_steward$codice_fiscale, eta_codice_fiscale)
-df_pilota$eta= sapply(df_pilota$codice_fiscale, eta_codice_fiscale)
 
 
-# Creare il grafico con ggplot2
+ggplot() +
+  ## Hostess
+  geom_boxplot(data = df_hostess, 
+               aes(x = "Hostess", 
+                   y = eta,
+                   fill = "Hostess")) +
+  ## Steward
+  geom_boxplot(data = df_steward, 
+               aes(x = "Steward", 
+                   y = eta, 
+                   fill = "Steward")) +
+  ## Pilota
+    geom_boxplot(data = df_pilota, 
+               aes(x = "Piloti", 
+                   y = eta, 
+                   fill = "Pilota")) +
+  ## Aggiungi i punti di media
+    stat_summary(data = df_hostess, 
+               aes(x = "Hostess", 
+                   y = eta), 
+               fun = mean, 
+               geom = "point", 
+               color = "black", 
+               size = 3) +
+      stat_summary(data = df_steward, 
+               aes(x = "Steward", 
+                   y = eta), 
+               fun = mean, 
+               geom = "point", 
+               color = "black", 
+               size = 3) +
+      stat_summary(data = df_pilota, 
+               aes(x = "Piloti", 
+                   y = eta), 
+               fun = mean, 
+               geom = "point", 
+               color = "black", 
+               size = 3) +
+  
+  
+  ## Etichette
+  labs(title = "Boxplot delle età per Hostess e Steward", fill= "Personale", x="")
 
 
 
