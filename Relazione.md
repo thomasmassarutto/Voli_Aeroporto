@@ -651,26 +651,35 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 # TODO
 - Togliere tutti i costrutti HTML e sostituirli con Latex
-- Assicurarsi che tutte le immagini rispettino i nomi degli attributi corretti, i nomi delle entita' e la cardinalita' delle relazioni
 - Fare una query "data l'id-equipaggio mostrami il personale che ci lavora"
+- Fare un analisi per l'uso segli indici
+  - Gli indici migliorano il tempo di ricerca della colonna indicizzata nel caso in cui si fanno operazioni di sorting, ricerca, join, ecc.
+  - È importante notare che, sebbene gli indici migliorino le prestazioni delle query di ricerca, possono avere effetti negativi sulle prestazioni delle operazioni di aggiornamento (INSERT, UPDATE, DELETE).
+  - Pertanto, è necessario bilanciare attentamente l'uso degli indici in base alle esigenze specifiche del sistema. 
+  - Bisogna quindi svolgere un'analisi delle frequenze per poter decidere quando usare gli indici e quando no
+- ...
 
 
 # Domande
-- Chiedi se gli attributi che non sono ne PK che FK possono essere NULL o meno
-- Chiedi cosa ne pensa il prof del diagramma dei vincoli d'integrita' referenziale
-- Come fare l'analisi in R
-- Come popoliamo le tabelle
-- Quali sono gli step successivi?
-- Vincoli di integrita' in linguaggio sql? 
-- Quanti vincoli implementare, soltanto quelli delle operazioni oppure tutti? 
-- Serve implementare gli indici?
-- Quanti e quali trigger implementare?
-- 
-- 
-- Dobbiamo usare Transaction
+- Steward, Hostess e Piloti hanno bisogno di nomi e cognomi, bisogna aggiungere attributi allo schema oppure e' sufficiente?
+- Quali sono i tipi di indici che dobbiamo usare? (normali, UNIQUE, CLUSTERED, NON CLUSTERED, FULL TEXT)
+- Come si puo' svolgere l'analisi per decidere se ha senso usare gli indici? (le chiavi primarie sono sempre indicizzate, spesso conviene indicizzare le chiavi esterne)
+- (TODO IGOR) bastano 3 trigger e 3 operazioni? Dobbiamo usare i transaction?
+- (TODO IGOR) qulai sono i constrain richiesti? bastano quelli gia' implementati*?
+- (TODO THOMAS) analisi dei dati in R [ 2 o 3 esempi di query significative per una semplice analisi statistica (es.: trend o distribuzione di popolazione) realizzate interfacciando R al DBMS e visualizzazione del prodotto del risultato delle query attraverso opportuni grafic ]
+- Come va scritta la relazione e come si fa la consegna? Come si fa? Quali diagrammi? Quanti diagrammi?
 
-# Bonus
+
+
+
+
+# Bonus se ci sara' tempo
 - Svolgi l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214]
+
+
+
+
+
 
 
 
