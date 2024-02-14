@@ -1,4 +1,5 @@
 -- Clean up delle tabelle
+DROP VIEW IF EXISTS VOLO_COMPLETO;
 DROP TABLE IF EXISTS VOLO;
 DROP TABLE IF EXISTS HOSTESS;
 DROP TABLE IF EXISTS STEWARD;
@@ -32,7 +33,7 @@ CREATE TABLE PILOTA
     codice_fiscale CHAR(16) PRIMARY KEY,
     -- TODO: va bene hardcoddare 2024 all'interno cosi'
     eta INT GENERATED ALWAYS AS
-        ( 2024 - (1900 + CAST(SUBSTRING(codice_fiscale FROM 7 FOR 2) AS INT)) ) STORED,
+        ((2024 - (1900 + (SUBSTRING(codice_fiscale FROM 7 FOR 2))::integer)) % 100) STORED,
     id_equipaggio VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
 );
 
@@ -72,7 +73,7 @@ CREATE TABLE AEROMOBILE
 CREATE TABLE VOLO
 (
     gate          INT,
-    ora           VARCHAR(255), -- potremmo usare TIME
+    ora           TIME,
     destinazione  VARCHAR(255)                                              NOT NULL,
     id_equipaggio VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) UNIQUE NOT NULL,
     id_aereo      VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE      NOT NULL,

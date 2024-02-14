@@ -8,10 +8,14 @@ DELETE FROM AEROMOBILE WHERE TRUE;
 DELETE FROM MODELLO WHERE TRUE;
 DELETE FROM SPECIFICHE_TECNICHE WHERE TRUE;
 
+-- IGOR:    C:/Users/igor/Desktop/UNIUD/3o_ANNO/Voli_aeroporto
+-- THOMAS:  .
+-- STAN:    .
+
 -- Popolo le tabelle con i csv
 DO $$
     DECLARE
-        common_path TEXT := '<la/tua/path>/Voli_aeroporto/database/TABLES/';
+        common_path TEXT := '<la/tua/path>/database/TABLES/';
     BEGIN
         EXECUTE 'COPY EQUIPAGGIO (id_equipaggio) FROM ' || quote_literal(common_path || 'EQUIPAGGIO.csv') || ' DELIMITER '','' CSV HEADER;';
         EXECUTE 'COPY STEWARD (codice_fiscale, id_equipaggio) FROM ' || quote_literal(common_path || 'STEWARD.csv') || ' DELIMITER '','' CSV HEADER;';
@@ -21,4 +25,4 @@ DO $$
         EXECUTE 'COPY MODELLO (nome_modello, azienda_costruttrice, carico_max, persone_max, peso, lunghezza, apertura_alare) FROM ' || quote_literal(common_path || 'MODELLO.csv') || ' DELIMITER '','' CSV HEADER;';
         EXECUTE 'COPY AEROMOBILE (id_aereo, nome_modello, azienda_costruttrice) FROM ' || quote_literal(common_path || 'AEROMOBILE.csv') || ' DELIMITER '','' CSV HEADER;';
         EXECUTE 'COPY VOLO (gate, ora, destinazione, id_equipaggio, id_aereo) FROM ' || quote_literal(common_path || 'VOLO.csv') || ' DELIMITER '','' CSV HEADER;';
-    END $$;
+END $$;
