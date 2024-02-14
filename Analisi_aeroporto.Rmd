@@ -20,7 +20,7 @@ db_host = "localhost"
 db_port = 5432
 db_driver = dbDriver("Postgres")
 
-conn = dbConnect( db_driver,
+con = dbConnect( db_driver,
                   dbname = db_name,
                   user = db_user,
                   password = db_password,
@@ -31,6 +31,7 @@ conn = dbConnect( db_driver,
 
 ```{r funzioni_utility, include=TRUE, echo=FALSE}
 ## Data una stringa valida come codice fiscale, ritorna l'eta della persona
+## Le poersone devono avere meno di 100 anni
 eta_codice_fiscale <- function(cf) {
   
   eta= NA
@@ -47,17 +48,44 @@ eta_codice_fiscale <- function(cf) {
   ## Anno di nascita
   anno_nascita <- as.numeric(substr(data_nascita, 1, 2))
   
+  ## Threshold
   if (anno_nascita > threshold){
-    eta = (base - 100) + anno_nascita
+    anno_nascita = (base - 100) + anno_nascita
   } else{
-    eta= base + anno_nascita
+    anno_nascita= base + anno_nascita
   }
+  
+  eta= anno_corrente - anno_nascita
   
   return(eta)
 }
+
+## dato il nome di una tabella crea il dataframe corrispondente
+## necessita di connessione aperta
+create_df <- function(nome_tabella){
+  
+  query = paste("SELECT * FROM", nome_tabella, sep = " ")
+  result = dbGetQuery(con, query)
+  df= data.frame(result)
+  
+  return (df)
+}
+
 ```
 
 ```{r eta_media_steward_hostess_pilota, echo=FALSE}
+## Generazione df
+df_hostess = create_df("hostess")
+df_steward = create_df("steward")
+df_pilota = create_df("pilota")
+
+## Creazione colonan eta
+df_hostess$eta= sapply(df_hostess$codice_fiscale, eta_codice_fiscale)
+df_steward$eta= sapply(df_steward$codice_fiscale, eta_codice_fiscale)
+df_pilota$eta= sapply(df_pilota$codice_fiscale, eta_codice_fiscale)
+
+
+# Creare il grafico con ggplot2
 
 
 
@@ -65,13 +93,12 @@ eta_codice_fiscale <- function(cf) {
 
 
 ```{r nr_assistenti_volo, echo=FALSE}
+
+
 ```
 
 ```{r nrpassaggeri_volo, echo=FALSE}
 ```
 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
 
