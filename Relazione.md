@@ -564,8 +564,8 @@ VOLO
 - VOLO.ora: deve essere un valore di tempo valido ('HH:MM:SS')
 
 MODELLO
-- MODELLO.persone_max: devono essere un valore positivo
-- MODELLO.carico_max: devono essere un valore positivo
+- MODELLO.persone_max: devono essere un valore numerico positivo
+- MODELLO.carico_max: devono essere un valore numerico positivo
 
 SPECIFICHE_TECNICHE
 - SPECIFICHE_TECNICHE.peso: deve essere un valore numerico positivo
@@ -574,28 +574,18 @@ SPECIFICHE_TECNICHE
 
 
 
-#### 3.3.3 Vincoli d'integrita'
+#### 3.3.3 Vincoli d'integrita' di EQUIPAGGIO
 
-PILOTA
-
-$$
-\begin{cases}
-   \forall \space x,y,z \in PILOTA \quad | \quad x \neq y \neq z \space \wedge \space x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \implies x.id\textunderscore equipaggio \neq z.id\textunderscore equipaggio \\
-   \exists \space x,y \in PILOTA \quad | \quad x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
-\end{cases}
-$$
-
-
-EQUIPAGGIO
-
+- Ogni EQUIPAGGIO deve essere collegato a un VOLO
 - Ogni EQUIPAGGIO deve essere collegato ad almeno uno tra HOSTESS e STEWARD
 - Ogni EQUIPAGGIO deve essere collegato ad almeno un PILOTA
 
 $$
-   \forall \space x \in EQUIPAGGIO \quad \exist y \in PILOTA \quad | x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
+\begin{cases}
+\forall \space x \neq y \neq z \in PILOTA \quad | \quad x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \implies x.id\textunderscore equipaggio \neq z.id\textunderscore equipaggio \\
+\forall \space x'\in EQUIPAGGIO \quad \exists \space x \neq y \in PILOTA \quad | \quad x'.id\textunderscore equipaggio = x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
+\end{cases}
 $$
-
-- Ogni EQUIPAGGIO deve essere collegato a un VOLO
 
 
 
@@ -661,21 +651,39 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 
 # Domande
-- Steward, Hostess e Piloti hanno bisogno di nomi e cognomi, bisogna aggiungere attributi allo schema oppure e' sufficiente?
+
+INDICI
 - Quali sono i tipi di indici che dobbiamo usare? (normali, UNIQUE, CLUSTERED, NON CLUSTERED, FULL TEXT)
 - Come si puo' svolgere l'analisi per decidere se ha senso usare gli indici? (le chiavi primarie sono sempre indicizzate, spesso conviene indicizzare le chiavi esterne)
-- (TODO IGOR) bastano 3 trigger e 3 operazioni? Dobbiamo usare i transaction?
-- (TODO IGOR) qulai sono i constrain richiesti? bastano quelli gia' implementati*?
-- (TODO THOMAS) analisi dei dati in R [ 2 o 3 esempi di query significative per una semplice analisi statistica (es.: trend o distribuzione di popolazione) realizzate interfacciando R al DBMS e visualizzazione del prodotto del risultato delle query attraverso opportuni grafic ]
-- Come va scritta la relazione e come si fa la consegna? Come si fa? Quali diagrammi? Quanti diagrammi?
 
+VINCOLI
+- Discuti con il prof per le cardinalita' (0,1) tra diverse entita'
+- Discuti con il prof i vincoli introdotti per garantire (1,1) - (1,1) tra equipaggio e volo
+- Revisione su view volo_completo (attributo derivato)
+- Discutere per quanto riguarda il vincolo esattamente 2 piloti per equipaggio
+- Dobbiamo usare sempre trigger oppure check vanno bene lo stesso? (proposta in vincoli_db.sql)
+- Molti di questi vincoli sono circolari come si fa per gli inserimenti? (constrain deffered, proposta in vincoli_db.sql)
+- Dobbiamo usare i transaction?
+
+ANALISI R
+- (TODO THOMAS) analisi dei dati in R. Come si fa? Quali e quanti diagrammi?
+- Steward, Hostess e Piloti hanno bisogno di nomi e cognomi, bisogna aggiungere attributi allo schema oppure e' sufficiente?
+
+RELAZIONE
+- Come va scritta la relazione e come si fa la consegna?
 
 
 
 
 # Bonus se ci sara' tempo
 - Svolgi l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214]
-
+- Verificare e applicare i seguenti concetti: 
+  - CHECK
+  - TRANSACTION (stored transaction)
+  - quando usare trigger e quando usare gli assert 
+  - ROLLBACK, COMMIT e CONSTRAIN DEFFERED 
+  - differenze tra FUNCTION e PROCEDURE 
+  - TRANSACTION FA DA SOLA IL ROLLBACK? Quando usare il rollback? 
 
 
 
