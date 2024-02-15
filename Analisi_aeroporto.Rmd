@@ -74,6 +74,36 @@ create_df <- function(nome_tabella){
 
 ```
 
+
+```{r wrapper_query, include=FALSE, echo=FALSE}
+##
+## WRAPPING QUERY DB!
+## 
+## Interfaccia che si assicura una corretta comunicazione con il db
+##
+## PRECONDIZIOINI: 
+## connessione a db gia presente in var: con
+## le funzioni devono essere implementate sul db
+## POSTCONDIZIONI
+## la veriabile query deve sempre essere azzerata con NA
+
+query = NA
+
+## Return: numeric
+nr_Steward_Aerei_Pesanti <- function(min, max){
+  
+  query = paste("SELECT Steward_Aerei_Pesanti(", min, ", ", max, ")")
+  nr_Steward_Aerei_Pesanti <- dbGetQuery(con, query)
+  query = NA
+  return(as.numeric(nr_Steward_Aerei_Pesanti))
+}
+
+
+
+
+
+```
+
 ```{r eta_media_steward_hostess_pilota, echo=FALSE}
 ## Generazione df
 df_hostess = create_df("hostess")
@@ -133,8 +163,18 @@ ggplot() +
 ```
 
 
-```{r nr_assistenti_volo, echo=FALSE}
 
+```{r steward_aerei_pesanti, echo=FALSE}
+
+peso_min <- 100
+peso_max <- 250000
+
+steward= nr_Steward_Aerei_Pesanti(peso_min,peso_max)
+
+
+```
+
+```{r nr_assistenti_volo, echo=FALSE}
 
 ```
 
