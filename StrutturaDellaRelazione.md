@@ -30,13 +30,21 @@
         4. [x] 3.3.4 Diagramma dei vincoli d'integrità referenziale
 
 4. Progettazione Fisica
-    1. [ ] 4.1 
+    1. [ ] 4.1 Analisi Indici
+    2. [ ] 4.2 Implementazioni file sql
+       1. [ ] 4.2.1 creazione database
+       2. [ ] 4.2.2 creazione tabelle
+       3. [ ] 4.2.3 creazione indici
 
 5. Implementazione
-    1. [ ] 5.1 ?
+    1. [ ] 5.1 Trigger / check
+    2. [ ] 5.2 Query
+    3. [ ] 5.3 Popolazione database
 
 6. Analisi con linguaggio R
-    1. [ ] 6.1 ?
+    1. [ ] 6.1 Connessione con libreria RPostgress
+    2. [ ] 6.1 Analisi età media personale
+    3. [ ] 6.1 Analisi steward
 
 
 ### Proposta
