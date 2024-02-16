@@ -42,9 +42,9 @@
     3. [ ] 5.3 Popolazione database
 
 6. Analisi con linguaggio R
-    1. [ ] 6.1 Connessione con libreria RPostgres
-    2. [ ] 6.1 Analisi età media personale
-    3. [ ] 6.1 Analisi steward
+    1. [x] 6.1 Connessione con libreria RPostgres
+    2. [x] 6.1 Analisi età media personale
+    3. [x] 6.1 Analisi steward
 
 
 ### Proposta
