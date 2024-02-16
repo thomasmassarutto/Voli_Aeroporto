@@ -564,8 +564,8 @@ VOLO
 - VOLO.ora: deve essere un valore di tempo valido ('HH:MM:SS')
 
 MODELLO
-- MODELLO.persone_max: devono essere un valore positivo
-- MODELLO.carico_max: devono essere un valore positivo
+- MODELLO.persone_max: devono essere un valore numerico positivo
+- MODELLO.carico_max: devono essere un valore numerico positivo
 
 SPECIFICHE_TECNICHE
 - SPECIFICHE_TECNICHE.peso: deve essere un valore numerico positivo
@@ -574,28 +574,18 @@ SPECIFICHE_TECNICHE
 
 
 
-#### 3.3.3 Vincoli d'integrita'
+#### 3.3.3 Vincoli d'integrita' di EQUIPAGGIO
 
-PILOTA
-
-$$
-\begin{cases}
-   \forall \space x,y,z \in PILOTA \quad | \quad x \neq y \neq z \space \wedge \space x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \implies x.id\textunderscore equipaggio \neq z.id\textunderscore equipaggio \\
-   \exists \space x,y \in PILOTA \quad | \quad x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
-\end{cases}
-$$
-
-
-EQUIPAGGIO
-
+- Ogni EQUIPAGGIO deve essere collegato a un VOLO
 - Ogni EQUIPAGGIO deve essere collegato ad almeno uno tra HOSTESS e STEWARD
 - Ogni EQUIPAGGIO deve essere collegato ad almeno un PILOTA
 
 $$
-   \forall \space x \in EQUIPAGGIO \quad \exist y \in PILOTA \quad | x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
+\begin{cases}
+\forall \space x \neq y \neq z \in PILOTA \quad | \quad x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \implies x.id\textunderscore equipaggio \neq z.id\textunderscore equipaggio \\
+\forall \space x'\in EQUIPAGGIO \quad \exists \space x \neq y \in PILOTA \quad | \quad x'.id\textunderscore equipaggio = x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
+\end{cases}
 $$
-
-- Ogni EQUIPAGGIO deve essere collegato a un VOLO
 
 
 
@@ -635,6 +625,51 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 
 
+## Indici
+
+Introduzione
+
+All'interno del contesto dell'ottimizzazione delle prestazioni di un database, gli indici rivestono un ruolo fondamentale, fornendo all'ottimizzatore la capacità di individuare in modo efficiente i dati richiesti per eseguire le query e migliorare notevolmente i tempi di risposta.
+
+
+Scelta degli indici
+
+La decisione di creare indici specifici dipende da due fattori cruciali:
+- Colonne utilizzate nelle clausole WHERE e JOIN: È essenziale creare indici sulle colonne spesso coinvolte in operazioni di filtraggio o di join, al fine di accelerare l'accesso ai dati.
+- Frequenza di accesso: La creazione di indici su colonne con elevata frequenza di utilizzo nelle query avrà un impatto maggiore sull'ottimizzazione delle prestazioni complessive.
+
+
+Analisi del caso specifico
+Considerando le operazioni implementate e le frequenze di accesso alle colonne delle diverse tabelle, vengono proposti gli indici seguenti:
+
+Frequenza di accesso:
+
+|  Tabella   |              Colonna               | Frequenza di accesso |
+|:----------:|:----------------------------------:|:--------------------:|
+|  STEWARD   |           id_equipaggio            |          1           |
+|   PILOTA   |           id_equipaggio            |          1           |   
+|   PILOTA   |                eta                 |          1           |
+|    VOLO    |           id_equipaggio            |          2           |
+|    VOLO    |              id_aereo              |          2           |
+|    VOLO    |            destinazione            |          1           |
+| AEROMOBILE | nome_modello, azienda_costruttrice |          2           |
+|  MODELLO   |                peso                |          2           |
+
+Indici proposti:
+
+idx_steward_equipaggio su STEWARD (id_equipaggio)
+idx_pilota_equipaggio su PILOTA (id_equipaggio)
+idx_pilota_eta su PILOTA (eta)
+idx_volo_equipaggio su VOLO (id_equipaggio)
+idx_volo_aereo su VOLO (id_aereo)
+idx_volo_destinazione su VOLO (destinazione)
+idx_aeromobile_modello_azienda su AEROMOBILE (nome_modello, azienda_costruttrice)
+idx_modello_peso su MODELLO (peso)
+
+
+Nota
+Riguardo alle chiavi primarie, sebbene queste siano frequentemente coinvolte nelle operazioni, la loro unicità già indicizzata esclude la necessità di ulteriori indici.
+
 
 
 
@@ -661,20 +696,41 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 
 # Domande
-- Steward, Hostess e Piloti hanno bisogno di nomi e cognomi, bisogna aggiungere attributi allo schema oppure e' sufficiente?
+
+INDICI
 - Quali sono i tipi di indici che dobbiamo usare? (normali, UNIQUE, CLUSTERED, NON CLUSTERED, FULL TEXT)
 - Come si puo' svolgere l'analisi per decidere se ha senso usare gli indici? (le chiavi primarie sono sempre indicizzate, spesso conviene indicizzare le chiavi esterne)
-- (TODO IGOR) bastano 3 trigger e 3 operazioni? Dobbiamo usare i transaction?
-- (TODO IGOR) qulai sono i constrain richiesti? bastano quelli gia' implementati*?
-- (TODO THOMAS) analisi dei dati in R [ 2 o 3 esempi di query significative per una semplice analisi statistica (es.: trend o distribuzione di popolazione) realizzate interfacciando R al DBMS e visualizzazione del prodotto del risultato delle query attraverso opportuni grafic ]
-- Come va scritta la relazione e come si fa la consegna? Come si fa? Quali diagrammi? Quanti diagrammi?
+- I codici vanno messi nella relazione?
 
+VINCOLI
+- Discuti con il prof per le cardinalita' (0,1) tra diverse entita'
+- Discuti con il prof i vincoli introdotti per garantire (1,1) - (1,1) tra equipaggio e volo
+- Revisione su view volo_completo (attributo derivato)
+- Discutere per quanto riguarda il vincolo esattamente 2 piloti per equipaggio
+- Dobbiamo usare sempre trigger oppure check vanno bene lo stesso? (proposta in vincoli_db.sql)
+- Molti di questi vincoli sono circolari come si fa per gli inserimenti? (constrain deffered, proposta in vincoli_db.sql)
+- Dobbiamo usare i transaction?
 
+ANALISI R
+- (TODO THOMAS) analisi dei dati in R. Come si fa? Quali e quanti diagrammi?
+- Steward, Hostess e Piloti hanno bisogno di nomi e cognomi, bisogna aggiungere attributi allo schema oppure e' sufficiente?
 
+RELAZIONE
+- Come va scritta la relazione e come si fa la consegna?
+
+BONUS
+- Specifiche tecniche andrebbe identificato con un id?
 
 
 # Bonus se ci sara' tempo
 - Svolgi l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214]
+- Verificare e applicare i seguenti concetti: 
+  - CHECK
+  - TRANSACTION (stored transaction)
+  - quando usare trigger e quando usare gli assert 
+  - ROLLBACK, COMMIT e CONSTRAIN DEFFERED 
+  - differenze tra FUNCTION e PROCEDURE 
+  - TRANSACTION FA DA SOLA IL ROLLBACK? Quando usare il rollback? 
 
 
 
@@ -685,4 +741,5 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 
 
- 
+
+
