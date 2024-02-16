@@ -625,6 +625,51 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 
 
+## Indici
+
+Introduzione
+
+All'interno del contesto dell'ottimizzazione delle prestazioni di un database, gli indici rivestono un ruolo fondamentale, fornendo all'ottimizzatore la capacità di individuare in modo efficiente i dati richiesti per eseguire le query e migliorare notevolmente i tempi di risposta.
+
+
+Scelta degli indici
+
+La decisione di creare indici specifici dipende da due fattori cruciali:
+- Colonne utilizzate nelle clausole WHERE e JOIN: È essenziale creare indici sulle colonne spesso coinvolte in operazioni di filtraggio o di join, al fine di accelerare l'accesso ai dati.
+- Frequenza di accesso: La creazione di indici su colonne con elevata frequenza di utilizzo nelle query avrà un impatto maggiore sull'ottimizzazione delle prestazioni complessive.
+
+
+Analisi del caso specifico
+Considerando le operazioni implementate e le frequenze di accesso alle colonne delle diverse tabelle, vengono proposti gli indici seguenti:
+
+Frequenza di accesso:
+
+|  Tabella   |              Colonna               | Frequenza di accesso |
+|:----------:|:----------------------------------:|:--------------------:|
+|  STEWARD   |           id_equipaggio            |          1           |
+|   PILOTA   |           id_equipaggio            |          1           |   
+|   PILOTA   |                eta                 |          1           |
+|    VOLO    |           id_equipaggio            |          2           |
+|    VOLO    |              id_aereo              |          2           |
+|    VOLO    |            destinazione            |          1           |
+| AEROMOBILE | nome_modello, azienda_costruttrice |          2           |
+|  MODELLO   |                peso                |          2           |
+
+Indici proposti:
+
+idx_steward_equipaggio su STEWARD (id_equipaggio)
+idx_pilota_equipaggio su PILOTA (id_equipaggio)
+idx_pilota_eta su PILOTA (eta)
+idx_volo_equipaggio su VOLO (id_equipaggio)
+idx_volo_aereo su VOLO (id_aereo)
+idx_volo_destinazione su VOLO (destinazione)
+idx_aeromobile_modello_azienda su AEROMOBILE (nome_modello, azienda_costruttrice)
+idx_modello_peso su MODELLO (peso)
+
+
+Nota
+Riguardo alle chiavi primarie, sebbene queste siano frequentemente coinvolte nelle operazioni, la loro unicità già indicizzata esclude la necessità di ulteriori indici.
+
 
 
 
@@ -655,6 +700,7 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 INDICI
 - Quali sono i tipi di indici che dobbiamo usare? (normali, UNIQUE, CLUSTERED, NON CLUSTERED, FULL TEXT)
 - Come si puo' svolgere l'analisi per decidere se ha senso usare gli indici? (le chiavi primarie sono sempre indicizzate, spesso conviene indicizzare le chiavi esterne)
+- I codici vanno messi nella relazione?
 
 VINCOLI
 - Discuti con il prof per le cardinalita' (0,1) tra diverse entita'
@@ -672,7 +718,8 @@ ANALISI R
 RELAZIONE
 - Come va scritta la relazione e come si fa la consegna?
 
-
+BONUS
+- Specifiche tecniche andrebbe identificato con un id?
 
 
 # Bonus se ci sara' tempo
@@ -693,4 +740,6 @@ RELAZIONE
 
 
 
- 
+
+
+

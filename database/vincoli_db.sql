@@ -35,19 +35,19 @@ ALTER TABLE SPECIFICHE_TECNICHE
 -- VINCOLI
 -- (RV2) Il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aeromobile con cui volano.
 ALTER TABLE VOLO ADD CONSTRAINT ck_numero_equipaggio
-    CHECK (
-        (SELECT persone_max
+    CHECK ((
+        SELECT persone_max
          FROM AEROMOBILE a
               JOIN MODELLO USING (nome_modello, azienda_costruttrice)
-         WHERE a.id_aereo = VOLO.id_aereo)
-        >=
-        (SELECT COUNT(*)
+         WHERE a.id_aereo = VOLO.id_aereo
+        ) >= (
+        SELECT COUNT(*)
         FROM EQUIPAGGIO e
              JOIN HOSTESS h ON e.id_equipaggio = h.id_equipaggio
              JOIN STEWARD s ON e.id_equipaggio = s.id_equipaggio
              JOIN PILOTA p ON e.id_equipaggio = p.id_equipaggio
-        WHERE e.id_equipaggio = VOLO.id_equipaggio)
-        );
+        WHERE e.id_equipaggio = VOLO.id_equipaggio
+        ));
 
 -- TODO: ALTERNATIVA TRIGGER
 -- CREATE FUNCTION check_numero_equipaggio()
