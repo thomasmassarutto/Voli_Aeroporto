@@ -166,20 +166,29 @@ ggplot() +
 
 ```{r steward_aerei_pesanti, echo=FALSE}
 
-peso_min <- 100
-peso_max <- 250000
+peso_min = 200000L
+peso_max = 250000L
 
-steward= nr_Steward_Aerei_Pesanti(peso_min,peso_max)
+tot_steward= nrow(df_steward)
+steward_aerei_pesanti= (nr_Steward_Aerei_Pesanti(peso_min,peso_max))/tot_steward
 
+
+## Calcola la proporzione
+proporzioni <- c(1-steward_aerei_pesanti, steward_aerei_pesanti)
+
+## Crea un data frame con le proporzioni
+df_proporzioni <- data.frame(categoria = c("steward_normali", "steward_aerei_pesanti"), proporzione = proporzioni)
+
+## Piechart
+ggplot( data= df_proporzioni, 
+        aes(x = "", 
+            y = proporzione, 
+            fill = categoria)) +
+  geom_bar(stat = "identity", 
+           width = 1) +
+  coord_polar("y", 
+              start = 0) +
+  geom_text(aes(label = sprintf("%.1f%%", proporzione * 100)),
+            position = position_stack(vjust = 0.5))## centra la visualizzazione delle percentuali
 
 ```
-
-```{r nr_assistenti_volo, echo=FALSE}
-
-```
-
-```{r nrpassaggeri_volo, echo=FALSE}
-```
-
-
-
