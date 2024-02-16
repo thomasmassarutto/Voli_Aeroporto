@@ -71,7 +71,6 @@ create_df <- function(nome_tabella){
   
   return (df)
 }
-
 ```
 
 
@@ -97,11 +96,6 @@ nr_Steward_Aerei_Pesanti <- function(min, max){
   query = NA
   return(as.numeric(nr_Steward_Aerei_Pesanti))
 }
-
-
-
-
-
 ```
 
 ```{r eta_media_steward_hostess_pilota, echo=FALSE}
@@ -156,9 +150,11 @@ ggplot() +
   
   
   ## Etichette
-  labs(title = "Boxplot delle età per Hostess e Steward", fill= "Personale", x="")
+  labs(title = "Età media del personale imbarcato", fill= "Personale", x="", y="Età")
 
-
+eta_media_hostess= mean(df_hostess$eta)
+eta_media_steward= mean(df_steward$eta)
+eta_media_piloti= mean(df_pilota$eta)
 
 ```
 
@@ -166,7 +162,7 @@ ggplot() +
 
 ```{r steward_aerei_pesanti, echo=FALSE}
 
-peso_min = 200000L
+peso_min = 150000L
 peso_max = 250000L
 
 tot_steward= nrow(df_steward)
@@ -179,6 +175,7 @@ proporzioni <- c(1-steward_aerei_pesanti, steward_aerei_pesanti)
 ## Crea un data frame con le proporzioni
 df_proporzioni <- data.frame(categoria = c("steward_normali", "steward_aerei_pesanti"), proporzione = proporzioni)
 
+
 ## Piechart
 ggplot( data= df_proporzioni, 
         aes(x = "", 
@@ -189,6 +186,9 @@ ggplot( data= df_proporzioni,
   coord_polar("y", 
               start = 0) +
   geom_text(aes(label = sprintf("%.1f%%", proporzione * 100)),
-            position = position_stack(vjust = 0.5))## centra la visualizzazione delle percentuali
+            position = position_stack(vjust = 0.5))+## centra la visualizzazione delle percentuali
+    ## Etichette
+  labs(title = paste("Proporzione steward imbarcati su voli con carico max (", peso_min, "," , peso_max, ")"), 
+       fill= "Personale", x="", y="")
 
 ```
