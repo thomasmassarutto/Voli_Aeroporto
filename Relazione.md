@@ -673,14 +673,63 @@ Riguardo alle chiavi primarie, sebbene queste siano frequentemente coinvolte nel
 
 
 
+# 5 Implementazione
+
+## 5.1 Trigger / check
+
+## 5.2 Query
+
+## 5.3 Popolazione database
+
+
+# 6 Analisi con linguaggio R
+
+## 6.1 Connessione con libreria RPostgres
+
+
+Per instaurare una connessione con una base di dati in R è necessario utilizzare il comando `dbConnect()` in cui bisogna specificare il driver utilizzato e i principali parametri quali nome della base di dati, utente password, host e porta. 
+Come driver è stato scelto RPostgres che viene implementato nell'omonima libreria.
+Un Tentativo di connessione risulta essere: 
+
+```R
+connessione = dbConnect( db_driver= dbDriver("Postgres"),
+                         dbname = "db_name",
+                         user = "db_user",
+                         password = "db_password",
+                         host = "db_host",
+                         port = db_port
+)
+```
+Una volta creata la connessione è possibile eseguire query utilizzando la funzione `dbSendQuery(connessione, "query")`.
+
+## 6.1 Analisi età media personale
+
+Utilizzando i dati presenti nelle tabelle `Hostess`, `Steward` e `Piloti` è stato possibile calcolare l'età media del personale imbarcato negli aerei.
+Le età delle singole hostess e dei singoli steward è stata ricavata analizzando il codice fiscale, mentre l'età dei piloti è presente all'interno del database sotto forma di attributo.
+
+L'analisi ha prodotto i seguenti risultati:
+
+|         | età media |
+|:-------:|:---------:|
+| Hostess |   41,85   |
+| Steward |   38,85   |
+| Pilota  |  41,125   |
 
 
 
+![Età medie del personale di volo](ImmaginiAnalisi\EtaMediaDelPersonaleImbarcato.png)
 
+In questo boxplot si nota come sia distribuita la popolazione all'interno del quartili. Il punto indica il valore medio per ogni categoria.
 
+## 6.1 Analisi steward
 
+La funzione personalizzata `steward_aerei_pesanti` implementata in sql restituisce il numero di steward che sono imbarcati su voli serviti da aerei con peso all'interno di un certo range.
 
+Eseguendo la query con il parametro di peso minimo pari a 150000kg e peso massimo 200000kg si ottengono i seguenti risultati:
 
+![Steward imbarcati in voli con peso (150000, 250000)](ImmaginiAnalisi\StewardAereiPesanti.png)
+
+Questa rappresentazione suggerisce come solo il 30% degli steward sia imbarcato in voli con aerei con peso massimo compreso nel range 50000kg, 250000kg.
 
 
 
