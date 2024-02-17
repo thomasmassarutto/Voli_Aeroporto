@@ -692,7 +692,8 @@ Riguardo alle chiavi primarie, sebbene queste siano frequentemente coinvolte nel
   - È importante notare che, sebbene gli indici migliorino le prestazioni delle query di ricerca, possono avere effetti negativi sulle prestazioni delle operazioni di aggiornamento (INSERT, UPDATE, DELETE).
   - Pertanto, è necessario bilanciare attentamente l'uso degli indici in base alle esigenze specifiche del sistema. 
   - Bisogna quindi svolgere un'analisi delle frequenze per poter decidere quando usare gli indici e quando no
-- ...
+- On delete {cascade | set null}
+- Parla della clausola defferable usato nelle varie tabelle sulle fk
 
 
 # Domande

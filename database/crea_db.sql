@@ -16,22 +16,26 @@ CREATE TABLE EQUIPAGGIO
     id_equipaggio VARCHAR(255) PRIMARY KEY
 );
 
+-- TODO: inserisci nella relazione il motivo del deferrable in hostess e steward
 CREATE TABLE HOSTESS
 (
     codice_fiscale CHAR(16) PRIMARY KEY,
-    id_equipaggio  VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
+    id_equipaggio  VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_hos_equipaggio FOREIGN KEY (id_equipaggio)
+        REFERENCES EQUIPAGGIO (id_equipaggio) DEFERRABLE
 );
 
 CREATE TABLE STEWARD
 (
     codice_fiscale CHAR(16) PRIMARY KEY,
-    id_equipaggio  VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
+    id_equipaggio  VARCHAR(255)NOT NULL,
+    CONSTRAINT fk_stw_equipaggio FOREIGN KEY (id_equipaggio)
+        REFERENCES EQUIPAGGIO (id_equipaggio) DEFERRABLE
 );
 
 CREATE TABLE PILOTA
 (
     codice_fiscale CHAR(16) PRIMARY KEY,
-    -- TODO: va bene hardcoddare 2024 all'interno cosi'
     eta INT GENERATED ALWAYS AS
         ((2024 - (1900 + (SUBSTRING(codice_fiscale FROM 7 FOR 2))::integer)) % 100) STORED,
     id_equipaggio VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
