@@ -45,7 +45,6 @@ DROP TRIGGER IF EXISTS trigger_valid_num_equipaggio ON VOLO;
 
 
 
-
 --  VINCOLO tra EQUIPAGGIO, HOSTESS e STEWARD
 --      - equipaggio non puo' essere inserito senza hostess oppure steward
 --      - equipaggio deve avere sempre almeno un hostess oppure uno steward (quindi se viene eliminato anche l'ultimo S o H dall'equipaggio questo viene eliminato di conseguenza)
@@ -282,7 +281,8 @@ BEGIN
     INSERT INTO PILOTA (codice_fiscale, id_equipaggio)
         VALUES (codice_fiscale_pilota2, id_equipaggio);
 
-    INSERT INTO VOLO VALUES (gate, ora, destinazione, id_equipaggio, id_aereo);
+    INSERT INTO VOLO (gate, ora, destinazione, id_equipaggio, id_aereo)
+        VALUES (gate, ora, destinazione, id_equipaggio, id_aereo);
 
     INSERT INTO EQUIPAGGIO VALUES (id_equipaggio);
 END;
