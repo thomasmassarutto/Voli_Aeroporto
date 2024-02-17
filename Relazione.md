@@ -164,7 +164,6 @@ in cui:
 | Regole di vincolo                                                                                                                                                |     
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **(RV1)** - L'entità "EQUIPAGGIO" deve sempre includere almeno un membro fra hostess e steward.                                                                  |
-| **(RV2)** - Il numero di persone che compone l'equipaggio deve essere minore o uguale al numero massimo di persone trasportabili dall'aeromobile con cui volano. |
 
 
 
