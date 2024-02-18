@@ -1,13 +1,3 @@
--- Clean up delle tabelle
-DROP VIEW IF EXISTS VOLO_COMPLETO;
-DROP TABLE IF EXISTS VOLO;
-DROP TABLE IF EXISTS HOSTESS;
-DROP TABLE IF EXISTS STEWARD;
-DROP TABLE IF EXISTS PILOTA;
-DROP TABLE IF EXISTS EQUIPAGGIO;
-DROP TABLE IF EXISTS AEROMOBILE;
-DROP TABLE IF EXISTS MODELLO;
-DROP TABLE IF EXISTS SPECIFICHE_TECNICHE;
 
 
 -- Creazione delle tabelle
@@ -38,7 +28,9 @@ CREATE TABLE PILOTA
     codice_fiscale CHAR(16) PRIMARY KEY,
     eta INT GENERATED ALWAYS AS
         ((2024 - (1900 + (SUBSTRING(codice_fiscale FROM 7 FOR 2))::integer)) % 100) STORED,
-    id_equipaggio VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
+    id_equipaggio VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_plt_equipaggio FOREIGN KEY (id_equipaggio)
+        REFERENCES EQUIPAGGIO (id_equipaggio) DEFERRABLE
 );
 
 CREATE TABLE SPECIFICHE_TECNICHE
@@ -80,8 +72,10 @@ CREATE TABLE VOLO
     ora           TIME,
     destinazione  VARCHAR(255)                                              NOT NULL,
     capacita_passeggeri INT,
-    id_equipaggio VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) UNIQUE NOT NULL,
+    id_equipaggio VARCHAR(255) UNIQUE NOT NULL,
     id_aereo      VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE      NOT NULL,
+    CONSTRAINT fk_volo_equipaggio FOREIGN KEY (id_equipaggio)
+        REFERENCES EQUIPAGGIO (id_equipaggio) DEFERRABLE,
     PRIMARY KEY (gate, ora)
 );
 
@@ -96,12 +90,10 @@ BEGIN
     ) - 2 - (
         SELECT COUNT(*)
         FROM HOSTESS h
-            JOIN EQUIPAGGIO USING (id_equipaggio)
         WHERE h.id_equipaggio = NEW.id_equipaggio
-    ) + (
+    ) - (
         SELECT COUNT(*)
         FROM STEWARD s
-            JOIN EQUIPAGGIO USING (id_equipaggio)
         WHERE s.id_equipaggio = NEW.id_equipaggio
     );
 
