@@ -695,7 +695,9 @@ CREATE TABLE PILOTA
     codice_fiscale CHAR(16) PRIMARY KEY,
     eta INT GENERATED ALWAYS AS
         ((2024 - (1900 + (SUBSTRING(codice_fiscale FROM 7 FOR 2))::integer)) % 100) STORED,
-    id_equipaggio VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
+    id_equipaggio VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_plt_equipaggio FOREIGN KEY (id_equipaggio)
+       REFERENCES EQUIPAGGIO (id_equipaggio) DEFERRABLE
 );
 
 -- Altre tabelle omesse per brevità
@@ -742,8 +744,7 @@ Concludiamo così la creazione delle tabelle per il nostro database. Le tabelle 
 
 ## 5.1 Vincoli di integrita con trigger e check
 
-
-### Vincoli di Dominio
+### 5.1.1 Vincoli di Dominio
 
 Abbiamo implementato diversi vincoli di dominio per garantire l'integrità dei dati nelle tabelle del nostro database:
 
@@ -783,7 +784,7 @@ Abbiamo implementato diversi vincoli di dominio per garantire l'integrità dei d
        ADD CONSTRAINT ck_lunghezza_st CHECK (lunghezza > 0);
    ```
 
-### Triggers e Vincoli di Relazione
+### 5.1.2 Triggers e Vincoli di Relazione
 
 Abbiamo implementato diverse procedure e triggers per gestire i vincoli di relazione tra le tabelle del nostro database:
 
@@ -834,7 +835,7 @@ Abbiamo implementato diverse procedure e triggers per gestire i vincoli di relaz
    EXECUTE FUNCTION trigger_function_exists_volo();
    ```
 
-### Procedura di Inserimento
+### 5.1.3 Procedura di Inserimento
 
 Abbiamo implementato una procedura di inserimento chiamata "insert_volo_con_personale()" per agevolare l'utente e garantire l'integrità referenziale. Tale funzione prende in input tutte le informazioni necessarie per l'inserimento di un volo.
 
@@ -862,84 +863,66 @@ La procedura inserisce automaticamente l'equipaggio, hostess, steward, piloti e 
 
 ## 5.2 Operazioni del Database - Query
 
-Abbiamo implementato tre operazioni per interrogare il nostro database in modi utili e informativi.
 
-### 5.2.1 Ricerca Voli per Destinazione
+Oltre alla struttura del database, abbiamo definito tre operazioni fondamentali per ottenere informazioni specifiche dai dati immagazzinati. Di seguito, descriviamo brevemente ciascuna operazione.
 
-La seguente procedura restituisce un elenco dei voli che partono in giornata e raggiungono una destinazione specifica.
+### 5.2.1 Ricerca dei voli per destinazione
+
+Data una destinazione desiderata, l'operazione `Ricerca_Voli_Destinazione` restituisce un elenco di voli che partono in giornata e raggiungono la destinazione specificata. La funzione restituisce i dettagli del volo, inclusi il gate, l'orario di partenza, la destinazione, l'equipaggio e l'aereo associato.
 
 ```sql
-CREATE OR REPLACE FUNCTION Ricerca_Voli_Destinazione(destinazione_desiderata VARCHAR)
-    RETURNS TABLE (
-        gate INT,
-        ora TIME,
-        destinazione VARCHAR,
-        id_equipaggio VARCHAR,
-        id_aereo VARCHAR
-        ) AS $$
-BEGIN
-    RETURN QUERY
-        SELECT v.gate, v.ora, v.destinazione, v.id_equipaggio, v.id_aereo
-        FROM VOLO v
-        WHERE v.destinazione = destinazione_desiderata
-        ORDER BY v.ora ASC;
-END;
-$$ LANGUAGE plpgsql;
+-- Esempio di utilizzo
+SELECT * FROM Ricerca_Voli_Destinazione('Roma');
 ```
 
-### 5.2.2 Numero di Steward per Aerei con Peso Specifico
+### 5.2.2 Numero di steward su voli con aerei di peso specifico
 
-Questa procedura restituisce il numero di steward che lavorano su voli che coinvolgono aerei con un peso compreso tra X e Y.
+L'operazione `Steward_Aerei_Pesanti` restituisce il numero di steward che lavorano su voli con aerei il cui peso è compreso tra i valori specificati. Gli steward vengono conteggiati in modo univoco, indipendentemente dal numero di voli a cui partecipano.
 
 ```sql
-CREATE OR REPLACE FUNCTION Steward_Aerei_Pesanti(X INT, Y INT)
-    RETURNS INT AS $$
-DECLARE
-    num_steward INT;
-BEGIN
-    SELECT COUNT(DISTINCT(s.codice_fiscale)) INTO num_steward
-    FROM STEWARD s
-        JOIN EQUIPAGGIO e USING (id_equipaggio)
-        JOIN VOLO v USING (id_equipaggio)
-        JOIN AEROMOBILE a USING (id_aereo)
-        JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
-    WHERE m.peso BETWEEN X and Y;
-
-    RETURN num_steward;
-END;
-$$ LANGUAGE plpgsql;
+-- Esempio di utilizzo
+SELECT Steward_Aerei_Pesanti(10000, 15000) AS num_steward;
 ```
 
-### 5.2.3 Aerei di Linea Comandati da Piloti con Età Specifica
+### 5.2.3 Aerei di linea comandati da piloti di età specifica
 
-Questa procedura restituisce un elenco di aerei di linea comandati da piloti con un'età compresa tra 30 e 60 anni inclusi.
+L'operazione `Aerei_Di_Linea` restituisce un elenco di aerei di linea comandati da piloti con un'età compresa tra 30 e 60 anni inclusi. Vengono forniti dettagli sugli aerei, come l'ID, il modello, il peso, nonché dettagli sui piloti, come il codice fiscale e l'età.
 
 ```sql
-CREATE OR REPLACE FUNCTION Aerei_Di_Linea()
-RETURNS TABLE (
-    id_aereo VARCHAR(255),
-    nome_modello VARCHAR(255),
-    peso_aereo INT,
-    codice_fiscale CHAR(16),
-    eta INT
-    ) AS $$
-BEGIN
-    RETURN QUERY
-        SELECT a.id_aereo, a.nome_modello, m.peso, p.codice_fiscale, p.eta
-        FROM PILOTA p
-             JOIN EQUIPAGGIO e USING (id_equipaggio)
-             JOIN VOLO v USING (id_equipaggio)
-             JOIN AEROMOBILE a USING (id_aereo)
-             JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
-        WHERE (p.eta BETWEEN 30 AND 60)
-            AND (m.peso = (SELECT MIN(peso) FROM MODELLO));
-END;
-$$ LANGUAGE plpgsql;
+-- Esempio di utilizzo
+SELECT * FROM Aerei_Di_Linea();
 ```
 
 ## 5.3 Popolazione database
 
-[//]: # (TODO: Testare l'inserimento finale di tutti i dati e scrivere un readme su come creare la base di dati e farla funzionare)
+Per popolare il database, abbiamo preparato file CSV che rispettano tutti i vincoli definiti nella struttura del database. Abbiamo temporaneamente disabilitato i trigger tranne quello associato al calcolo dell'attributo derivato "capacita_passeggeri" nei voli. Successivamente, abbiamo utilizzato comandi SQL per copiare i dati dai file CSV nelle tabelle corrispondenti del database.
+
+```sql
+DO $$
+    DECLARE
+        -- cambiare <your/local/path> con la propria path locale 
+        common_path TEXT := '<your/local/path>/database/TABLES/';
+    BEGIN
+        ALTER TABLE EQUIPAGGIO DISABLE TRIGGER ALL;
+        -- Altri trigger disabilitati
+        ALTER TABLE STEWARD DISABLE TRIGGER ALL;
+
+        -- Comandi per copiare i dati dai file CSV alle tabelle
+        EXECUTE 'COPY EQUIPAGGIO (id_equipaggio) FROM ' || quote_literal(common_path || 'EQUIPAGGIO.csv') || ' DELIMITER '','' CSV HEADER;';
+        -- ... copiati altri file csv nelle restanti tabelle
+
+        ALTER TABLE EQUIPAGGIO ENABLE TRIGGER ALL;
+        -- Altri trigger riabilitati
+        ALTER TABLE STEWARD ENABLE TRIGGER ALL;
+    END
+$$;
+```
+
+Una volta popolato il database, eravamo pronti per eseguire analisi approfondite sui dati utilizzando strumenti come R.
+
+
+
+
 
 
 <br>
