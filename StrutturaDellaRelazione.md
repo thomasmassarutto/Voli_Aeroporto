@@ -31,33 +31,24 @@
 
 4. Progettazione Fisica
     1. [x] 4.1 Analisi Indici
-       1. [X] 4.1.1 creazione indici
-    2. [x] 4.2 Implementazioni file sql
-       1. [x] 4.2.1 creazione database
-       2. [x] 4.2.2 creazione tabelle
+       1. [X] creazione indici
+    2. [x] 4.2 Implementazione in SQL
+       1. [x] creazione database
+       2. [x] creazione tabelle
 
 5. Implementazione
-    1. [x] 5.1 Trigger / check
-    2. [x] 5.2 Query
-    3. [ ] 5.3 Popolazione database
+    1. [x] 5.1 Vincoli di integrita con trigger e check
+       1. [x] 5.1.1 Vincoli di Dominio
+       2. [x] 5.1.2 Triggers e Vincoli di Relazione
+       3. [x] 5.1.3 Procedura di Inserimento
+    2. [x] 5.2 Operazioni del Database - Query
+       1. [x] 5.2.1 Ricerca dei voli per destinazione
+       2. [x] 5.2.2 Numero di steward su voli con aerei di peso specifico
+       3. [x] 5.2.3 Aerei di linea comandati da piloti di età specifica
+    3. [x] 5.3 Popolazione database
 
 6. Analisi con linguaggio R
     1. [x] 6.1 Connessione con libreria RPostgres
     2. [x] 6.1 Analisi età media personale
     3. [x] 6.1 Analisi steward
 
-
-### Proposta
-
-Progettazione Fisica:
-1. Scelta del DBMS: Selezionare il sistema di gestione di database (DBMS) che meglio si adatta ai requisiti del progetto (es. MySQL, PostgreSQL, SQL Server).
-2. Definizione degli Indici: Identificare e creare gli indici necessari per ottimizzare le prestazioni delle query.
-3. Tuning delle Prestazioni: Ottimizzare la progettazione del database per migliorare le prestazioni, considerando ad esempio l'uso di partizionamento delle tabelle o di caching.
-
-Implementazione:
-1. Creazione del Database: Tradurre lo schema relazionale nella struttura fisica del database utilizzando il DBMS selezionato.
-2. Caricamento dei Dati: Popolare le tabelle del database con i dati iniziali.
-3. Test del Database: Verificare la corretta implementazione del database eseguendo test, query di verifica e assicurandosi che risponda agli scopi previsti.
-
-Analisi con Linguaggio R:
-1. Analisi dei Dati: Utilizzare il linguaggio R per eseguire analisi sui dati presenti nel database, potrebbe includere l'uso di librerie specializzate per l'analisi statistica o la creazione di visualizzazioni dei dati.
