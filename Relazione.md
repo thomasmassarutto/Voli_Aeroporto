@@ -620,30 +620,23 @@ Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grasset
 
 # 4 Progettazione fisica
 
+## 4.1 Analisi degli indici
 
+All'interno dell'ottimizzazione delle prestazioni del nostro database, gli indici svolgono un ruolo cruciale. Essi permettono all'ottimizzatore di individuare in modo efficiente i dati necessari per eseguire le query, migliorando notevolmente i tempi di risposta.
 
+### Scelta degli Indici
 
+La creazione di indici specifici è determinata principalmente da due fattori:
+- Colonne coinvolte in operazioni WHERE e JOIN: Gli indici su colonne utilizzate frequentemente in operazioni di filtraggio o join accelerano l'accesso ai dati.
+- Frequenza di accesso: Creare indici su colonne frequentemente utilizzate nelle query ha un impatto significativo sull'ottimizzazione delle prestazioni.
 
-## Indici
+### Analisi del Caso Specifico
 
-Introduzione
+Tenendo conto delle operazioni implementate e della frequenza di accesso alle colonne, ecco gli indici proposti:
 
-All'interno del contesto dell'ottimizzazione delle prestazioni di un database, gli indici rivestono un ruolo fondamentale, fornendo all'ottimizzatore la capacità di individuare in modo efficiente i dati richiesti per eseguire le query e migliorare notevolmente i tempi di risposta.
+#### Frequenza di Accesso:
 
-
-Scelta degli indici
-
-La decisione di creare indici specifici dipende da due fattori cruciali:
-- Colonne utilizzate nelle clausole WHERE e JOIN: È essenziale creare indici sulle colonne spesso coinvolte in operazioni di filtraggio o di join, al fine di accelerare l'accesso ai dati.
-- Frequenza di accesso: La creazione di indici su colonne con elevata frequenza di utilizzo nelle query avrà un impatto maggiore sull'ottimizzazione delle prestazioni complessive.
-
-
-Analisi del caso specifico
-Considerando le operazioni implementate e le frequenze di accesso alle colonne delle diverse tabelle, vengono proposti gli indici seguenti:
-
-Frequenza di accesso:
-
-|  Tabella   |              Colonna               | Frequenza di accesso |
+|  Tabella   |              Colonna               | Frequenza di Accesso |
 |:----------:|:----------------------------------:|:--------------------:|
 |  STEWARD   |           id_equipaggio            |          1           |
 |   PILOTA   |           id_equipaggio            |          1           |   
@@ -654,31 +647,306 @@ Frequenza di accesso:
 | AEROMOBILE | nome_modello, azienda_costruttrice |          2           |
 |  MODELLO   |                peso                |          2           |
 
-Indici proposti:
+#### Implementazione degli Indici:
 
-idx_steward_equipaggio su STEWARD (id_equipaggio)
-idx_pilota_equipaggio su PILOTA (id_equipaggio)
-idx_pilota_eta su PILOTA (eta)
-idx_volo_equipaggio su VOLO (id_equipaggio)
-idx_volo_aereo su VOLO (id_aereo)
-idx_volo_destinazione su VOLO (destinazione)
-idx_aeromobile_modello_azienda su AEROMOBILE (nome_modello, azienda_costruttrice)
-idx_modello_peso su MODELLO (peso)
+```sql
+-- Creazione degli indici
+CREATE INDEX idx_steward_equipaggio ON STEWARD (id_equipaggio);
+CREATE INDEX idx_pilota_equipaggio ON PILOTA (id_equipaggio);
+CREATE INDEX idx_pilota_eta ON PILOTA (eta);
+CREATE INDEX idx_volo_equipaggio ON VOLO (id_equipaggio);
+CREATE INDEX idx_volo_aereo ON VOLO (id_aereo);
+CREATE INDEX idx_volo_destinazione ON VOLO (destinazione);
+CREATE INDEX idx_aeromobile_modello_azienda ON AEROMOBILE (nome_modello, azienda_costruttrice);
+CREATE INDEX idx_modello_peso ON MODELLO (peso);
+```
+
+#### Nota
+Le chiavi primarie, sebbene queste siano frequentemente coinvolte nelle operazioni, la loro unicità già indicizzata esclude la necessità di ulteriori indici.
+
+## 4.2 Implementazione in SQL
+
+Per creare e gestire un database, è essenziale avere un server database configurato e in esecuzione. Per la creazione della nostra base di dati, potremmo utilizzare un sistema di gestione di database (DBMS) come PostgreSQL, MySQL o SQL Server per ospitare il nostro database. In questa implementazione, useremo PostgreSQL.
+
+```sql
+-- Creazione del Database
+CREATE DATABASE NOME_DATABASE;
+```
+
+Una volta creato il database, procediamo con la definizione delle tabelle necessarie per il nostro sistema.
+
+```sql
+-- Creazione delle tabelle
+CREATE TABLE EQUIPAGGIO
+(
+    id_equipaggio VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE HOSTESS
+(
+    codice_fiscale CHAR(16) PRIMARY KEY,
+    id_equipaggio  VARCHAR(255) NOT NULL,
+    CONSTRAINT fk_hos_equipaggio FOREIGN KEY (id_equipaggio)
+        REFERENCES EQUIPAGGIO (id_equipaggio) DEFERRABLE
+);
+
+CREATE TABLE PILOTA
+(
+    codice_fiscale CHAR(16) PRIMARY KEY,
+    eta INT GENERATED ALWAYS AS
+        ((2024 - (1900 + (SUBSTRING(codice_fiscale FROM 7 FOR 2))::integer)) % 100) STORED,
+    id_equipaggio VARCHAR(255) REFERENCES EQUIPAGGIO (id_equipaggio) NOT NULL
+);
+
+-- Altre tabelle omesse per brevità
+```
+
+Proseguendo con la creazione delle tabelle, è importante notare l'uso di chiavi primarie e vincoli di chiave esterna per garantire l'integrità referenziale. Inoltre, il vincolo DEFERRABLE in HOSTESS e STEWARD consente di ritardare temporaneamente l'applicazione dei vincoli di chiave esterna, come spiegato nella relazione.
+
+```sql
+-- Creazione delle restanti tabelle (omesse per brevità)
+```
+
+Infine, implementiamo una funzione di trigger per calcolare dinamicamente l'attributo derivato capacità dei passeggeri in base ai vincoli specificati. Questa funzione sarà attivata prima dell'inserimento o dell'aggiornamento di un volo.
+
+```sql
+CREATE OR REPLACE FUNCTION trigger_function_calcola_capacita_passeggeri()
+    RETURNS TRIGGER AS $$
+BEGIN
+    NEW.capacita_passeggeri := (
+        -- Logica per il calcolo della capacità dei passeggeri
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_calcola_capacita_passeggeri
+    BEFORE INSERT OR UPDATE ON VOLO
+    FOR EACH ROW
+EXECUTE FUNCTION trigger_function_calcola_capacita_passeggeri();
+```
+
+La logica di calcolo della capacità dei passeggeri è definita nella funzione del trigger e tiene conto di diversi fattori, tra cui il numero massimo di persone consentite sull'aereo, il numero di hostess e steward, come indicato nella relazione.
+
+Concludiamo così la creazione delle tabelle per il nostro database. Le tabelle selezionate contengono già diversi vincoli come NOT NULL, UNIQUE e vincoli referenziali come chiavi esterne e chiavi primarie. Tuttavia, per garantire il corretto funzionamento della nostra base di dati, sono necessari ulteriori vincoli implementati tramite trigger.
 
 
-Nota
-Riguardo alle chiavi primarie, sebbene queste siano frequentemente coinvolte nelle operazioni, la loro unicità già indicizzata esclude la necessità di ulteriori indici.
+<br>
+
+<br>
 
 
 
 
 # 5 Implementazione
 
-## 5.1 Trigger / check
+## 5.1 Vincoli di integrita con trigger e check
 
-## 5.2 Query
+
+### Vincoli di Dominio
+
+Abbiamo implementato diversi vincoli di dominio per garantire l'integrità dei dati nelle tabelle del nostro database:
+
+1. **Vincolo sull'età del pilota:**
+   ```sql
+   ALTER TABLE PILOTA
+       ADD CONSTRAINT ck_eta CHECK (eta BETWEEN 18 AND 100);
+   ```
+
+2. **Vincolo sul numero del gate:**
+   ```sql
+   ALTER TABLE VOLO
+       ADD CONSTRAINT ck_gate CHECK (gate > 0);
+   ```
+
+3. **Vincolo sull'orario del volo:**
+   ```sql
+   ALTER TABLE VOLO
+       ADD CONSTRAINT ck_ora CHECK (ora BETWEEN TIME '00:00:00' AND TIME '23:59:59');
+   ```
+
+4. **Vincolo sul numero massimo di persone per modello:**
+   ```sql
+   ALTER TABLE MODELLO
+       ADD CONSTRAINT ck_persone_max CHECK (persone_max > 0);
+   ```
+
+5. **Vincolo sul peso, apertura alare e lunghezza nelle specifiche tecniche:**
+   ```sql
+   ALTER TABLE SPECIFICHE_TECNICHE
+       ADD CONSTRAINT ck_peso_st CHECK (peso > 0);
+
+   ALTER TABLE SPECIFICHE_TECNICHE
+       ADD CONSTRAINT ck_apertura_alare_st CHECK (apertura_alare > 0);
+
+   ALTER TABLE SPECIFICHE_TECNICHE
+       ADD CONSTRAINT ck_lunghezza_st CHECK (lunghezza > 0);
+   ```
+
+### Triggers e Vincoli di Relazione
+
+Abbiamo implementato diverse procedure e triggers per gestire i vincoli di relazione tra le tabelle del nostro database:
+
+1. **Vincolo tra Equipaggio, Hostess e Steward:**
+    - L'equipaggio deve avere almeno un hostess o uno steward.
+    - Se viene eliminato l'ultimo hostess o steward da un equipaggio, l'equipaggio viene eliminato.
+   ```sql
+   CREATE TRIGGER trigger_atleast_one
+       BEFORE INSERT OR UPDATE ON EQUIPAGGIO
+       FOR EACH ROW
+   EXECUTE FUNCTION trigger_function_atleast_one();
+   ```
+
+    - Se viene eliminato l'hostess o lo steward, verifica se è l'ultimo e, in caso affermativo, elimina anche l'equipaggio associato.
+   ```sql
+   CREATE TRIGGER trigger_delete_hostess
+       AFTER DELETE ON HOSTESS
+       FOR EACH ROW
+   EXECUTE FUNCTION trigger_function_delete_hostess_steward();
+
+   CREATE TRIGGER trigger_delete_steward
+       AFTER DELETE ON STEWARD
+       FOR EACH ROW
+   EXECUTE FUNCTION trigger_function_delete_hostess_steward();
+   ```
+
+2. **Vincolo tra Equipaggio e Pilota:**
+    - L'equipaggio deve avere esattamente due piloti.
+    - Un pilota non può essere inserito se l'equipaggio ha già due piloti.
+   ```sql
+   CREATE TRIGGER trigger_exact_two
+       BEFORE INSERT OR UPDATE ON EQUIPAGGIO
+       FOR EACH ROW
+   EXECUTE FUNCTION trigger_function_exact_two();
+
+   CREATE TRIGGER trigger_nomore_two_piloti
+       BEFORE INSERT OR UPDATE ON PILOTA
+       FOR EACH ROW
+   EXECUTE FUNCTION trigger_function_nomore_two_piloti();
+   ```
+
+3. **Vincolo tra Equipaggio e Volo:**
+    - L'equipaggio deve essere associato a un volo.
+   ```sql
+   CREATE TRIGGER trigger_exists_volo
+       BEFORE INSERT OR UPDATE ON EQUIPAGGIO
+       FOR EACH ROW
+   EXECUTE FUNCTION trigger_function_exists_volo();
+   ```
+
+### Procedura di Inserimento
+
+Abbiamo implementato una procedura di inserimento chiamata "insert_volo_con_personale()" per agevolare l'utente e garantire l'integrità referenziale. Tale funzione prende in input tutte le informazioni necessarie per l'inserimento di un volo.
+
+#### Inserimento di un volo con personale:
+
+È necessario utilizzare le seguenti procedure all'interno di una transazione, ritardando temporaneamente i seguenti vincoli di chiave esterna: "fk_hos_equipaggio", "fk_stw_equipaggio", "fk_plt_equipaggio", "fk_volo_equipaggio".
+
+
+- Esempio di utilizzo:
+  ```sql
+  START TRANSACTION;
+  SET CONSTRAINTS fk_hos_equipaggio, fk_stw_equipaggio, fk_plt_equipaggio, fk_volo_equipaggio DEFERRED;
+  CALL insert_volo_con_personale(
+      'E01',                    -- id_equipaggio
+      'STLFSC87E62L491I',       -- hostess (puo' essere NULL)
+      'SRLSDT95E62F631I',       -- steward (puo' essere NULL)
+      'ZLCSSC93A69I530I',       -- pilota1 
+      'TSDDCN86A69I530I',       -- pilota2 
+      1, '07:30:00', 'Milano',  -- gate,ora,destinazione 
+      'A1'                      -- id_aereo
+  );
+  COMMIT;
+  ```
+La procedura inserisce automaticamente l'equipaggio, hostess, steward, piloti e il volo associato. Assicurarsi di utilizzare le chiavi esterne DEFERRED per garantire la corretta esecuzione della procedura.
+
+## 5.2 Operazioni del Database - Query
+
+Abbiamo implementato tre operazioni per interrogare il nostro database in modi utili e informativi.
+
+### 5.2.1 Ricerca Voli per Destinazione
+
+La seguente procedura restituisce un elenco dei voli che partono in giornata e raggiungono una destinazione specifica.
+
+```sql
+CREATE OR REPLACE FUNCTION Ricerca_Voli_Destinazione(destinazione_desiderata VARCHAR)
+    RETURNS TABLE (
+        gate INT,
+        ora TIME,
+        destinazione VARCHAR,
+        id_equipaggio VARCHAR,
+        id_aereo VARCHAR
+        ) AS $$
+BEGIN
+    RETURN QUERY
+        SELECT v.gate, v.ora, v.destinazione, v.id_equipaggio, v.id_aereo
+        FROM VOLO v
+        WHERE v.destinazione = destinazione_desiderata
+        ORDER BY v.ora ASC;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+### 5.2.2 Numero di Steward per Aerei con Peso Specifico
+
+Questa procedura restituisce il numero di steward che lavorano su voli che coinvolgono aerei con un peso compreso tra X e Y.
+
+```sql
+CREATE OR REPLACE FUNCTION Steward_Aerei_Pesanti(X INT, Y INT)
+    RETURNS INT AS $$
+DECLARE
+    num_steward INT;
+BEGIN
+    SELECT COUNT(DISTINCT(s.codice_fiscale)) INTO num_steward
+    FROM STEWARD s
+        JOIN EQUIPAGGIO e USING (id_equipaggio)
+        JOIN VOLO v USING (id_equipaggio)
+        JOIN AEROMOBILE a USING (id_aereo)
+        JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
+    WHERE m.peso BETWEEN X and Y;
+
+    RETURN num_steward;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+### 5.2.3 Aerei di Linea Comandati da Piloti con Età Specifica
+
+Questa procedura restituisce un elenco di aerei di linea comandati da piloti con un'età compresa tra 30 e 60 anni inclusi.
+
+```sql
+CREATE OR REPLACE FUNCTION Aerei_Di_Linea()
+RETURNS TABLE (
+    id_aereo VARCHAR(255),
+    nome_modello VARCHAR(255),
+    peso_aereo INT,
+    codice_fiscale CHAR(16),
+    eta INT
+    ) AS $$
+BEGIN
+    RETURN QUERY
+        SELECT a.id_aereo, a.nome_modello, m.peso, p.codice_fiscale, p.eta
+        FROM PILOTA p
+             JOIN EQUIPAGGIO e USING (id_equipaggio)
+             JOIN VOLO v USING (id_equipaggio)
+             JOIN AEROMOBILE a USING (id_aereo)
+             JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
+        WHERE (p.eta BETWEEN 30 AND 60)
+            AND (m.peso = (SELECT MIN(peso) FROM MODELLO));
+END;
+$$ LANGUAGE plpgsql;
+```
 
 ## 5.3 Popolazione database
+
+[//]: # (TODO: Testare l'inserimento finale di tutti i dati e scrivere un readme su come creare la base di dati e farla funzionare)
+
+
+<br>
+
+<br>
+
+
 
 
 # 6 Analisi con linguaggio R
@@ -730,6 +998,17 @@ Eseguendo la query con il parametro di peso minimo pari a 150000kg e peso massim
 
 Questa rappresentazione suggerisce come solo il 30% degli steward sia imbarcato in voli con aerei con peso massimo compreso nel range 50000kg, 250000kg.
 
+
+
+
+
+
+
+
+
+<br>
+
+<br>
 
 
 # TODO
