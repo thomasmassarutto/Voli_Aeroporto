@@ -24,7 +24,7 @@ CREATE TABLE PILOTA
 (
     codice_fiscale CHAR(16) PRIMARY KEY,
     eta INT GENERATED ALWAYS AS
-                       ((2024 - (1900 + (SUBSTRING(codice_fiscale FROM 7 FOR 2))::integer)) % 100) STORED,
+        ((2024 - (1900 + (SUBSTRING(codice_fiscale FROM 7 FOR 2))::integer)) % 100) STORED,
     id_equipaggio VARCHAR(255) NOT NULL,
     CONSTRAINT fk_plt_equipaggio FOREIGN KEY (id_equipaggio)
         REFERENCES EQUIPAGGIO (id_equipaggio) DEFERRABLE
@@ -47,9 +47,8 @@ CREATE TABLE MODELLO
     peso                 INT NOT NULL,
     apertura_alare       INT NOT NULL,
     lunghezza            INT NOT NULL,
-    CONSTRAINT fk_specifiche_tecniche
-        FOREIGN KEY (peso, apertura_alare, lunghezza)
-            REFERENCES SPECIFICHE_TECNICHE (peso, apertura_alare, lunghezza),
+    CONSTRAINT fk_specifiche_tecniche FOREIGN KEY (peso, apertura_alare, lunghezza)
+        REFERENCES SPECIFICHE_TECNICHE (peso, apertura_alare, lunghezza),
     PRIMARY KEY (nome_modello, azienda_costruttrice)
 );
 
@@ -66,10 +65,10 @@ CREATE TABLE VOLO
 (
     gate          INT,
     ora           TIME,
-    destinazione  VARCHAR(255)                                              NOT NULL,
+    destinazione  VARCHAR(255) NOT NULL,
     capacita_passeggeri INT,
     id_equipaggio VARCHAR(255) UNIQUE NOT NULL,
-    id_aereo      VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE      NOT NULL,
+    id_aereo      VARCHAR(255) REFERENCES AEROMOBILE (id_aereo) UNIQUE NOT NULL,
     CONSTRAINT fk_volo_equipaggio FOREIGN KEY (id_equipaggio)
         REFERENCES EQUIPAGGIO (id_equipaggio) DEFERRABLE,
     PRIMARY KEY (gate, ora)
@@ -173,8 +172,8 @@ CREATE OR REPLACE FUNCTION trigger_function_atleast_one()
     RETURNS TRIGGER AS $$
 BEGIN
     IF NOT (
-                NEW.id_equipaggio IN (SELECT id_equipaggio FROM HOSTESS) OR
-                NEW.id_equipaggio IN (SELECT id_equipaggio FROM STEWARD))
+        NEW.id_equipaggio IN (SELECT id_equipaggio FROM HOSTESS) OR
+        NEW.id_equipaggio IN (SELECT id_equipaggio FROM STEWARD))
     THEN
         RAISE EXCEPTION 'INSERT/UPDATE FAILED: id_equipaggio deve avere almeno uno tra HOSTESS o STEWARD';
     END IF;
@@ -186,14 +185,14 @@ CREATE OR REPLACE FUNCTION trigger_function_delete_hostess_steward()
     RETURNS TRIGGER AS $$
 BEGIN
     IF NOT EXISTS (
-            SELECT 1
-            FROM HOSTESS
-            WHERE id_equipaggio = OLD.id_equipaggio
-        ) AND NOT EXISTS (
-            SELECT 1
-            FROM STEWARD
-            WHERE id_equipaggio = OLD.id_equipaggio
-        ) THEN
+        SELECT 1
+        FROM HOSTESS
+        WHERE id_equipaggio = OLD.id_equipaggio
+    ) AND NOT EXISTS (
+        SELECT 1
+        FROM STEWARD
+        WHERE id_equipaggio = OLD.id_equipaggio
+    ) THEN
         DELETE FROM EQUIPAGGIO WHERE id_equipaggio = OLD.id_equipaggio;
     END IF;
     RETURN OLD;
@@ -247,10 +246,10 @@ CREATE OR REPLACE FUNCTION trigger_function_exact_two()
     RETURNS TRIGGER AS $$
 BEGIN
     IF (
-           SELECT COUNT(DISTINCT p.codice_fiscale)
-           FROM PILOTA p
-           WHERE p.id_equipaggio = NEW.id_equipaggio
-       ) != 2 THEN
+        SELECT COUNT(DISTINCT p.codice_fiscale)
+        FROM PILOTA p
+        WHERE p.id_equipaggio = NEW.id_equipaggio
+    ) != 2 THEN
         RAISE EXCEPTION 'INSERT/UPDATE FAILED: L''equipaggio deve avere esattamente due piloti.';
     END IF;
 
@@ -268,10 +267,10 @@ CREATE OR REPLACE FUNCTION trigger_function_nomore_two_piloti()
     RETURNS TRIGGER AS $$
 BEGIN
     IF (
-           SELECT COUNT(DISTINCT p.codice_fiscale)
-           FROM PILOTA p
-           WHERE p.id_equipaggio = NEW.id_equipaggio
-       ) >= 2 THEN
+        SELECT COUNT(DISTINCT p.codice_fiscale)
+        FROM PILOTA p
+        WHERE p.id_equipaggio = NEW.id_equipaggio
+    ) >= 2 THEN
         RAISE EXCEPTION 'INSERT/UPDATE FAILED: L''equipaggio possiede gia'' due piloti';
     END IF;
 
@@ -314,10 +313,10 @@ CREATE OR REPLACE FUNCTION trigger_function_exists_volo()
     RETURNS TRIGGER AS $$
 BEGIN
     IF NOT EXISTS (
-            SELECT 1
-            FROM VOLO
-            WHERE id_equipaggio = NEW.id_equipaggio
-        ) THEN
+        SELECT 1
+        FROM VOLO
+        WHERE id_equipaggio = NEW.id_equipaggio
+    ) THEN
         RAISE EXCEPTION 'INSERT/UPDATE FAILED: Nessun volo associato all''equipaggio';
     END IF;
 
@@ -409,12 +408,12 @@ $$ LANGUAGE plpgsql;
 -- Data una destinazione restituisce l'elenco dei voli che partono in giornata e la raggiungono
 CREATE OR REPLACE FUNCTION Ricerca_Voli_Destinazione(destinazione_desiderata VARCHAR)
     RETURNS TABLE (
-                      gate INT,
-                      ora TIME,
-                      destinazione VARCHAR,
-                      id_equipaggio VARCHAR,
-                      id_aereo VARCHAR
-                  ) AS $$
+        gate INT,
+        ora TIME,
+        destinazione VARCHAR,
+        id_equipaggio VARCHAR,
+        id_aereo VARCHAR
+    ) AS $$
 BEGIN
     RETURN QUERY
         SELECT v.gate, v.ora, v.destinazione, v.id_equipaggio, v.id_aereo
@@ -432,11 +431,11 @@ DECLARE
 BEGIN
     SELECT COUNT(DISTINCT(s.codice_fiscale)) INTO num_steward
     FROM STEWARD s
-             -- quando gli attributi con cui fare join hanno lo stesso nome si puo' usare USING
-             JOIN EQUIPAGGIO e USING (id_equipaggio)
-             JOIN VOLO v USING (id_equipaggio)
-             JOIN AEROMOBILE a USING (id_aereo)
-             JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
+        -- quando gli attributi con cui fare join hanno lo stesso nome si puo' usare USING
+        JOIN EQUIPAGGIO e USING (id_equipaggio)
+        JOIN VOLO v USING (id_equipaggio)
+        JOIN AEROMOBILE a USING (id_aereo)
+        JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
     WHERE m.peso BETWEEN x and y;
 
     RETURN num_steward;
@@ -446,22 +445,22 @@ $$ LANGUAGE plpgsql;
 -- Gli aerei con "persone_max" minimo comandati da piloti con età compresa fra 30 e 60 inclusi
 CREATE OR REPLACE FUNCTION Aerei_Di_Linea()
     RETURNS TABLE (
-                      id_aereo VARCHAR(255),
-                      nome_modello VARCHAR(255),
-                      peso_aereo INT,
-                      codice_fiscale CHAR(16),
-                      eta INT
-                  ) AS $$
+        id_aereo VARCHAR(255),
+        nome_modello VARCHAR(255),
+        peso_aereo INT,
+        codice_fiscale CHAR(16),
+        eta INT
+    ) AS $$
 BEGIN
     RETURN QUERY
         SELECT a.id_aereo, a.nome_modello, m.peso, p.codice_fiscale, p.eta
         FROM PILOTA p
-                 JOIN EQUIPAGGIO e USING (id_equipaggio)
-                 JOIN VOLO v USING (id_equipaggio)
-                 JOIN AEROMOBILE a USING (id_aereo)
-                 JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
+            JOIN EQUIPAGGIO e USING (id_equipaggio)
+            JOIN VOLO v USING (id_equipaggio)
+            JOIN AEROMOBILE a USING (id_aereo)
+            JOIN MODELLO m USING (nome_modello, azienda_costruttrice)
         WHERE (p.eta BETWEEN 30 AND 60)
-          AND (m.peso = (SELECT MIN(peso) FROM MODELLO));
+            AND (m.peso = (SELECT MIN(peso) FROM MODELLO));
 END;
 $$ LANGUAGE plpgsql;
 
