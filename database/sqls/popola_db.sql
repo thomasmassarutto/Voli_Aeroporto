@@ -16,7 +16,9 @@ DELETE FROM SPECIFICHE_TECNICHE WHERE TRUE;
 -- Nb.: il trigger di volo non e' stato disabilitato in quanto serve per calcolare l'attributo derivato
 DO $$
     DECLARE
+        -- Inserire la propria path locale
         common_path TEXT := '<your/local/path>/database/TABLES/';
+
     BEGIN
         ALTER TABLE EQUIPAGGIO DISABLE TRIGGER ALL;
         ALTER TABLE PILOTA DISABLE TRIGGER ALL;

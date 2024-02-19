@@ -416,13 +416,13 @@ Mantenere il dato comporta un costo finale di $95\mu$ (vedi $EQ.1$), mentre rica
 
 Ora, mediante l'inclusione di un grafico, esamineremo quando conviene adottare un approccio rispetto all'altro. Considerando che la funzione che determina il costo complessivo delle operazioni dipende da due parametri, $freq(OP1)$ e $freq(OP2)$, abbiamo optato per fissare il valore della frequenza per la prima operazione, variando invece la frequenza della seconda. Questa scelta è motivata dal fatto che riteniamo la frequenza della seconda operazione più variabile rispetto alla prima.
 
-![Grafico di ridondanza f5](grafici/ridondanza_chart5.png)
+![Grafico di ridondanza f5](ridondanzaChart/ridondanza_chart5.png)
 
 Dal grafico, è evidente che eliminare la ridondanza è conveniente solo quando la frequenza dell'operazione $OP2$ (richieste sulla capacità passeggeri di un volo) non supera le cinque occorrenze. Al di là di questo punto, diventa chiaro che il costo aumenta notevolmente, con un'incidenza molto maggiore rispetto all'approccio con ridondanza. Quest'ultimo mostra una tendenza quasi costante o, comunque, con un coefficiente angolare molto basso.
 
 Abbiamo osservato, inoltre, che il punto d'intersezione delle due rette si verifica sempre in prossimità del valore sull'asse delle ascisse che scegliamo d'impostare per la frequenza della prima operazione. Da ciò, possiamo generalizzare affermando che l'approccio con ridondanza risulta preferibile ogni volta che la frequenza delle richieste della capacità passeggeri supera quella degli inserimenti.
 
-![Grafico di ridondanza f30](grafici/ridondanza_chart30.png)
+![Grafico di ridondanza f30](ridondanzaChart/ridondanza_chart30.png)
 
 In questo secondo grafico, è possibile osservare lo spostamento del punto d'intersezione quando aumentiamo il valore della frequenza della prima operazione a $freq(OP1)=30$. Si nota che quanto appena affermato rimane valido, poiché il punto d'intersezione si sposta approssimativamente a $30$ sull'asse delle ascisse. Facciamo notare inoltre che maggiore è il valore scelto per $freq(OP1)$, minore è il grado di correttezza di questa affermazione. Tuttavia, possiamo affermare che all'interno del nostro dominio di interesse, questa affermazione è veritiera.
 
@@ -967,7 +967,7 @@ L'analisi ha prodotto i seguenti risultati:
 
 
 
-![Età medie del personale di volo](ImmaginiAnalisi\EtaMediaDelPersonaleImbarcato.png)
+![Età medie del personale di volo](analisiR/immagini/EtaMediaDelPersonaleImbarcato.png)
 
 In questo boxplot si nota come sia distribuita la popolazione all'interno del quartili. Il punto indica il valore medio per ogni categoria.
 
@@ -977,7 +977,7 @@ La funzione personalizzata `steward_aerei_pesanti` implementata in sql restituis
 
 Eseguendo la query con il parametro di peso minimo pari a 150000kg e peso massimo 200000kg si ottengono i seguenti risultati:
 
-![Steward imbarcati in voli con peso (150000, 250000)](ImmaginiAnalisi\StewardAereiPesanti.png)
+![Steward imbarcati in voli con peso (150000, 250000)](analisiR/immagini/StewardAereiPesanti.png)
 
 Questa rappresentazione suggerisce come solo il 30% degli steward sia imbarcato in voli con aerei con peso massimo compreso nel range 50000kg, 250000kg.
 

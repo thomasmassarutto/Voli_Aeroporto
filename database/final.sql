@@ -472,7 +472,7 @@ $$ LANGUAGE plpgsql;
 -- Nb.: il trigger di volo non e' stato disabilitato in quanto serve per calcolare l'attributo derivato
 DO $$
     DECLARE
-        common_path TEXT := 'C:/Users/igor/Desktop/UNIUD/3o_ANNO/Voli_aeroporto/database/TABLES/';
+        common_path TEXT := '<your/local/path>/database/TABLES/';
     BEGIN
         ALTER TABLE EQUIPAGGIO DISABLE TRIGGER ALL;
         ALTER TABLE PILOTA DISABLE TRIGGER ALL;
