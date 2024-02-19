@@ -967,7 +967,7 @@ L'analisi ha prodotto i seguenti risultati:
 
 
 
-![Età medie del personale di volo](ImmaginiAnalisi\EtaMediaDelPersonaleImbarcato.png)
+![Età medie del personale di volo](ImmaginiAnalisi/EtaMediaDelPersonaleImbarcato.png)
 
 In questo boxplot si nota come sia distribuita la popolazione all'interno del quartili. Il punto indica il valore medio per ogni categoria.
 
@@ -977,7 +977,7 @@ La funzione personalizzata `steward_aerei_pesanti` implementata in sql restituis
 
 Eseguendo la query con il parametro di peso minimo pari a 150000kg e peso massimo 200000kg si ottengono i seguenti risultati:
 
-![Steward imbarcati in voli con peso (150000, 250000)](ImmaginiAnalisi\StewardAereiPesanti.png)
+![Steward imbarcati in voli con peso (150000, 250000)](ImmaginiAnalisi/StewardAereiPesanti.png)
 
 Questa rappresentazione suggerisce come solo il 30% degli steward sia imbarcato in voli con aerei con peso massimo compreso nel range 50000kg, 250000kg.
 
