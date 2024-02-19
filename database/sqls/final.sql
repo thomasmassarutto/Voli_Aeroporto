@@ -106,6 +106,7 @@ EXECUTE FUNCTION trigger_function_calcola_capacita_passeggeri();
 
 -- INDICI
 
+-- creazione degli indici
 CREATE INDEX idx_steward_equipaggio ON STEWARD (id_equipaggio);
 
 CREATE INDEX idx_pilota_equipaggio ON PILOTA (id_equipaggio);

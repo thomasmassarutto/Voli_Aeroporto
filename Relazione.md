@@ -318,8 +318,6 @@ L'operazione $OP2_{CR}$ ha un costo molto basso poiché legge direttamente l'att
 
 Il costo totale nel caso in cui è mantenuta la ridondanza risulta quindi:
 
-[//]: # (TODO: Verifica che "equation" non serva)
-
 $$
 \begin{aligned}
 TOT_1 &=freq(OP1) \cdot cost(OP1_{CR}) + freq(OP2) \cdot cost(OP2_{CR}) \\
@@ -346,9 +344,6 @@ L'operazione $OP2_{SR}$, al contrario, deve contare il numero del personale che 
 
 Il costo totale nel caso in cui viene eliminata la ridondanza risulta quindi:
 
-[//]: # (TODO: Verifica che "equation" non serva)
-
-
 $$
 \begin{aligned}
 TOT_2 &=freq(OP1) \cdot cost(OP1_{SR}) + freq(OP2) \cdot cost(OP2_{SR})\\
@@ -363,7 +358,7 @@ $$
 Dai calcoli effettuati, possiamo dedurre che in una giornata in cui vengono rispettate le frequenze assegnate, ovvero $freq(OP1)=5$ e $freq(OP2)=50$, risulta vantaggioso utilizzare l'approccio con ridondanza, in quanto abbatte il costo a circa un quarto del tempo utilizzato altrimenti.
 Mantenere il dato comporta un costo finale di $95\mu$ (vedi $EQ.1$), mentre ricavarlo ogni volta costa $410 \mu$ (vedi $EQ.2$).
 
-#### Ulteriori riflessioni
+#### Grafici
 
 Grazie ad un grafico è possibile esaminare quando conviene adottare un approccio rispetto all'altro. 
 
@@ -391,6 +386,7 @@ Tuttavia, è fondamentale tenere presente che la soluzione con ridondanza compor
 La fase di ristrutturazione permette di adattare lo schema ER formalizzando costrutti che non possono essere tradotti nello schema relazionale.
 
 #### Assistente dell'equipaggio - Rimozione della generalizzazione
+
 ![Schema ER finale](schemi/SchemaER_reificazione_assistente.png)
 
 Nel contesto dello schema Entità Relazioni è emersa la necessità di trattare una specializzazione di "ASSISTETE" attraverso le entità "HOSTESS" e "STEWARD". Tuttavia, la trasposizione diretta di questa specializzazione in uno schema relazionale non è praticabile. Si è optato quindi per una connessione diretta delle entità HOSTESS e STEWARD all'entità EQUIPAGGIO.
@@ -615,9 +611,7 @@ CREATE TABLE PILOTA
 -- Altre tabelle omesse per brevità
 ```
 
-Proseguendo con la creazione delle tabelle, è importante notare l'uso di chiavi primarie e vincoli di chiave esterna per garantire l'integrità referenziale. Inoltre, il vincolo DEFERRABLE in HOSTESS e STEWARD consente di ritardare temporaneamente l'applicazione dei vincoli di chiave esterna, come spiegato nella relazione.
-
-[//]: # (TODO: deferrable?)
+Continuando con la definizione delle tabelle, è fondamentale sottolineare l'impiego di chiavi primarie e vincoli di chiave esterna per preservare l'integrità referenziale. Inoltre, è da notare che alcune tabelle hanno configurato la chiave esterna come DEFERRABLE. Tale caratteristica permette di posticipare temporaneamente l'applicazione dei vincoli referenziali, dimostrandosi particolarmente utile per eseguire operazioni specifiche attraverso l'utilizzo di transazioni.
 
 Infine, implementiamo una funzione di trigger per calcolare dinamicamente l'attributo derivato capacità dei passeggeri in base ai vincoli specificati. Questa funzione sarà attivata prima dell'inserimento o dell'aggiornamento di un volo.
 
