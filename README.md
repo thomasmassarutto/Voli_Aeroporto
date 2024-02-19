@@ -1,15 +1,68 @@
-# README
+# README - Progetto Basi di Dati
 
-## Consegna esercizio
+Questo repository contiene il codice SQL per il progetto di basi di dati relativo a un sistema di gestione di equipaggi aerei e voli. Di seguito sono fornite istruzioni su come utilizzare il codice e popolare il database.
 
-Esercizio 3:
+## Prerequisiti
 
-Vogliamo modellare le seguenti informazioni riguardanti i voli in partenza in un piccolo aeroporto.
+Assicurati di avere un sistema di gestione di database PostgreSQL installato e configurato. Puoi scaricarlo [qui](https://www.postgresql.org/download/).
 
-- Di ogni volo vogliamo specificare la destinazione e l’orario previsto di partenza. Si assuma che ogni volo venga svolto ogni giorno della settimana, sempre nello stesso orario, ma che da un giorno all’altro possano cambiare il cancello d’uscita (gate) e l’aeromobile. Di ogni volo vogliamo specificare l’equipaggio articolato nelle diverse componenti: due piloti, zero, una o più hostess, zero, uno o più steward. I due piloti e almeno una hostess o uno steward devono essere sempre presenti.
+## Collegamento al Server PostgreSQL
 
-- Si assuma che ogni aeroplano effettui ogni giorno un unico volo. Ogni giorno vogliamo sapere l’orario di partenza e la destinazione di ogni aeromobile. Si assuma che, fissati il giorno, l’ora e il cancello d’uscita (gate), venga identificato univocamente il volo, con relativi aeromobile e destinazione.
+Per interagire con il database, è necessario connettersi al server PostgreSQL utilizzando per esempio il terminale.
+Per connetterti al server utilizza il seguente comando:
 
-- Di ogni aeromobile utilizzato, identificato da un opportuno codice, vogliamo memorizzare l’azienda costruttrice e il modello, con le sue caratteristiche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza, apertura alare). 
+```bash
+psql -U nome_utente
+```
 
-Si definisca uno schema Entità-Relazioni che descriva il contenuto informativo del sistema, illustrando con chiarezza le eventuali assunzioni fatte. Lo schema dovrà essere completato con attributi ragionevoli per ciascuna entità (identificando le possibili chiavi) e relazione. Vanno specificati accuratamente i vincoli di cardinalità e partecipazione di ciascuna relazione. Si definiscano anche eventuali regole aziendali (regole di derivazione e vincoli di integrità) necessarie per codificare alcuni dei requisiti attesi del sistema.
+## Creazione del Database
+
+Prima di eseguire il codice SQL, crea un database e accedi a esso. Puoi farlo utilizzando gli strumenti forniti da PostgreSQL o eseguendo i seguenti comandi:
+
+```sql
+CREATE DATABASE nome_database;
+\c nome_database;
+```
+
+## Esecuzione del Codice SQL
+
+Ora puoi eseguire il codice SQL fornito. Puoi eseguire il codice utilizzando gli strumenti di PostgreSQL o importando lo script SQL tramite un'interfaccia grafica o la riga di comando. Il codice si trova nel file `database/sqls/final.sql`.
+
+```bash
+psql -U username -d nome_database -a -f database/sqls/final.sql
+```
+
+## Popolamento del Database
+
+Prima di eseguire il codice SQL, assicurati di modificare la variabile `common_path` nella sezione "Popolazione delle tabelle" con il percorso locale corretto.
+
+## Pulizia del Database
+
+Se è necessario pulire dati, tabelle o funzioni, puoi utilizzare il file `database/sqls/cleanup.sql`.
+
+```bash
+psql -U username -d nome_database -a -f database/sqls/cleanup.sql
+```
+
+## Utilizzo delle Funzioni
+
+Il codice include alcune funzioni che possono essere utili. Puoi utilizzare le seguenti funzioni come esempi per le tue query:
+
+- `Ricerca_Voli_Destinazione(destinazione_desiderata VARCHAR)` | Restituisce l'elenco dei voli che partono in giornata e raggiungono la destinazione specificata.
+
+- `Steward_Aerei_Pesanti(X INT, Y INT)` | Restituisce il numero di steward che lavorano su voli con aerei con peso compreso tra X e Y.
+
+- `Aerei_Di_Linea()` | Restituisce gli aerei con "persone_max" minimo comandati da piloti con età compresa tra 30 e 60 inclusi.
+
+## Procedure di Inserimento
+
+Il codice include alcune procedure di inserimento che semplificano l'inserimento di dati nelle tabelle. Assicurati di eseguire le transazioni necessarie e di impostare i vincoli di chiave esterna a "DEFERRED", come nel seguente esempio:
+
+```sql
+START TRANSACTION;
+SET CONSTRAINTS fk_plt_equipaggio DEFERRED;
+-- inserimento nelle tabelle
+COMMIT;
+```
+
+[//]: # (TODO: Thomas aggiungi qui roba per l'analisi R)
