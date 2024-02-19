@@ -7,10 +7,10 @@
     4. [x] 1.4 Specifiche sulle operazioni
 
 2. Progettazione concettuale
-    1. [x] 2.1 Schema ER
-        1. [x] 2.1.1 Prima revisione Schema ER
-        2. [x] 2.1.2 Schema ER Finale
-        3. [x] 2.1.3 Tabella delle cardinalità
+    1. [x] 2.1 Schema Entità-Relazioni
+        1. [x] 2.1.1 Prima revisione
+        2. [x] 2.1.2 Schema ER
+        3. [x] 2.1.3 Tabella di cardinalità delle relazioni
     2. [x] 2.2 Documentazione schema ER
         1. [x] 2.2.1 Dizionario dei dati
         2. [x] 2.2.2 Regole di vincolo 
@@ -22,7 +22,7 @@
         1. [X] 3.2.1 Tabelle dei volumi
         2. [X] 3.2.2 Tabelle delle frequenze
         3. [x] 3.2.3 Analisi ridondanza 
-        4. [x] 3.2.4 Ristrutturazione schema ER
+        4. [x] 3.2.4 Ristrutturazione
     3. [X] 3.3 Traduzione verso il relazionale
         1. [X] 3.3.1 Modello relazionale    
         2. [x] 3.3.2 Vincoli di dominio
@@ -31,10 +31,7 @@
 
 4. Progettazione Fisica
     1. [x] 4.1 Analisi Indici
-       1. [X] creazione indici
     2. [x] 4.2 Implementazione in SQL
-       1. [x] creazione database
-       2. [x] creazione tabelle
 
 5. Implementazione
     1. [x] 5.1 Vincoli di integrita con trigger e check
