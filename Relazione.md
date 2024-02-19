@@ -23,7 +23,6 @@ Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo
 | Gate                 | Cancello d'imbarco                                      |    ~     |              Volo               |
 | Azienda_costruttrice | Azienda che costruisce modelli di aeromobili            |    ~     |             Modello             |
 
-
 ## 1.3 Specifiche sui dati
 |                                                                            Frasi di carattere generale                                                                            |
 |:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -40,7 +39,6 @@ Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo
 |                                                                                                                                                                     Frasi relative agli aeromobili                                                                                                                                                                      |
 |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | Di ogni aeromobile utilizzato, identificato da un opportuno codice, memorizziamo l’azienda costruttrice e il modello, con le sue caratteristiche tecniche: la capacità (numero massimo di passeggeri e quantità massima di materiale trasportabile) e le caratteristiche tecniche (peso, lunghezza e apertura alare). Ogni aeromobile effettua un unico volo al giorno. |
-
 
 ## 1.4 Specifiche sulle operazioni
 
@@ -78,8 +76,7 @@ _**Operazioni complesse**_
 3. **piloti_Cargo**
     - I piloti che comandano aerei con "carico_max" superiore a X e con un numero di assistenti inferiore a Y (10 volte al giorno)
 
-
-
+   
 
 # 2 Progettazione concettuale
 
@@ -142,7 +139,6 @@ in cui:
 
 <br>
 
-
 ## 2.2 Documentazione schema E-R
 
 
@@ -184,8 +180,6 @@ in cui:
 
 
 
-
-
 # 3 Progettazione logica
 
 ## 3.1 Operazioni
@@ -210,8 +204,7 @@ _**Operazioni complesse**_
 
 <br>
 
-
-## 3.2 Fase di ristrutturazione
+## 3.2 Ristrutturazione dello schema ER
 
 ### 3.2.1 Tabella dei volumi
 
@@ -443,7 +436,7 @@ Tuttavia, è fondamentale tenere presente che la soluzione con ridondanza compor
 
 
 
-### 3.2.4 Ristrutturazione dello schema E-R
+### 3.2.4 Ristrutturazione
 In questa fase della relazione discuteremo di come abbiamo modificato lo schema concettuale proposto, reiterando le parti di schema che non possono essere tradotte direttamente nello schema relazionale.
 
 #### Assistente dell'equipaggio - Rimozione della generalizzazione
@@ -475,11 +468,10 @@ Le due entità MODELLO e SPECIFICHE_TECNICHE sono in relazione one-to-many. Ques
 
 <br>
 
+## 3.3 Traduzione verso il relazionale
 
-### 3.3 Traduzione verso il relazionale
 
-
-#### 3.3.1 Modello relazionale
+### 3.3.1 Modello relazionale
 
 
 - HOSTESS(<u>codice_fiscale</u>, id_equipaggio)
@@ -556,7 +548,7 @@ Le due entità MODELLO e SPECIFICHE_TECNICHE sono in relazione one-to-many. Ques
 
 <br>
 
-#### 3.3.2 Vincoli di dominio
+### 3.3.2 Vincoli di dominio
 
 PILOTA
 - PILOTA.eta: deve essere un valore positivo compreso tra 18 e 100
@@ -576,7 +568,7 @@ SPECIFICHE_TECNICHE
 
 
 
-#### 3.3.3 Vincoli d'integrita' di EQUIPAGGIO
+### 3.3.3 Vincoli d'integrita'
 
 - Ogni EQUIPAGGIO deve essere collegato a un VOLO
 - Ogni EQUIPAGGIO deve essere collegato ad almeno uno tra HOSTESS e STEWARD
@@ -596,7 +588,7 @@ $$
 
 
 
-#### 3.3.2 Diagramma dei vincoli d'integrita' referenziale
+#### 3.3.4 Diagramma dei vincoli d'integrita' referenziale
 
 Nel diagramma sottostante, le chiavi primarie delle relazioni sono evidenziate in grassetto, mentre le chiavi esterne sono circondate da una linea continua. Le frecce, invece, indicano i vincoli di integrità referenziale, collegando le chiavi esterne alla tabella corrispondente a cui fanno riferimento. Infine, la circonferenza tratteggiata rappresenta gli attributi derivati.
 
@@ -616,8 +608,6 @@ Nel diagramma sottostante, le chiavi primarie delle relazioni sono evidenziate i
 
 <br>
 <br>
-
-
 
 
 
@@ -999,6 +989,7 @@ Questa rappresentazione suggerisce come solo il 30% degli steward sia imbarcato 
 
 
 [//]: # (TODO: Togliere tutti i costrutti HTML e sostituirli con Latex!!!)
+
 
 
 
