@@ -6,7 +6,6 @@ CREATE TABLE EQUIPAGGIO
     id_equipaggio VARCHAR(255) PRIMARY KEY
 );
 
--- TODO: inserisci nella relazione il motivo del deferrable in hostess e steward
 CREATE TABLE HOSTESS
 (
     codice_fiscale CHAR(16) PRIMARY KEY,
