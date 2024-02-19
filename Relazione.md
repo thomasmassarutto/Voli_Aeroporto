@@ -517,8 +517,8 @@ SPECIFICHE_TECNICHE
 
 $$
 \begin{cases}
-\forall \space x \neq y \neq z \in PILOTA \quad | \quad x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \implies x.id\textunderscore equipaggio \neq z.id\textunderscore equipaggio \\
-\forall \space x'\in EQUIPAGGIO \quad \exists \space x \neq y \in PILOTA \quad | \quad x'.id\textunderscore equipaggio = x.id\textunderscore equipaggio = y.id\textunderscore equipaggio \\
+\forall  x \neq y \neq z \in PILOTA \quad | \quad x.id equipaggio = y.id  equipaggio \implies x.id equipaggio \neq z.id equipaggio \\
+\forall  x'\in EQUIPAGGIO \quad \exists  x \neq y \in PILOTA \quad | \quad x'.id equipaggio = x.id equipaggio = y.id equipaggio \\
 \end{cases}
 $$
 
