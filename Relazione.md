@@ -484,65 +484,65 @@ Le due entità MODELLO e SPECIFICHE_TECNICHE sono in relazione one-to-many. Ques
 
 - HOSTESS(<u>codice_fiscale</u>, id_equipaggio)
 
-|                       | key |  type  | unique |   null   |
-|:---------------------:|:---:|:------:|:------:|:--------:|
-| <u>codice_fiscale</u> | PK  | STRING | UNIQUE | NOT NULL |
-|     id_equipaggio     | FK  | STRING |        | NOT NULL |
+|                       | key |   type   | unique |   null   |
+|:---------------------:|:---:|:--------:|:------:|:--------:|
+| <u>codice_fiscale</u> | PK  | CHAR(16) | UNIQUE | NOT NULL |
+|     id_equipaggio     | FK  | VARCHAR  |        | NOT NULL |
 
 - STEWARD(<u>codice_fiscale</u>, id_equipaggio)
 
-|                       | key |  type  | unique |   null   |
-|:---------------------:|:---:|:------:|:------:|:--------:|
-| <u>codice_fiscale</u> | PK  | STRING | UNIQUE | NOT NULL |
-|     id_equipaggio     | FK  | STRING |        | NOT NULL |
+|                       | key |   type   | unique |   null   |
+|:---------------------:|:---:|:--------:|:------:|:--------:|
+| <u>codice_fiscale</u> | PK  | CHAR(16) | UNIQUE | NOT NULL |
+|     id_equipaggio     | FK  | VARCHAR  |        | NOT NULL |
 
 - EQUIPAGGIO(<u>id_equipaggio</u>)
 
-|                      | key |  type  | unique |   null   |
-|:--------------------:|:---:|:------:|:------:|:--------:|
-| <u>id_equipaggio</u> | PK  | STRING | UNIQUE | NOT NULL |
+|                      | key |  type   | unique |   null   |
+|:--------------------:|:---:|:-------:|:------:|:--------:|
+| <u>id_equipaggio</u> | PK  | VARCHAR | UNIQUE | NOT NULL |
 
 
 - PILOTA(<u>codice_fiscale</u>, eta)
 
-|                       | key |  type  | unique |   null   |
-|:---------------------:|:---:|:------:|:------:|:--------:|
-| <u>codice_fiscale</u> | PK  | STRING | UNIQUE | NOT NULL |
-|          eta          | ATT |  INT   |        | NOT NULL |
-|     id_equipaggio     | FK  | STRING |        | NOT NULL |
+|                       | key |   type   | unique |   null   |
+|:---------------------:|:---:|:--------:|:------:|:--------:|
+| <u>codice_fiscale</u> | PK  | CHAR(16) | UNIQUE | NOT NULL |
+|          eta          | ATT |   INT    |        |          |
+|     id_equipaggio     | FK  | VARCHAR  |        | NOT NULL |
 
 
 
 - VOLO(<u>gate</u>, <u>ora</u>, destinazione, capacita_passeggeri, id_aereo, id_equipaggio)
 
-|                     | key |  type  | unique |   null   |
-|:-------------------:|:---:|:------:|:------:|:--------:|
-|     <u>gate</u>     | PK  |  INT   | UNIQUE | NOT NULL |
-|     <u>ora</u>      | PK  |  TIME  | UNIQUE | NOT NULL |
-|    destinazione     | ATT | STRING |        | NOT NULL | 
-| capacita_passeggeri | ATT |  INT   |        | NOT NULL |
-|      id_aereo       | FK  | STRING | UNIQUE | NOT NULL |
-|    id_equipaggio    | FK  | STRING | UNIQUE | NOT NULL |
+|                     | key |  type   | unique |   null   |
+|:-------------------:|:---:|:-------:|:------:|:--------:|
+|     <u>gate</u>     | PK  |   INT   | UNIQUE | NOT NULL |
+|     <u>ora</u>      | PK  |  TIME   | UNIQUE | NOT NULL |
+|    destinazione     | ATT | VARCHAR |        | NOT NULL | 
+| capacita_passeggeri | ATT |   INT   |        |          |
+|      id_aereo       | FK  | VARCHAR | UNIQUE | NOT NULL |
+|    id_equipaggio    | FK  | VARCHAR | UNIQUE | NOT NULL |
 
 - AEROMOBILE(<u>id_aereo</u>, nome_modello, azienda_costruttrice)
 
-|                 | key |  type  | unique |   null   |
-|:---------------:|:---:|:------:|:------:|:--------:|
-| <u>id_aereo</u> | PK  | STRING | UNIQUE | NOT NULL |
-|  nome_modello   | FK  | STRING |        | NOT NULL |
-|     azienda     | FK  | STRING |        | NOT NULL |
+|                 | key |  type   | unique |   null   |
+|:---------------:|:---:|:-------:|:------:|:--------:|
+| <u>id_aereo</u> | PK  | VARCHAR | UNIQUE | NOT NULL |
+|  nome_modello   | FK  | VARCHAR |        | NOT NULL |
+|     azienda     | FK  | VARCHAR |        | NOT NULL |
 
 - MODELLO(<u>nome_modello</u>, <u>azienda_costruttrice</u>, carico_max, persone_max, peso, apertura_alare, lunghezza)
 
-|                             | key |  type  | unique |   null   |
-|:---------------------------:|:---:|:------:|:------:|:--------:|
-|     <u>nome_modello</u>     | PK  | STRING | UNIQUE | NOT NULL |
-| <u>azienda_costruttrice</u> | PK  | STRING | UNIQUE | NOT NULL |
-|         carico_max          | ATT |  INT   |        | NOT NULL |
-|         persone_max         | ATT |  INT   |        | NOT NULL |
-|            peso             | FK  |  INT   |        | NOT NULL |
-|       apertura_alare        | FK  |  INT   |        | NOT NULL |
-|          lunghezza          | FK  |  INT   |        | NOT NULL |
+|                             | key |  type   | unique |   null   |
+|:---------------------------:|:---:|:-------:|:------:|:--------:|
+|     <u>nome_modello</u>     | PK  | VARCHAR | UNIQUE | NOT NULL |
+| <u>azienda_costruttrice</u> | PK  | VARCHAR | UNIQUE | NOT NULL |
+|         carico_max          | ATT |   INT   |        | NOT NULL |
+|         persone_max         | ATT |   INT   |        | NOT NULL |
+|            peso             | FK  |   INT   |        | NOT NULL |
+|       apertura_alare        | FK  |   INT   |        | NOT NULL |
+|          lunghezza          | FK  |   INT   |        | NOT NULL |
 
 
 - SPECIFICHE_TECNICHE(<u>peso</u>, <u>apertura_alare</u>, <u>lunghezza</u>)
@@ -580,7 +580,7 @@ SPECIFICHE_TECNICHE
 
 - Ogni EQUIPAGGIO deve essere collegato a un VOLO
 - Ogni EQUIPAGGIO deve essere collegato ad almeno uno tra HOSTESS e STEWARD
-- Ogni EQUIPAGGIO deve essere collegato ad almeno un PILOTA
+- Ogni EQUIPAGGIO deve essere collegato a esattamente due PILOTA
 
 $$
 \begin{cases}
@@ -997,54 +997,8 @@ Questa rappresentazione suggerisce come solo il 30% degli steward sia imbarcato 
 <br>
 
 
-# TODO
-- Togliere tutti i costrutti HTML e sostituirli con Latex
-- Fare una query "data l'id-equipaggio mostrami il personale che ci lavora"
-- Fare un analisi per l'uso segli indici
-  - Gli indici migliorano il tempo di ricerca della colonna indicizzata nel caso in cui si fanno operazioni di sorting, ricerca, join, ecc.
-  - È importante notare che, sebbene gli indici migliorino le prestazioni delle query di ricerca, possono avere effetti negativi sulle prestazioni delle operazioni di aggiornamento (INSERT, UPDATE, DELETE).
-  - Pertanto, è necessario bilanciare attentamente l'uso degli indici in base alle esigenze specifiche del sistema. 
-  - Bisogna quindi svolgere un'analisi delle frequenze per poter decidere quando usare gli indici e quando no
-- On delete {cascade | set null}
-- Parla della clausola defferable usato nelle varie tabelle sulle fk
 
-
-# Domande
-
-INDICI
-- Quali sono i tipi di indici che dobbiamo usare? (normali, UNIQUE, CLUSTERED, NON CLUSTERED, FULL TEXT)
-- Come si puo' svolgere l'analisi per decidere se ha senso usare gli indici? (le chiavi primarie sono sempre indicizzate, spesso conviene indicizzare le chiavi esterne)
-- I codici vanno messi nella relazione?
-
-VINCOLI
-- Discuti con il prof per le cardinalita' (0,1) tra diverse entita'
-- Discuti con il prof i vincoli introdotti per garantire (1,1) - (1,1) tra equipaggio e volo
-- Revisione su view volo_completo (attributo derivato)
-- Discutere per quanto riguarda il vincolo esattamente 2 piloti per equipaggio
-- Dobbiamo usare sempre trigger oppure check vanno bene lo stesso? (proposta in vincoli_db.sql)
-- Molti di questi vincoli sono circolari come si fa per gli inserimenti? (constrain deffered, proposta in vincoli_db.sql)
-- Dobbiamo usare i transaction?
-
-ANALISI R
-- (TODO THOMAS) analisi dei dati in R. Come si fa? Quali e quanti diagrammi?
-- Steward, Hostess e Piloti hanno bisogno di nomi e cognomi, bisogna aggiungere attributi allo schema oppure e' sufficiente?
-
-RELAZIONE
-- Come va scritta la relazione e come si fa la consegna?
-
-BONUS
-- Specifiche tecniche andrebbe identificato con un id?
-
-
-# Bonus se ci sara' tempo
-- Svolgi l'analisi di qualita' [correttezza, completezza, leggibilita', minimalita'] [libro pag.214]
-- Verificare e applicare i seguenti concetti: 
-  - CHECK
-  - TRANSACTION (stored transaction)
-  - quando usare trigger e quando usare gli assert 
-  - ROLLBACK, COMMIT e CONSTRAIN DEFFERED 
-  - differenze tra FUNCTION e PROCEDURE 
-  - TRANSACTION FA DA SOLA IL ROLLBACK? Quando usare il rollback? 
+[//]: # (TODO: Togliere tutti i costrutti HTML e sostituirli con Latex!!!)
 
 
 
