@@ -64,18 +64,18 @@ _**Operazioni base**_
 6. **elimina_volo**
     - Dato un volo, lo elimina per sempre (2 volte al giorno)
 
-7. **Inserisci_volo**
+7. **inserisci_volo**
     - Inserisce un volo nel database (2 volte al giorno)
 
 _**Operazioni complesse**_
 
-1. **Steward_Aerei_Pesanti**
+1. **steward_Aerei_Pesanti**
     - Il numero di steward che lavorano su voli che fanno tratte con aerei con peso almeno X e al massimo Y (operazione svolta 10 volte al giorno)
 
-2. **Aerei_Di_Linea**
+2. **aerei_Di_Linea**
     - Gli aerei con "_persone_max_" minimo comandati da piloti con età compresa fra 30 e 60 inclusi (10 volte al giorno)
 
-3. **Piloti_Cargo**
+3. **piloti_Cargo**
     - I piloti che comandano aerei con "carico_max" superiore a X e con un numero di assistenti inferiore a Y (10 volte al giorno)
 
 
@@ -98,13 +98,14 @@ La proposta iniziale del nostro schema _ER_ prevedeva la suddivisione delle cara
 Tuttavia questo approccio comportava un'eccessiva complessità dello schema, per cui abbiamo deciso di scartare questa proposta.
 
 ### 2.1.2 Schema ER 
-![Schema ER finale](schemi/SchemaER.png)
+![Schema ER finale](schemi/SchemaER_schema_finale.png)
 
 La suddivisione delle caratteristiche dell'aeromobile in entità distinte è stata eliminata a favore di un'entità _MODELLO_ con attributi singoli _nome\_modello_,  _casa\_costruttrice_, _carico\_max_ e  _persone\_max_, mentre _peso_, _lunghezza_ e _apertura\_alare_ sono stati inglobati nell'attributo composto _specifiche\_tecniche_
 
 Nello schema sono presenti gli attributi disgiunti _HOSTESS_ e _STEWARD_ collegati ad _ASSISTENTE_.  Questa separazione permette di distinguere tra assistenti di genere femminile e maschile all'interno del sistema.
 
 Per garantire che ad ogni equipaggio siano assegnati esattamente 2 piloti è presente la cardinalità $(2,2)$ fra:
+
 $$
 EQUIPAGGIO \xrightarrow{(2,2)}  comanda \xrightarrow{(1,1)} PILOTA
 $$
@@ -124,7 +125,7 @@ in cui:
 - $|PILOTI|$: cardinalità dei piloti, in questo caso sempre 2
 
 
-[//]: # (TODO: spiegare perche' abbiamo permesso l'esistenza degl'aerei senza volo, dei modelli senza aereo e delle specifiche senza modello)
+[//]: # (TODO: spiegare perche' abbiamo permesso l'esistenza degl'aerei senza volo, dei modelli senza aereo e delle specifiche senza modello!!!)
 
 <br>
 
@@ -197,7 +198,7 @@ _**Operazioni base**_
 4. **ricerca_voli_destinazione**: Data una destinazione restituisce l'elenco dei voli che partono in giornata e la raggiungono
 5. **ricerca_voli_odierni**: Restituisce l'elenco dei voli in partenza in giornata
 6. **elimina_volo**: Dato un volo, lo elimina per sempre
-7. **Inserisci_volo**: Inserisce un volo nel database 
+7. **inserisci_volo**: Inserisce un volo nel database 
 
 
 _**Operazioni complesse**_
@@ -254,6 +255,8 @@ _**Operazioni complesse**_
 
 
 ### 3.2.3 Analisi di ridondanza
+
+[//]: # (TODO: Togli questo link, ma prima assicurati che tutte le info importanti siano state estratte e riportate in relazione)
 
 [Analisi di ridondanza docs](https://docs.google.com/document/d/1nhvOKPnkAEypN998Kzv5q8iw8WVj2o3czqGw2cCtgTw/edit?usp=sharing)
 
@@ -595,7 +598,7 @@ $$
 
 #### 3.3.2 Diagramma dei vincoli d'integrita' referenziale
 
-Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grassetto, le frecce indicano vincoli d'integrita' referenziale e la presenza di asterischi sui nomi di attributo indica la possiblita' di avere valori nulli.
+Nel diagramma sottostante, le chiavi primarie delle relazioni sono evidenziate in grassetto, mentre le chiavi esterne sono circondate da una linea continua. Le frecce, invece, indicano i vincoli di integrità referenziale, collegando le chiavi esterne alla tabella corrispondente a cui fanno riferimento. Infine, la circonferenza tratteggiata rappresenta gli attributi derivati.
 
 ![Diagramma dei vincoli d'integrita' referenziale](schemi/diagramma_vincoli_referenziali.png)
 
