@@ -320,7 +320,6 @@ L'operazione $OP2_{CR}$ ha un costo molto basso poiché legge direttamente l'att
 Il costo totale nel caso in cui è mantenuta la ridondanza risulta quindi:
 
 $$
-\begin{equation}
 \begin{aligned}
 TOT_1 &=freq(OP1) \cdot cost(OP1_{CR}) + freq(OP2) \cdot cost(OP2_{CR}) \\
 &=5 \cdot (1W+3R+nR) + 50 \cdot (1R) \\
@@ -328,7 +327,6 @@ TOT_1 &=freq(OP1) \cdot cost(OP1_{CR}) + freq(OP2) \cdot cost(OP2_{CR}) \\
 &=10\mu + 15\mu + 20\mu + 50\mu \\
 &=95\mu \\
 \end{aligned}
-\end{equation}
 $$
 
 ##### Costo operazioni senza ridondanza
@@ -348,7 +346,6 @@ L'operazione $OP2_{SR}$, al contrario, deve contare il numero del personale che 
 Il costo totale nel caso in cui viene eliminata la ridondanza risulta quindi:
 
 $$
-\begin{equation}
 \begin{aligned}
 TOT_2 &=freq(OP1) \cdot cost(OP1_{SR}) + freq(OP2) \cdot cost(OP2_{SR})\\
 &=5 \cdot (1W) + 50 \cdot (1R+2R+1R+nR) \\
@@ -356,7 +353,6 @@ TOT_2 &=freq(OP1) \cdot cost(OP1_{SR}) + freq(OP2) \cdot cost(OP2_{SR})\\
 &=10\mu + 200\mu + 200\mu \\
 &=410\mu\\
 \end{aligned}
-\end{equation}
 $$
 
 #### Conclusione dell'analisi di ridondanza
