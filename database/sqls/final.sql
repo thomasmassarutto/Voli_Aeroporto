@@ -468,7 +468,7 @@ $$ LANGUAGE plpgsql;
 
 
 
--- Popola tutte le tabelle
+-- Popolazione delle tabelle
 -- Nb.: il trigger di volo non e' stato disabilitato in quanto serve per calcolare l'attributo derivato
 DO $$
     DECLARE
