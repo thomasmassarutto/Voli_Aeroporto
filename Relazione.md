@@ -130,7 +130,7 @@ in cui:
 - $|EQUIPAGGIO|$: cardinalità di persone imbarcate come equipaggio dell'aereo
 - $|PILOTI|$: cardinalità dei piloti, in questo caso sempre 2
 
-Per dar maggiore flessibilità all abase di dati si è deciso di permettere l'esistenza di aerei non associati a voli, di modelli non associati ad aerei e di specifiche non associate a modelli.
+Per dar maggiore flessibilità alla base di dati, è stata presa la decisione di consentire la presenza di aerei non correlati a voli, modelli non associati ad alcun aereo e specifiche non collegate a modelli. Questa scelta si rivela impossibile per l'equipaggio e il personale associato, in quanto non avrebbe senso la loro esistenza senza essere correlati a un volo.
 
 ### 2.1.3 Tabella di cardinalità delle relazioni
 
