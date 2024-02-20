@@ -134,13 +134,25 @@ Per dar maggiore flessibilità all abase di dati si è deciso di permettere l'es
 
 ### 2.1.3 Tabella di cardinalità delle relazioni
 
-|     E1     | Cardinalità |  Relazione  | Cardinalità |     E2     |
-|:----------:|:-----------:|:-----------:|:-----------:|:----------:|
-|    Volo    |    (1,1)    | **Imbarca** |    (1,1)    | Equipaggio |
-| Aeromobile |    (0,1)    | **Tratta**  |    (1,1)    |    Volo    |
-| Aeromobile |    (1,1)    |   **Di**    |    (0,n)    |  Modello   |
-|   Pilota   |    (1,1)    | **Comanda** |    (2,2)    | Equipaggio |
-| Assistente |    (1,1)    | **Compone** |    (1,n)    | Equipaggio |
+$$ 
+VOLO \xrightarrow{(1,1)} imbarca \xrightarrow{(1,1)} EQUIPAGGIO 
+$$
+
+$$ 
+AEROMOBILE \xrightarrow{(0,1)} tratta \xrightarrow{(1,1)} VOLO 
+$$
+
+$$ 
+AEROMOBILE \xrightarrow{(1,1)} di \xrightarrow{(0,n)} MODELLO 
+$$
+
+$$ 
+PILOTA \xrightarrow{(1,1)} comanda \xrightarrow{(2,2)} EQUIPAGGIO 
+$$
+
+$$ 
+ASSISTENTE \xrightarrow{(1,1)} compone \xrightarrow{(1,n)} EQUIPAGGIO 
+$$
 
 ## 2.2 Documentazione schema E-R
 
@@ -386,8 +398,6 @@ Tuttavia, è fondamentale tenere presente che la soluzione con ridondanza compor
 La fase di ristrutturazione permette di adattare lo schema ER formalizzando costrutti che non possono essere tradotti nello schema relazionale.
 
 #### Assistente dell'equipaggio - Rimozione della generalizzazione
-
-![Schema ER finale](schemi/SchemaER_reificazione_assistente.png)
 
 Nel contesto dello schema Entità Relazioni è emersa la necessità di trattare una specializzazione di "ASSISTETE" attraverso le entità "HOSTESS" e "STEWARD". Tuttavia, la trasposizione diretta di questa specializzazione in uno schema relazionale non è praticabile. Si è optato quindi per una connessione diretta delle entità HOSTESS e STEWARD all'entità EQUIPAGGIO.
 
@@ -835,7 +845,7 @@ connessione = dbConnect( db_driver= dbDriver("Postgres"),
 
 Una volta creata la connessione è possibile eseguire query utilizzando la funzione `dbSendQuery(connessione, "query")`.
 
-## 6.1 Analisi età media personale
+## 6.2 Analisi età media personale
 
 Utilizzando i dati presenti nelle tabelle `Hostess`, `Steward` e `Piloti` è stato possibile calcolare l'età media del personale imbarcato negli aerei.
 
@@ -855,7 +865,7 @@ L'analisi ha prodotto i seguenti risultati:
 
 In questo boxplot si nota come sia distribuita la popolazione all'interno del quartili. Il punto indica il valore medio per ogni categoria.
 
-## 6.1 Analisi steward
+## 6.3 Analisi steward
 
 La funzione `steward_aerei_pesanti` implementata in sql restituisce il numero di steward che sono imbarcati su voli serviti da aerei con peso all'interno di un certo range.
 
