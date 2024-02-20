@@ -380,7 +380,7 @@ Considerando che la funzione che determina il costo complessivo delle operazioni
 
 Dal grafico, è evidente che eliminare la ridondanza è conveniente solo quando la frequenza dell'operazione $OP2$ (richieste sulla capacità passeggeri di un volo) non supera le cinque occorrenze. Al di là di questo punto, diventa chiaro che il costo aumenta notevolmente, con un'incidenza molto maggiore rispetto all'approccio con ridondanza. Quest'ultimo mostra una tendenza quasi costante o, comunque, con un coefficiente angolare molto basso.
 
-Abbiamo osservato, inoltre, che il punto d'intersezione delle due rette si verifica sempre in prossimità del valore sull'asse delle ascisse che scegliamo d'impostare per la frequenza della prima operazione. Da ciò, possiamo generalizzare affermando che l'approccio con ridondanza risulta preferibile ogni volta che la frequenza delle richieste della capacità passeggeri supera quella degli inserimenti.
+Abbiamo osservato, inoltre, che il punto d’intersezione delle due rette si verifica sempre in prossimità ad una quota di ascissa pari al valore che scegliamo per la frequenza della prima operazione. Da ciò, possiamo generalizzare affermando che l’approccio con ridondanza risulta preferibile ogni volta che la frequenza della seconda operazione supera la frequenza della prima, ovvero, ogniqualvolta le richieste della capacità passeggeri superano la frequenza degli inserimenti.
 
 ![Grafico di ridondanza f30](../grafici_analisi_ridondanza/ridondanza_chart30.png)
 
