@@ -20,8 +20,8 @@
     1. [x] 3.1 Operazioni
     2. [x] 3.2 Ristrutturazione dello schema ER
         1. [X] 3.2.1 Tabelle
-        3. [x] 3.2.2 Analisi ridondanza 
-        4. [x] 3.2.3 Ristrutturazione
+        2. [x] 3.2.2 Analisi ridondanza 
+        3. [x] 3.2.3 Ristrutturazione
     3. [X] 3.3 Traduzione verso il relazionale
         1. [X] 3.3.1 Modello relazionale    
         2. [x] 3.3.2 Vincoli di dominio
