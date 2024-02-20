@@ -98,3 +98,4 @@ COMMIT;
 
 
 [//]: # (TODO: Thomas aggiungi qui roba per l'analisi R)
+[//]: # (TODO: Thomas, rifai l'ultimo diagramma togliendo la riga sopra il diagramma che parla di carico max, e cambia l'intestazione steward_normali con steward_non_pesanti)
