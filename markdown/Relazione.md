@@ -97,14 +97,14 @@ La creazione dello schema _Entità-relazioni_ ha seguito un approccio _bottom-up
 Questo prototipo è stato rivisto e ottimizzato per migliorare la coerenza logica rispetto al caso d'uso.
 
 ### 2.1.1 Prima revisione
-![Schema ER prototipo](schemi/SchemaER_V1.png)
+![Schema ER prototipo](../schemi/SchemaER_V1.png)
 
 La proposta iniziale del nostro schema _ER_ prevedeva la suddivisione delle caratteristiche dell'aeromobile in tre entità separate. Questa soluzione era stat adottata con l'obbiettivo di conferire al modello una maggiore modularità.
 
 Tuttavia questo approccio comportava un'eccessiva complessità dello schema, per cui abbiamo deciso di scartare questa proposta.
 
 ### 2.1.2 Schema ER 
-![Schema ER finale](schemi/SchemaER_schema_finale.png)
+![Schema ER finale](../schemi/SchemaER_schema_finale.png)
 
 La suddivisione delle caratteristiche dell'aeromobile in entità distinte è stata eliminata a favore di un'entità _MODELLO_ con attributi _nome\_modello_,  _casa\_costruttrice_, _carico\_max_ e  _persone\_max_. Le informazioni relative a _peso_, _lunghezza_ e _apertura\_alare_ sono state inglobate nell'attributo composto _specifiche\_tecniche_.
 
@@ -376,13 +376,13 @@ Grazie ad un grafico è possibile esaminare quando conviene adottare un approcci
 
 Considerando che la funzione che determina il costo complessivo delle operazioni dipende da due parametri, $freq(OP1)$ e $freq(OP2)$, abbiamo optato per fissare il valore della frequenza per la prima operazione, variando invece la frequenza della seconda. Questa scelta è motivata dal fatto che riteniamo la frequenza della seconda operazione (richiesta del numero di passeggeri che possono imbarcarsi in una giornata) più variabile rispetto alla prima (inserimento di un volo).
 
-![Grafico di ridondanza f5](ridondanzaChart/ridondanza_chart5.png)
+![Grafico di ridondanza f5](../grafici_analisi_ridondanza/ridondanza_chart5.png)
 
 Dal grafico, è evidente che eliminare la ridondanza è conveniente solo quando la frequenza dell'operazione $OP2$ (richieste sulla capacità passeggeri di un volo) non supera le cinque occorrenze. Al di là di questo punto, diventa chiaro che il costo aumenta notevolmente, con un'incidenza molto maggiore rispetto all'approccio con ridondanza. Quest'ultimo mostra una tendenza quasi costante o, comunque, con un coefficiente angolare molto basso.
 
 Abbiamo osservato, inoltre, che il punto d'intersezione delle due rette si verifica sempre in prossimità del valore sull'asse delle ascisse che scegliamo d'impostare per la frequenza della prima operazione. Da ciò, possiamo generalizzare affermando che l'approccio con ridondanza risulta preferibile ogni volta che la frequenza delle richieste della capacità passeggeri supera quella degli inserimenti.
 
-![Grafico di ridondanza f30](ridondanzaChart/ridondanza_chart30.png)
+![Grafico di ridondanza f30](../grafici_analisi_ridondanza/ridondanza_chart30.png)
 
 In questo secondo grafico, è possibile osservare lo spostamento del punto d'intersezione quando aumentiamo il valore della frequenza della prima operazione a $freq(OP1)=30$. 
 
@@ -405,7 +405,7 @@ Tuttavia, questa scelta di modellazione comporta la perdita del vincolo preceden
 
 **Vincolo d'integrità esterno**: ogni istanza di EQUIPAGGIO deve includere almeno un'istanza tra HOSTESS e STEWARD.
 
-![Schema ER finale: assistente](schemi/SchemaER_reificazione_assistente.png)
+![Schema ER finale: assistente](../schemi/SchemaER_reificazione_assistente.png)
 
 #### Modello di aeromobile - Rimozione dell'attributo multi valore
 
@@ -415,11 +415,11 @@ La creazione di tale entità permette di gestire in modo più flessibile e strut
 
 Le due entità MODELLO e SPECIFICHE_TECNICHE sono in relazione one-to-many. Questa relazione è stata implementata per riflettere il fatto che un insieme di specifiche tecniche può essere associato a più modelli, mentre ciascun modello è collegato a un unico insieme di specifiche tecniche.
 
-![Schema ER finale: specifiche tecniche](schemi/SchemaER_reificazione_modello.png)
+![Schema ER finale: specifiche tecniche](../schemi/SchemaER_reificazione_modello.png)
 
 #### Lo schema dopo la revisione
 
-![Schema ER finale reificato](schemi/SchemaER_reificazione_finale.png)
+![Schema ER finale reificato](../schemi/SchemaER_reificazione_finale.png)
 
 ## 3.3 Traduzione verso il relazionale
 
@@ -533,7 +533,7 @@ $$
 
 Nel diagramma di seguito le chiavi delle relazioni sono rappresentate in grassetto, le frecce indicano vincoli d'integrità referenziale e la presenza di asterischi sui nomi di attributo indica la possibilità di avere valori nulli.
 
-![Diagramma dei vincoli d'integrità referenziale](schemi/diagramma_vincoli_referenziali.png)
+![Diagramma dei vincoli d'integrità referenziale](../schemi/diagramma_vincoli_referenziali.png)
 
 # 4 Progettazione fisica
 
@@ -861,7 +861,7 @@ L'analisi ha prodotto i seguenti risultati:
 
 
 
-![Età medie del personale di volo](analisiR/immagini/EtaMediaDelPersonaleImbarcato.png)
+![Età medie del personale di volo](../grafici_analisi_R/EtaMediaDelPersonaleImbarcato.png)
 
 In questo boxplot si nota come sia distribuita la popolazione all'interno del quartili. Il punto indica il valore medio per ogni categoria.
 
@@ -871,6 +871,6 @@ La funzione `steward_aerei_pesanti` implementata in sql restituisce il numero di
 
 Eseguendo la query con il parametro di peso minimo pari a 150000kg e peso massimo 200000kg si ottengono i seguenti risultati:
 
-![Steward imbarcati in voli con peso (150000, 250000)](analisiR/immagini/StewardAereiPesanti.png)
+![Steward imbarcati in voli con peso (150000, 250000)](../grafici_analisi_R/StewardAereiPesanti.png)
 
 Questa rappresentazione suggerisce come solo il 30% degli steward sia imbarcato in voli con aerei con peso massimo compreso nel range 50000kg, 250000kg.
