@@ -96,5 +96,5 @@ CALL insert_volo_con_personale(
 COMMIT;
 ```
 
-
-[//]: # (TODO: Thomas aggiungi qui roba per l'analisi R)
+## Analisi dei dati
+L'analisi dei dati è stata svolta nel file `Analisi_aeroporto.Rmd` con la versione di `R` 4.3.1 e il software statistico `RStudio` aggiornato alla versione 2023.12.1 build 402.
