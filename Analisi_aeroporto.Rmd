@@ -14,7 +14,7 @@ library(tidyverse)
 ```
 
 ```{r inizializza_postgresSQL, include=TRUE, echo=FALSE}
-db_name = "Aereoporto"
+db_name = "Aeroporto"
 db_user = "postgres"
 db_password = "thomas"
 db_host = "localhost"
@@ -188,7 +188,7 @@ ggplot( data= df_proporzioni,
   geom_text(aes(label = sprintf("%.1f%%", proporzione * 100)),
             position = position_stack(vjust = 0.5))+## centra la visualizzazione delle percentuali
     ## Etichette
-  labs(title = paste("Proporzione steward imbarcati su voli con carico max (", peso_min, "," , peso_max, ")"), 
+  labs(title = paste("Proporzione steward imbarcati su voli con peso compreso (", peso_min, "," , peso_max, ")"), 
        fill= "Personale", x="", y="")
 
 ```
