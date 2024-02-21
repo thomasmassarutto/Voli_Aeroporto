@@ -16,7 +16,7 @@ library(tidyverse)
 ```{r inizializza_postgresSQL, include=TRUE, echo=FALSE}
 db_name = "Aeroporto"
 db_user = "postgres"
-db_password = "thomas"
+db_password = "password"
 db_host = "localhost"
 db_port = 5432
 db_driver = dbDriver("Postgres")
