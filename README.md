@@ -98,3 +98,14 @@ COMMIT;
 
 ## Analisi dei dati
 L'analisi dei dati è stata svolta nel file `Analisi_aeroporto.Rmd` con la versione di `R` 4.3.1 e il software statistico `RStudio` aggiornato alla versione 2023.12.1 build 402.
+
+Bisogna assicurarsi di modificare i seguenti parametri nella pagina `inizializza_postgresSQL` per il corretto funzionamento del file:
+
+```
+db_name = <nome_database>
+db_user = <nome_user>
+db_password = <password>
+db_host = "localhost"
+db_port = <porta>
+db_driver = dbDriver("Postgres")
+```
